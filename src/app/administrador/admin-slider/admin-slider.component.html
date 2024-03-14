@@ -1,0 +1,53 @@
+<aside class="main-sidebar">
+  <div class="sidebar-minified">
+    <i class="fa fa-exchange"></i>
+  </div>
+  <!-- sidebar: style can be found in sidebar.less -->
+  <section class="sidebar">
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    <ul class="sidebar-menu" data-widget="tree">
+
+      <br>
+      <li class="liMenu"><a [routerLink]="['/adminInicio']"><i class="fa fa-dashboard"></i> <span>MENÚ
+            PRINCIPAL</span></a></li>
+
+      <li class="treeview">
+        <a class="liMenu">
+          <i class="fa fa-group"></i> <span>Perfil de usuarios</span> <span class="pull-right-container"> <i
+              class="fa fa-angle-left pull-right"></i> </span>
+        </a>
+        <ul class="treeview-menu">
+          <li class="liMenu"><a [routerLink]="['/adminInicio/adminUsuarios']"><i class="fa fa-circle-o"></i> Gestión de
+              Usuarios</a></li>
+          <li class="liMenu"><a [routerLink]="['/adminInicio/adminEstados']"><i class="fa fa-circle-o"></i> Gestión de
+              Estados</a></li>
+        </ul>
+      </li>
+
+      <li class="liMenu"><a [routerLink]="['//adminInicio/adminRoles']"><i class="fa fa-briefcase"></i> <span>Gestión de
+            Roles</span></a></li>
+
+      <li class="treeview">
+        <a class="liMenu">
+          <i class="fa fa-folder-open"></i> <span>Gestión de Permisos</span> <span class="pull-right-container"> <i
+              class="fa fa-angle-left pull-right"></i> </span>
+        </a>
+        <ul class="treeview-menu">
+          <li class="liMenu"><a [routerLink]="['/adminInicio/adminActividades']"><i class="fa fa-circle-o"></i> Actividades del
+              Sistema</a></li>
+          <li class="liMenu"><a [routerLink]="['/adminInicio/adminPermisos']"><i class="fa fa-circle-o"></i> Crear
+              Permiso</a></li>
+          <li class="liMenu"><a [routerLink]="['/adminInicio/adminAsignar']"><i class="fa fa-circle-o"></i>Asignar
+              Permiso</a></li>
+        </ul>
+      </li>
+      <li class="treeview">
+        <a class="liMenu">
+          <i class="fa fa-edit"></i> <span>Ajustes</span> <span class="pull-right-container"> <i
+              class="fa fa-angle-left pull-right"></i> </span>
+        </a>
+      </li>
+    </ul>
+  </section>
+  <!-- /.sidebar -->
+</aside>

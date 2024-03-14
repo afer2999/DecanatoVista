@@ -1,0 +1,292 @@
+.selloEspoch {
+  width: 100%;
+  height: 99vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: sello 1.9s;
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.fondo {
+  width: 100%;
+  height: 100vh;
+  background-position: center;
+  background-size: cover;
+  animation: fondo 35s alternate-reverse infinite;
+}
+
+.container-real {
+  position: absolute;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  /* background-color: burlywood; */
+}
+
+.case-1 {
+  font-size: 50px;
+  text-align: left;
+  font-family: "oswaldo";
+  padding: 0px 0px 0px 30px;
+  text-shadow: 1px 1px 2px #000000;
+  font-weight: normal;
+  text-transform: uppercase;
+  position: absolute;
+  bottom: 20%;
+  left: 5%;
+
+  border-left: solid 4px #c9212899;
+  height: 300px;
+  line-height: 3;
+  /* -webkit-animation: lineSlide 1s ease-in-out;
+  animation: lineSlide 1s ease-in-out;
+  -webkit-animation: lineSlide 1s cubic-bezier(0, 0, 0, 1);
+  animation: lineSlide 1s cubic-bezier(0, 0, 0, 1);
+  -webkit-animation-delay: 0.5s;
+  animation-delay: 0.5s;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards; */
+}
+
+.case-1 p {
+  color: #ffffff;
+  margin-bottom: 0rem;
+}
+
+.case-1 span {
+  color: #c92128;
+}
+
+.row {
+  display: flex;
+
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 16px;
+}
+
+.container-footer {
+  height: 100vh;
+  display: flex;
+  align-items: flex-end;
+}
+
+.footer {
+  width: 100%;
+  background-color: red;
+  font-family: "oswaldo";
+  color: white;
+  padding: 16px;
+  text-align: center;
+}
+
+p {
+  text-shadow: 1px 1px 2px #000000;
+}
+
+.button {
+  background-color: transparent;
+  border: 3px solid white;
+  cursor: pointer;
+  outline: none;
+  margin-right: 50px;
+  color: white;
+  text-transform: uppercase;
+  text-align: center;
+  /* padding: 1rem; */
+  /* margin-top: 16px; */
+  border-radius: 5px;
+  transition: all 0.3s;
+  font-family: "oswaldo";
+  width: 120px;
+  padding: 12px 24px;
+  font-size: 20px;
+  line-height: 1em;
+}
+
+@font-face {
+  font-family: oswaldo;
+  src: url(../../../assets/estilosInicio/Oswald-VariableFont_wght.ttf);
+}
+
+/* !comment: animaciones */
+@keyframes fondo {
+  0% {
+      opacity: 0;
+  }
+
+  100% {
+      opacity: 0.8;
+  }
+}
+
+@keyframes fondo {
+  0% {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+          url("https://oficina.espoch.edu.ec/dtic/images/1.jpg");
+      transform: scale(1.1);
+      opacity: 0.8;
+  }
+
+  25% {
+      transform: scale(1.2);
+      opacity: 0;
+  }
+
+  50% {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+          url("https://oficina.espoch.edu.ec/dtic/images/2.jpg");
+      transform: scale(1.1);
+      opacity: 0.8;
+  }
+
+  75% {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+          url("https://oficina.espoch.edu.ec/dtic/images/2.jpg");
+      transform: scale(1.2);
+      opacity: 0.8;
+  }
+
+  100% {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+          url("https://oficina.espoch.edu.ec/dtic/images/1.jpg");
+      transform: scale(1.1);
+      opacity: 0;
+  }
+}
+
+.fondo {
+  animation-name: fondo;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-duration: 20s;
+  animation-direction: alternate;
+}
+
+/*====================   LINEA DE CARGANDO   ====================*/
+.linea {
+  width: 100%;
+  height: 7px;
+  background-color: red;
+  border-radius: 1px;
+  animation: linea 2s;
+}
+
+@keyframes linea {
+  0% {
+      width: 0%;
+  }
+
+  100% {
+      width: 100%;
+  }
+}
+
+/*====================   LINEA DE CARGANDO   ====================*/
+
+/*====================   MODAL DE INICIO   ====================*/
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 110;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(255, 79, 79);
+  background-color: rgba(255, 79, 79, 0.4);
+}
+
+.selloModal {
+  width: 9%;
+  margin-top: 4%;
+  position: relative;
+  z-index: 120;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 48%;
+  min-height: 50%;
+  margin-top: -4%;
+  border-radius: 40px;
+  position: relative;
+  z-index: 115;
+}
+
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modCabeza {
+  width: 100%;
+  text-align: center;
+  color: #E0575E;
+  font-weight: bold;
+  font-size: 35px;
+  margin-top: 7%;
+}
+
+.modCuerpo {
+  width: 100%;
+  min-height: 50%;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  color: #000000;
+  font-size: 18px;
+  text-align: center;
+}
+
+.modPie {
+  width: 100%;
+  text-align: center;
+  color: #E0575E;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/*====================   MODAL DE INICIO   ====================*/
+
+/*====================   ESTILO PERSONAL DE LA PÁGINA   ====================*/
+.tituloHorario {
+  font-weight: bold;
+  font-size: 15px;
+  text-align: center;
+  border-bottom: solid 1px #8E98A2;
+}
+
+.cuerpoHorario {
+  font-size: 13px;
+  text-align: center;
+  border-bottom: solid 1px #8E98A2;
+}
+
+/*====================   ESTILO PERSONAL DE LA PÁGINA   ====================*/

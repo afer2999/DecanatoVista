@@ -1,0 +1,48 @@
+<!-- TOP BAR -->
+<div class="top-bar navbar-fixed-top">
+	<div class="container">
+		<div class="clearfix">
+			<!-- logo -->
+			<div class="pull-left left logo">
+				<a href="#" style="color: #000000; margin-top: 7px; font-size: 20px;" data-toggle="push-menu"
+					role="button">
+					<img src="../../../assets/logopoli.png" alt="ESPOCH" style="width: 55px; margin-top: -70;" />
+				</a>
+				<i class="iTitulo" style="margin-left: 0px;">Sistema Decanato de Publicaciones</i>
+			</div>
+			<!-- end logo -->
+			<div class="pull-right right">
+				<!-- top-bar-right -->
+				<div class="top-bar-right">
+					<!-- COMBO QUE MUESTRA TODOS LOS ROLES DEL USUARIO -->
+					<label>Rol del usuario:</label>
+					<select [(ngModel)]="selectRol" (change)="cambiarRol()">
+						<option *ngFor="let objRol of vecRolPersona" value="{{objRol.intIdRol}}">
+							{{objRol.strNombre}} </option>
+					</select>
+					<!-- FIN DEL COMBO QUE MUESTRA TODOS LOS ROLES DEL USUARIO -->
+
+					<!-- logged user and the menu -->
+					<div class="logged-user">
+						<div class="btn-group">
+							<a class="btn btn-link dropdown-toggle" data-toggle="dropdown">
+								<span class="name"> {{nombUsuario}} </span> <span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu" role="menu"><li>
+									<a (click)="salirPublicaciones()">
+										<i class="fa fa-power-off"></i>
+										<span class="text">Salir</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<!-- end logged user and the menu -->
+				</div>
+				<!-- end top-bar-right -->
+			</div>
+		</div>
+	</div>
+	<!-- /container -->
+</div>
+<!-- END TOP BAR -->

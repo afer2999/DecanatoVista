@@ -1,0 +1,106 @@
+<div class="row">
+    <div class="col-lg-4 ">
+        <ul class="breadcrumb">
+            <li><i class="fa fa-home"></i><a href="#">Director</a></li>
+            <li><a href="#">Reportes</a></li>
+            <li class="active">Produccion Cientifica</li>
+        </ul>
+    </div>
+</div>
+<div class="content">
+    <div class="main-header">
+        <h2>Reportes Produccion Cientifica</h2>
+        <em>Sistema Decanato de Publicaciones</em>
+    </div>
+    <div class="main-content">
+        <h3 (click)="modalAddRol(modNuevoRol)" style="display: inline;"><i class="fa fa-plus-circle"
+                title="Agregar Rol"></i> Criterio del
+            reporte</h3>
+        <h3 (click)="generarPDFReporte()" style="display: inline; margin-left: 25px;"><i class="fa fa-download"
+                title="Agregar Rol"></i> Descargar reporte</h3>
+        <!-- DATA EXPORT -->
+        <div class="widget widget-table">
+            <div class="widget-header">
+                <h3><i class="fa fa-calendar"></i> Reportes</h3> <em> - Sistema Decanato de Publicaciones</em>
+            </div>
+            <div class="widget-content">
+                <table datatable class="row-border hover table">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Titulo</th>
+                            <th>Fecha de Publicacion</th>
+                            <th>Autor</th>
+                            <th>Tipo de obra</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let objUser of vecUsuarios">
+                            <td> {{objUser.strCodigoArticulo}} </td>
+                            <td> {{objUser.strNombreArticulo}} </td>
+                            <td> {{objUser.dateFechaPublicacion.split('T')[0]}} </td>
+                            <td> {{objUser.nombAutor}} {{objUser.apAutor}} </td>
+                            <td> {{objUser.nombObra}} </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- END DATA EXPORT -->
+    </div>
+</div>
+
+<ng-template #modNuevoRol let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Criterio de reporte</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table>
+            <tr>
+                <td class="tdEnunciado">Estado: </td>
+                <td class="tdTexto">
+                    <select class="txtSigno" style="margin-top: 5px; width: 90%;" [(ngModel)]="buscar">
+                        <option value="L"> LIBROS </option>
+                        <option value="RR"> ARTÍCULOS REGIONALES </option>
+                        <option value="C"> ARTÍCULOS DE CONGRESOS </option>
+                        <option value="RC"> REVISTAS DE IMPACTO </option>
+                        <option value="0"> AUTOR </option>
+                    </select>
+                </td>
+            </tr>
+            <tr *ngIf="buscar == '0'">
+                <td class="tdEnunciado">Autor: </td>
+                <td class="tdTexto"> <input type="text" [(ngModel)]="verbuscar" placeholder="Informe de pares"
+                        style="width: 90%; font-size: 14px; margin-top: 5px;" />
+                </td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado">F. Inicio: </td>
+                <td class="tdTexto">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input type="date" class="form-control" style="width: 90%;" [(ngModel)]="fechaIni" />
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado">F. Fin: </td>
+                <td class="tdTexto">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input type="date" class="form-control" style="width: 90%;" [(ngModel)]="fechaFin" />
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" style="background-color: #394A59;"
+            (click)="generarReporte()">Ver Reporte</button>
+        <button type="button" class="btn btn-outline-dark" style="background-color: #D9534F;"
+            (click)="cerrarModal()">Cancelar</button>
+    </div>
+</ng-template>

@@ -1,0 +1,12 @@
+
+.tdEncabezado{
+    font-weight: bold; background-color: #394A59; color: #FFF; text-align: center;
+}
+
+.tdEnunciado {
+    font-weight: bold; border-bottom: #BFBFBF solid 1px; color: #000; text-align: center;
+}
+
+.tdTexto {
+    font-weight: bold; border-bottom: #BFBFBF solid 1px;
+}

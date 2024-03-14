@@ -1,0 +1,145 @@
+<div class="row">
+  <div class="col-lg-4 ">
+    <ul class="breadcrumb">
+      <li><i class="fa fa-home"></i><a href="#">Analista</a></li>
+      <li><a href="#">Revistas </a></li>
+      <li class="active">Analista</li>
+    </ul>
+  </div>
+</div>
+<!-- main -->
+<div class="content">
+  <div class="main-header">
+    <h2>Analista</h2>
+    <em>Sistema Dirección de Publicaciones</em>
+  </div>
+  <div class="main-content">
+    <h3 (click)="modalAddRevista(modNuevaRevista)"><i class="fa fa-plus-circle" title="Agregar una Revista"></i> Agregar
+      una Revista</h3>
+
+    <!-- DATA EXPORT -->
+    <div class="widget widget-table">
+      <div class="widget-header">
+
+        <h3><i class="fa fa-calendar"></i> Lista de Revistas</h3> <em> - Sistema Dirección de Publicaciones</em>
+      </div>
+      <div class="widget-content">
+
+
+        <table datatable class="row-border hover table">
+          <thead>
+            <tr>
+              <th>Nombre Revista</th>
+              <th>Issn </th>
+              <th>Pais </th>
+              <th>Estado</th>
+              <th>Base de datos</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let objUser of vecRevistas">
+              <td> {{objUser.strNombre}} </td>
+              <td> {{objUser.strIssn}} </td>
+              <td> {{objUser.strPais}} </td>
+              <td> {{objUser.detEstado}} </td>
+              <td> {{objUser.intBasedeDatos}} </td>
+              <td>
+                <button style="margin-left: -10px;margin-right: -15px" class="btn btn-link" title="Editar"
+                (click)=" verDataRevista (objUser, modNuevaRevista)"> <i
+                    class="fa fa-pencil"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- END DATA EXPORT -->
+  </div>
+
+</div>
+<!-- /main -->
+<ng-template #modNuevaRevista let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Datos de la Revista </h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <table id="tblSignos" style="width: 90%;">
+      <tr>
+        <td style="padding-left: 5%; width: 25%;">Nombre: </td>
+        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strCedula']"
+            placeholder="Nombre de la Revista" style="width: 100%; font-size: 14px;" /> </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 5%; width: 25%;">ISSN: </td>
+        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strNombres']"
+            placeholder="ISSN de la Revista" style="width: 100%; font-size: 14px; margin-top: 5px;" /> </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 5%; width: 25%;">Pais: </td>
+        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strApellidos']"
+            placeholder="Pais de la Revista" style="width: 100%; font-size: 14px; margin-top: 5px;" />
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 5%; width: 25%;">Estado: </td>
+        <td style="padding-left: 5%; width: 75%;">
+          <select class="txtSigno" style="margin-top: 5px; width: 75%;" [(ngModel)]="vecBuscar[0]['bitNombramiento']">
+            <option value="0">No Indexada</option>
+            <option value="1">Indexada </option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 5%; width: 25%;">Descripcion: </td>
+        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strCargo']"
+            placeholder="Descripcion" style="width: 100%; font-size: 14px; margin-top: 5px;" />
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 5%; width: 25%;">Factor SJR: </td>
+        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strDependencia']"
+            placeholder="Factor SJR" style="width: 100%; font-size: 14px; margin-top: 5px;" />
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 5%; width: 25%;">Cuartil SJR: </td>
+        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strDependencia']"
+            placeholder="Factor SJR" style="width: 100%; font-size: 14px; margin-top: 5px;" />
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 5%; width: 25%;">Factor JCR: </td>
+        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strDependencia']"
+            placeholder="Factor SJR" style="width: 100%; font-size: 14px; margin-top: 5px;" />
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 5%; width: 25%;">Cuartil JCR: </td>
+        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strDependencia']"
+            placeholder="Factor SJR" style="width: 100%; font-size: 14px; margin-top: 5px;" />
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding-left: 5%; width: 25%;">Link: </td>
+        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strCargo']"
+            placeholder="Link revista" style="width: 100%; font-size: 14px; margin-top: 5px;" />
+        </td>
+      </tr>
+
+    </table>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" style="background-color: #394A59;"
+    (click)="ingresarRevista()">Guardar </button>
+    <button type="button" class="btn btn-outline-dark" style="background-color: #D9534F;"
+    (click)="cerrarRevista()">Cancelar</button>
+  </div>
+</ng-template>

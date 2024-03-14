@@ -1,0 +1,34 @@
+<aside class="main-sidebar">
+  <div class="sidebar-minified">
+    <i class="fa fa-exchange"></i>
+  </div>
+  <!-- sidebar: style can be found in sidebar.less -->
+  <section class="sidebar">
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    <ul class="sidebar-menu" data-widget="tree">
+
+      <br>
+      <li class="liMenu"><a [routerLink]="['/analistaInicio']"><i class="fa fa-dashboard"></i> <span>MENÚ-
+            PRINCIPAL</span></a></li>
+
+      <ng-container *ngFor="let objPadre of vecPadreOpcion">
+        <li class="treeview">
+          <a class="liMenu">
+            <i class="fa fa-folder-open"></i> <span> {{objPadre.strNombre}} </span> <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i> </span>
+          </a>
+          <ul class="treeview-menu">
+            <ng-container *ngFor="let objOpcion of vecSubOpcion">
+              <ng-container *ngIf="objPadre.intIdPadreOpcion == objOpcion.intIdPadreOpcion">
+                <li class="liMenu"><a (click)="irRutaHijo(objOpcion)"><i class="fa fa-circle-o"></i>
+                    {{objOpcion.nombOpcion}}</a></li>
+              </ng-container>
+            </ng-container>
+          </ul>
+        </li>
+      </ng-container>
+
+    </ul>
+  </section>
+  <!-- /.sidebar -->
+</aside>

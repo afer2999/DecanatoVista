@@ -1,0 +1,231 @@
+<div class="row">
+  <div class="col-lg-4 ">
+    <ul class="breadcrumb">
+      <li><i class="fa fa-home"></i><a href="#">Analista</a></li>
+      <li><a href="#">Revision de Solicitudes de Libros</a></li>
+      <li class="active">Analista</li>
+    </ul>
+  </div>
+</div>
+<!-- main -->
+<div class="content">
+  <div class="main-header">
+    <h2>Analista</h2>
+    <em>Sistema Dirección de Publicaciones</em>
+  </div>
+  <div class="main-content">
+
+    <!-- DATA EXPORT -->
+    <div class="widget widget-table">
+      <div class="widget-header">
+        <h3><i class="fa fa-calendar"></i> Lista de Libros</h3> <em> - Sistema Dirección de Publicaciones</em>
+      </div>
+      <div class="widget-content">
+        <table datatable class="row-border hover table">
+          <thead>
+            <tr>
+              <th>NombreArticulo</th>
+              <th>AUTOR </th>
+              <th>Fecha de Publicacion </th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let objUser of vecArticulos">
+              <td> {{objUser.strNombreArticulo}} </td>
+              <td> {{objUser.strNombres}} {{objUser.strApellidos}} </td>
+              <td> {{objUser.dateFechaPublicacion.split('T')[0]}} </td>
+              <td> {{objUser.intEstado == 2? 'EN REVISIÓN' : 'PENDIENTE'}} </td>
+              <td>
+                <button style="font-size: 17px;" class="btn btn-link" title="Ver memorias"> <i
+                    (click)="verData(objUser, modVerCarga)" class="fa fa-edit"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- END DATA EXPORT -->
+  </div>
+
+</div>
+<!-- /main -->
+
+<ng-template #modVerCarga let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Datos de la Base de Datos </h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div style="height: 320px; overflow-y: auto;">
+      <table id="tblSignos" style="width: 100%;">
+        <tr>
+          <td class="tdEnunciado">Código del artículo: </td>
+          <td class="tdTexto"> <input type="text" [(ngModel)]="vecBuscar[0]['codigoArticulo']"
+              style="width: 100%; font-size: 14px;" /> </td>
+        </tr>
+        <tr>
+          <td class="tdEnunciado">Nombre del artículo: </td>
+          <td class="tdTexto"> <input type="text" [(ngModel)]="vecBuscar[0]['nombreArticulo']" placeholder="Descripcion"
+              style="width: 100%; font-size: 14px; margin-top: 5px;" />
+          </td>
+        </tr>
+        <tr>
+          <td class="tdEnunciado">Detalle del artículo: </td>
+          <td class="tdTexto"> <textarea [(ngModel)]="vecBuscar[0]['detalleArticulo']"
+              style="width: 100%; font-size: 14px; margin-top: 7px;" rows="3"> </textarea> </td>
+        </tr>
+        <tr>
+          <td class="tdEnunciado">Campo del conocimiento: </td>
+          <td class="tdTexto">
+            <select class="txtSigno" style="width: 100%; font-size: 14px;" [(ngModel)]="vecBuscar[0]['campoArticulo']">
+              <ng-container *ngFor="let objCampo of vecCampoA">
+                <option *ngIf="objCampo.intEstado == 1" value="{{objCampo.intIdCampoA}}">
+                  {{objCampo.strCodigo}} {{objCampo.strNombre}} </option>
+              </ng-container>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="tdEnunciado">Línea de investigación: </td>
+          <td class="tdTexto">
+            <select class="txtSigno" style="width: 100%; font-size: 14px;" [(ngModel)]="vecBuscar[0]['lineaArticulo']">
+              <ng-container *ngFor="let objLinea of vecLinea">
+                <option *ngIf="objLinea.intEstado == 1" value="{{objLinea.intIdLineaVinvestigacion}}">
+                  {{objLinea.strNombre}} </option>
+              </ng-container>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="tdEnunciado">Procedencia: </td>
+          <td class="tdTexto">
+            <select class="txtSigno" style="width: 100%; font-size: 14px;"
+              [(ngModel)]="vecBuscar[0]['procedeArticulo']">
+              <ng-container *ngFor="let objProcede of vecProcedencia">
+                <option *ngIf="objProcede.intEstado == 1" value="{{objProcede.intIdProcedencia}}">
+                  {{objProcede.strNombre}} </option>
+              </ng-container>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="tdEnunciado">Fecha de publicación: </td>
+          <td class="tdTexto"> <input type="text" [(ngModel)]="vecBuscar[0]['fechaArticulo'].split('T')[0]"
+              style="width: 100%; font-size: 14px;" /> </td>
+        </tr>
+        <tr>
+          <td class="tdEnunciado">Comisión: </td>
+          <td class="tdTexto">
+            <select class="txtSigno" style="width: 100%; font-size: 14px;"
+              [(ngModel)]="vecBuscar[0]['comisionArticulo']">
+              <option value="true"> SI </option>
+              <option value="false"> NO </option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="tdEnunciado">Estado del artículo: </td>
+          <td class="tdTexto">
+            <select class="txtSigno" style="width: 100%; font-size: 14px;" [(ngModel)]="vecBuscar[0]['estadoArticulo']">
+              <option value="1"> Publicado </option>
+              <option value="0"> Aceptado </option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="tdEnunciado">filial: </td>
+          <td class="tdTexto">
+            <select class="txtSigno" style="width: 100%; font-size: 14px;" [(ngModel)]="vecBuscar[0]['filial']">
+              <option value="true"> SI </option>
+              <option value="false"> NO </option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="tdEnunciado">Pertinencia: </td>
+          <td class="tdTexto">
+            <select class="txtSigno" style="width: 100%; font-size: 14px;" [(ngModel)]="vecBuscar[0]['pertinencia']">
+              <option value="true"> SI </option>
+              <option value="false"> NO </option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="tdEnunciado">Estado de solicitud: </td>
+          <td class="tdTexto">
+            <select class="txtSigno" style="width: 100%; font-size: 14px;" [(ngModel)]="vecBuscar[0]['estadoSolicita']">
+              <option value="1"> Aceptado </option>
+              <option value="2"> Pendiente </option>
+              <option value="3"> Editar </option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="tdEnunciado">Cumplimiento: </td>
+          <td class="tdTexto">
+            <select class="txtSigno" style="width: 100%; font-size: 14px;" [(ngModel)]="vecBuscar[0]['cumplimiento']">
+              <option value="1"> Cumple </option>
+              <option value="0"> No Cumple </option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="tdEnunciado">Nombre del capítulo: </td>
+          <td class="tdTexto"> <input type="text" [(ngModel)]="vecBuscar[0]['nombreLibro']" placeholder="Descripcion"
+              style="width: 100%; font-size: 14px; margin-top: 5px;" />
+          </td>
+        </tr>
+        <tr>
+          <td class="tdEnunciado">ISBN: </td>
+          <td class="tdTexto"> <input type="text" [(ngModel)]="vecBuscar[0]['isbnLibro']" placeholder="Descripcion"
+              style="width: 100%; font-size: 14px; margin-top: 5px;" />
+          </td>
+        </tr>
+        <tr>
+          <td class="tdEnunciado">Tipo de obra: </td>
+          <td class="tdTexto">
+            <select class="txtSigno" style="width: 100%; font-size: 14px;" [(ngModel)]="vecBuscar[0]['obraLibro']">
+              <ng-container *ngFor="let objObra of vecObra">
+                <option *ngIf="objObra.intEstado == 1" value="{{objObra.intIdTipoObra}}">
+                  {{objObra.strNombre}} </option>
+              </ng-container>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="tdEnunciado">Revisión pares: </td>
+          <td class="tdTexto">
+            <select class="txtSigno" style="width: 100%; font-size: 14px;" [(ngModel)]="vecBuscar[0]['paresLibro']">
+              <option value="true"> SI </option>
+              <option value="false"> NO </option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="tdEnunciado">Tomo: </td>
+          <td class="tdTexto"> <input type="text" [(ngModel)]="vecBuscar[0]['intTomo']" placeholder="Descripcion"
+              style="width: 100%; font-size: 14px; margin-top: 5px;" />
+          </td>
+        </tr>
+        <tr>
+          <td class="tdEnunciado">País: </td>
+          <td class="tdTexto"> <input type="text" [(ngModel)]="vecBuscar[0]['paisLibro']" placeholder="Descripcion"
+              style="width: 100%; font-size: 14px; margin-top: 5px;" />
+          </td>
+        </tr>
+
+      </table>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" style="background-color: #394A59;"
+      (click)="editarArticulo()">Guardar </button>
+    <button type="button" class="btn btn-outline-dark" style="background-color: #D9534F;"
+      (click)="cerrarModal()">Cancelar</button>
+  </div>
+</ng-template>

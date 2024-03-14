@@ -1,0 +1,52 @@
+/*instrucciones generales*/
+* { margin: auto; } 
+/*cabecera de la página*/
+.divTitulo{ background-color: #6FBC85; margin-top: -20px;}
+h1 { text-align: center; padding: 0.5em; }
+/*div principal del calendario*/
+#calendario { border: solid 2px #306030; width: 515px; background-color:#fffafa; text-align: center; }
+/*tabla del calendario*/
+#diasc { border-collapse: separate; border: solid 2px #6FBC85; border-spacing: 2px; }
+#diasc th,#diasc td { font: normal 12pt arial; width: 65px; height: 25px; }
+#diasc th { color: #000000; background-color: #6FBC85; font-weight: bold; }
+#diasc td { color: #492736; background-color: #E8E8E8 }
+.tdDia:hover { background-color: #000000 }
+
+ 
+/*línea de la fecha actual*/
+#fechaactual { font: bold 12pt arial; padding: 0.4em; color: #000000;  }
+#fechaactual i { cursor: pointer ; }
+#fechaactual i:hover { color: blue; text-decoration: underline; }
+/*cabecera del calendario*/ 
+#anterior { float: left; width: 100px; font: bold 11pt arial; padding: 0.5em 0.1em; cursor: pointer; color: #000000; }
+#posterior { float: right; width: 100px; font: bold 11pt arial; padding: 0.5em 0.1em; cursor: pointer; color: #000000; }
+#anterior:hover {color: blue;text-decoration: underline;}
+#posterior:hover {color: blue; text-decoration: underline;}
+#titulos { font: normal 16pt "arial black"; padding: 0.2em; color: #000000; } 
+
+/* ESTILO CALENDARIO DE LA SECRETARIA*/
+#calendarioE { border: solid 2px #00629B; width: 515px; background-color:#fffafa; text-align: center; }
+.divTituloE{ background-color: #0079C4; margin-top: -20px;}
+
+#diasE { border-collapse: separate; border: solid 2px #0079C4; border-spacing: 2px; }
+#diasE th,#diasE td { font: normal 12pt arial; width: 65px; height: 25px; }
+#diasE th { color: #000000; background-color: #0079C4; font-weight: bold; }
+#diasE td { color: #492736; background-color: #E8E8E8 }
+
+/* ESTILO CALENDARIO DEL ADMINISTRADOR*/
+#calendarioA { border: solid 2px #394A59; width: 515px; background-color:#fffafa; text-align: center; }
+.divTituloA{ background-color: #394A59; margin-top: -20px; color: #ffffff;}
+
+#diasA { border-collapse: separate; border: solid 2px #394A59; border-spacing: 2px; }
+#diasA th,#diasA td { font: normal 12pt arial; width: 65px; height: 25px; }
+#diasA th { color: #ffffff; background-color: #394A59; font-weight: bold; }
+#diasA td { color: #492736; background-color: #E8E8E8 }
+
+/* ESTILO CALENDARIO*/
+#calendarioM { border: solid 2px #890101; width: 515px; background-color:#fffafa; text-align: center; }
+.divTituloM{ background-color: #FF0101; margin-top: -20px; color: #ffffff;}
+
+#diasM { border-collapse: separate; border: solid 2px #890101; border-spacing: 2px; }
+#diasM th,#diasA td { font: normal 13pt arial; width: 65px; height: 25px; }
+#diasM th { color: #000000; background-color: #FF0101; font-weight: bold; }
+#diasM td { color: #492736; background-color: #000000 }

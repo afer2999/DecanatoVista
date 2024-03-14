@@ -1,0 +1,163 @@
+<div class="row">
+  <div class="col-lg-4 ">
+    <ul class="breadcrumb">
+      <li><i class="fa fa-home"></i><a href="#">Director</a></li>
+      <li><a href="#">Revision de Certificados </a></li>
+      <li class="active">Director</li>
+    </ul>
+  </div>
+</div>
+<!-- main -->
+<div class="content">
+  <div class="main-header">
+    <h2>Director</h2>
+    <em>Sistema Decanato de Publicaciones</em>
+  </div>
+  <div class="main-content">
+
+    <!-- DATA EXPORT -->
+    <div class="widget widget-table">
+      <div class="widget-header">
+        <h3><i class="fa fa-calendar"></i> Lista de Certificados Solicitados </h3> <em> - Sistema Decanato de
+          Publicaciones</em>
+      </div>
+      <div class="widget-content">
+
+        <p-table #tblSolicitudesCertificados
+          [globalFilterFields]="['strCedula', 'strNombres', 'strDependencia', 'strCertificado', 'strFSolicitud', 'strFirmar']"
+          [value]="vecSolicitudes" [rows]="5" [showCurrentPageReport]="true" [rowsPerPageOptions]="[5,10,25,50]"
+          styleClass="p-datatable-customers p-datatable-gridlines" [paginator]="true"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+
+          <ng-template pTemplate="caption">
+
+            <div class="p-d-flex" style="float: right;">
+              <span class="p-input-icon-left p-ml-auto">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" #txtBusMatr style="margin-right: 0.5em;  font-size: 14px"
+                  (input)="tblSolicitudesCertificados.filterGlobal(txtBusMatr.value, 'contains')" placeholder="buscar" />
+              </span>
+            </div>
+          </ng-template>
+
+
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="font-size: 14px" pSortableColumn="strCedula "><span> Cédula </span>
+                <p-sortIcon field="strCedula"></p-sortIcon>
+              </th>
+              <th style="font-size: 14px" pSortableColumn="strNombres">Nombres<p-sortIcon field="strNombres"></p-sortIcon>
+              </th>
+              <th style="font-size: 14px" pSortableColumn="strDependencia">Dependencia<p-sortIcon
+                  field="strDependencia"></p-sortIcon> </th>
+              <th style="font-size: 14px" pSortableColumn="strCertificado"> Certificado<p-sortIcon field="strCertificado"></p-sortIcon>
+              <th style="font-size: 14px" pSortableColumn="strFSolicitud"> F.Solicitud<p-sortIcon field="strFSolicitud"></p-sortIcon>
+                <th style="font-size: 14px" pSortableColumn="strFirmar">Firmar<p-sortIcon field="strFirmar"></p-sortIcon>
+            </tr>
+          </ng-template>
+
+
+          <ng-template pTemplate="body" let-objSolicita>
+            <tr>
+              <td style="font-size: 14px"> {{objSolicita.strCedula}}</td>
+              <td style="font-size: 14px"> {{objSolicita.strNombres}} {{objSolicita.strApellidos}} </td>
+              <td style="font-size: 14px"> {{objSolicita.strDependencia}} </td>
+              <td style="font-size: 14px"> {{objSolicita.nomCertificado}} </td>
+              <td style="font-size: 14px"> {{objSolicita.dateFecha.split('T')[0]}} </td>
+              <td style="font-size: 14px">
+                <ng-container *ngIf="objSolicita.rutaCertificado == '-'">
+                  <button style="font-size: 20px; color: #D9534F;" class="btn btn-link" title="Firmar documento"
+                    (click)="mostrarCertificado(objSolicita, modCertificadoFirma)"> <i class="fa fa-key"></i></button>
+                </ng-container>
+
+                <ng-container *ngIf="objSolicita.rutaCertificado != '-'">
+                  <button style="font-size: 20px; color: #394A59;" class="btn btn-link" title="Ver documento"
+                    (click)="verArticulos(objSolicita, modCertificado)"> <i class="fa fa-download"></i></button>
+                </ng-container>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+
+        <!-- <table datatable class="row-border hover table">
+          <thead>
+            <tr>
+
+              <th>Cédula</th>
+              <th>Nombres</th>
+              <th>Dependencia </th>
+              <th>Certificado</th>
+              <th>F.Solicitud</th>
+              <th>Firmar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let objSolicita of vecSolicitudes">
+              <td> {{objSolicita.strCedula}}</td>
+              <td> {{objSolicita.strNombres}} {{objSolicita.strApellidos}} </td>
+              <td> {{objSolicita.strDependencia}} </td>
+              <td> {{objSolicita.nomCertificado}} </td>
+              <td> {{objSolicita.dateFecha.split('T')[0]}} </td>
+              <td>
+                <ng-container *ngIf="objSolicita.rutaCertificado == '-'">
+                  <button style="font-size: 20px; color: #D9534F;" class="btn btn-link" title="Firmar documento"
+                    (click)="mostrarCertificado(objSolicita, modCertificadoFirma)"> <i class="fa fa-key"></i></button>
+                </ng-container>
+
+                <ng-container *ngIf="objSolicita.rutaCertificado != '-'">
+                  <button style="font-size: 20px; color: #394A59;" class="btn btn-link" title="Ver documento"
+                    (click)="verArticulos(objSolicita, modCertificado)"> <i class="fa fa-download"></i></button>
+                </ng-container>
+
+              </td>
+            </tr>
+          </tbody>
+        </table> -->
+      </div>
+    </div>
+    <!-- END DATA EXPORT -->
+  </div>
+
+</div>
+<!-- /main -->
+
+<!-- //MODAL PARA VER EL PDF -->
+<ng-template #modCertificado let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Certificado</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <iframe [src]="rutaCarga" width="100%" height="450"></iframe>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" style="background-color: #D9534F;"
+      (click)="cerrrarModal()">Cancelar</button>
+  </div>
+</ng-template>
+
+<ng-template #modCertificadoFirma let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Certificado</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <iframe [src]="rutaCarga" width="100%" height="450"></iframe>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" (click)="firmarArchivo()" class="btn btn-outline-dark"
+      style="background-color: #394A59;">Firmar Documento</button>
+    <button type="button" (click)="subirFirma()" class="btn btn-outline-dark" style="background-color: #394A59;">Subir
+      Documento</button>
+    <button type="button" class="btn btn-outline-dark" style="background-color: #D9534F;"
+      (click)="cerrrarModal()">Cancelar</button>
+  </div>
+</ng-template>

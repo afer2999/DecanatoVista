@@ -1,0 +1,154 @@
+<div class="row">
+  <div class="col-lg-4 ">
+    <ul class="breadcrumb">
+      <li><i class="fa fa-home"></i><a href="#">Administrador</a></li>
+      <li><a href="#">Gestión de Estados</a></li>
+      <li class="active">Estados</li>
+    </ul>
+  </div>
+</div>
+<div class="content">
+  <div class="main-header">
+    <h2>Estados</h2>
+    <em>Sistema Decanato de Publicaciones</em>
+  </div>
+  <div class="main-content">
+    <h3 (click)="modalAddRol(modNuevoRol)"><i class="fa fa-plus-circle" title="Agregar Rol"></i> Estados</h3>
+    <!-- DATA EXPORT -->
+    <div class="widget widget-table">
+      <div class="widget-header">
+        <h3><i class="fa fa-table"></i> Lista de Estados</h3> <em> - Sistema Decanato de Publicaciones</em>
+      </div>
+      <div class="widget-content">
+        <p-table #tblEstados
+          [globalFilterFields]="['strCedula', 'strNombres', 'strApellidos', 'strCargo', 'detalleEstado', 'detalleEstado']"
+          [value]="vecPersonaRol" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+          styleClass="p-datatable-customers p-datatable-gridlines" [paginator]="true"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+
+          <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix" style="text-align: left; display: inline-block;">
+               
+            </div>
+            <div class="p-d-flex" style="float: right;">
+              <span class="p-input-icon-left p-ml-auto">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" #txtBusMatr style="margin-right: 0.5em;  font-size: 14px"
+                  (input)="tblEstados.filterGlobal(txtBusMatr.value, 'contains')" placeholder="buscar" />
+              </span>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="font-size: 14px" pSortableColumn="strCedula"><span> Cédula </span> <p-sortIcon
+                  field="strCedula"></p-sortIcon></th>
+              <th style="font-size: 14px" pSortableColumn="strNombres"> Nombres<p-sortIcon
+                  field="strNombres"></p-sortIcon></th>
+              <th style="font-size: 14px" pSortableColumn="strApellidos"> Apellidos<p-sortIcon
+                  field="strApellidos"></p-sortIcon></th>
+              <th style="font-size: 14px" pSortableColumn="strRol"> Rol<p-sortIcon 
+                  field="estadoRol"></p-sortIcon>
+              <th style="font-size: 14px" pSortableColumn="detalleEstado"> Estado<p-sortIcon
+                  field="detalleEstado"></p-sortIcon>
+              <th style="font-size: 14px" pSortableColumn="detalleEstado"> Acciones<p-sortIcon
+                  field="detalleEstado"></p-sortIcon>
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-objUser>
+            <tr>
+              <td style="font-size: 14px"> {{objUser.strCedula}} </td>
+              <td style="font-size: 14px"> {{objUser.strNombres}} </td>
+              <td style="font-size: 14px"> {{objUser.strApellidos}} </td>
+              <td style="font-size: 14px"> {{objUser.strNombre}} </td>
+
+              <td style="font-size: 14px"> {{objUser.estadoRol ? 'SI' : 'NO'}} </td>
+              <td style="font-size: 14px">
+                <p-button class="btn btn-link" title="Editar Estados" (click)="verDataPersona(objUser, modNuevoRol)"> <i
+                    class="fa fa-pencil"></i>
+                </p-button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <!-- <table datatable class="row-border hover table">
+          <thead>
+            <tr>
+              <th>Cedula</th>
+              <th>Nombres</th>
+              <th>Apellidos</th>
+              <th>Rol</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let objUser of vecPersonaRol">
+              <td> {{objUser.strCedula}} </td>
+              <td> {{objUser.strNombres}} </td>
+              <td> {{objUser.strApellidos}} </td>
+              <td> {{objUser.strNombre}} </td>
+              <td> {{objUser.estadoRol ? 'SI' : 'NO'}} </td>
+              <td>
+                <button style="margin-left: -10px;margin-right: -15px" class="btn btn-link" title="Editar Estados"
+                  (click)="verDataPersona(objUser, modNuevoRol)"> <i class="fa fa-pencil"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table> -->
+      </div>
+    </div>
+    <!-- END DATA EXPORT -->
+  </div>
+
+</div>
+<ng-template #modNuevoRol let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Estados </h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <table id="tblSignos" style="width: 90%;">
+      <tr>
+        <td style="padding-left: 5%; width: 25%;">Usuario: </td>
+        <td style="padding-left: 5%; width: 75%;">
+          <select class="txtSigno" style="margin-top: 5px; width: 75%;" [(ngModel)]="vecBuscar[0]['idUsuario']"
+            (change)="verUsuarioSelecion(vecBuscar[0]['idUsuario'])">
+            <option *ngFor="let objUser of vecUsuarios" value="{{objUser.intIdPersona}}"> {{objUser.strNombres}}
+              {{objUser.strApellidos}} </option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 5%; width: 25%;">Rol: </td>
+        <td style="padding-left: 5%; width: 75%;">
+          <select class="txtSigno" style="margin-top: 5px; width: 75%;" [(ngModel)]="vecBuscar[0]['idRol']">
+            <option *ngFor="let objRol of vecRolLibre" value="{{objRol.intIdRol}}"> {{objRol.strNombre}}</option>
+          </select>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding-left: 5%; width: 25%;">Estado: </td>
+        <td style="padding-left: 5%; width: 75%;">
+          <select class="txtSigno" style="margin-top: 5px; width: 75%;" [(ngModel)]="vecBuscar[0]['intEstado']">
+            <option value="1"> ACTIVO </option>
+            <option value="0"> NO-ACTIVO </option>
+          </select>
+        </td>
+      </tr>
+
+    </table>
+
+  </div>
+  <div class="modal-footer">
+    <p-button type="button" styleClass="p-button-success  "
+      (click)="ingresarUsuario()">Guardar</p-button>
+    <p-button type="button"  styleClass="p-button-danger"
+      (click)="cerrarModal()">Cancelar</p-button>
+  </div>
+</ng-template>

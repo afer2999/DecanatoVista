@@ -1,0 +1,207 @@
+/*------------------------------------------------*/
+/*	Skin: Orange
+/*------------------------------------------------*/
+/* general */
+
+
+ul.main-menu > li a {
+    background-color: #ececec;
+    border-top: 1px solid #dfdfdf;
+    color:#555;
+  }
+  .content-wrapper {
+    min-height: 870px;
+  }
+  
+  .sidebar-scroll{
+    background-color: #ececec;
+  }
+  ul.main-menu > li a:hover{
+    text-decoration: none;
+    background-color: #f1f1f1;
+  }
+  
+  ul.main-menu > li.active > a {
+    background-color: #dfdfdf;
+  }
+  ul.main-menu > li>a:active {
+    background-color: #dfdfdf;
+  }
+  ul.main-menu .sub-menu li.active > a {
+    background-color: #dfdfdf;
+  }
+
+ /* on-top navigation */
+
+ .menudinamico{
+  display: block;
+  position: relative;
+  padding: 13px 0 13px 15px;
+  font-size: 14px;
+  color: #555;
+  background-color: #ececec;
+  border-top: 1px solid #dfdfdf;
+  text-decoration: none;
+}
+
+#main-navbar-collapse .navbar-nav > li > a:hover, #main-navbar-collapse .navbar-nav > li > a:focus, #main-navbar-collapse .navbar-nav > li > a:visited {
+  color: #555;
+  background: #dfdfdf;
+}
+#main-navbar-collapse .dropdown-menu {
+  background-color: #dfdfdf;
+}
+#main-navbar-collapse .dropdown-menu > li > a {
+  color: #555;
+}
+#main-navbar-collapse .dropdown-menu > li > a:hover, #main-navbar-collapse .dropdown-menu > li > a:focus, #main-navbar-collapse .dropdown-menu > li > a:active, #main-navbar-collapse .dropdown-menu > li > a.active {
+  background-color: #dfdfdf;
+}
+
+.left-sidebar.minified .main-menu > li:hover > a > .text {
+  background: #dfdfdf;
+  border: 1px solid #dfdfdf;
+}
+.left-sidebar.minified .main-menu > li:hover ul.sub-menu {
+  border: 1px solid #dfdfdf;
+}
+
+/* sidebar */
+.sidebar-minified i {
+  color: #555;
+  background-color: #dfdfdf;
+  border: 1px solid #fff;
+}
+.sidebar-minified i:hover {
+  background-color: #dfdfdf;
+}
+
+.sidebar-content .panel.panel-default {
+  border-color: #dfdfdf;
+  background-color: #dfdfdf;
+  color: #555;
+}
+.sidebar-content .panel.panel-default > .panel-heading {
+  background-color: #dfdfdf;
+  color: #555;
+  border-color: #dfdfdf;
+}
+.sidebar-content h5.label-default {
+  background-color: #dfdfdf;
+  border: 1px solid #dfdfdf;
+  border-bottom: none;
+}
+.sidebar-content .list-info-sidebar {
+  background-color: #dfdfdf;
+  border: 1px solid #dfdfdf;
+  color: #555;
+}
+.sidebar-content .list-info-sidebar .data-name {
+  color: #555;
+}
+
+
+
+
+  
+  .modal-header{
+    background-color:  white;
+    border-bottom: 5px solid #39923B !important;
+    color: black;
+  }
+
+  a {
+    color: black;
+  }
+
+  a:hover, a:focus {
+    color: #39923B;
+  }
+  
+  .top-bar {
+    /*background-color: #39923B !important;;*/
+    border-bottom: 3px solid #39923B !important;
+    background-color: white;
+    border-style: groove;
+    border: 1px solid #c9c6c6;
+    padding-top: revert;
+  }
+
+  .top-bar .logged-user .btn .name {
+    font-weight: 400;
+    color: black;
+}
+  .top-bar .top-bar-right .btn-link {
+    color: #fde7c6;
+  }
+  .top-bar .top-bar-right .btn-link:hover {
+    color: #fff;
+  }
+  .top-bar .notifications .count {
+    border-color: #39923B;
+  }
+  .top-bar .searchbox input[type="search"] {
+    background-color: #39923B;
+    border-color: #39923B;
+  }
+  .top-bar .searchbox .btn {
+    background-color: #39923B;
+    border-color: #39923B;
+  }
+  .top-bar .searchbox .btn i {
+    color: #39923B;
+  }
+  .top-bar .searchbox .btn:hover {
+    border-color: #39923B;
+  }
+  .top-bar .searchbox .btn:hover i {
+    color: #39923B;
+  }
+  
+  /* widget */
+  .widget {
+    border-color: #39923B;
+  }
+  .widget .widget-header {
+    background-color: white;
+    border-bottom-color: #39923B;
+    color: black;
+  }
+  .widget .widget-header em {
+    color: #fff;
+  }
+  .widget .widget-header .btn-help {
+    color: #39923B;
+  }
+  .widget .widget-header .widget-header-toolbar {
+    border-left-color: #39923B;
+  }
+  .widget .widget-header .widget-header-toolbar .control-title {
+    color: #fff;
+  }
+  .widget .widget-header .btn-group > a {
+    color: #fff;
+  }
+  .widget .widget-header .btn-group > a:hover, .widget .widget-header .btn-group > a:focus {
+    color: #39923B;
+  }
+  
+  /* main content */
+  .main-header h2 {
+    color: black;
+    border-right-color: black;
+  }
+  .main-header em {
+    color: black;
+  }
+  
+  /* footer */
+ 
+  .footer {
+    background-color: #D31A2B; 
+   border-top: 1px solid #D31A2B; 
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+  }

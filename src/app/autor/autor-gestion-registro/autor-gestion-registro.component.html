@@ -1,0 +1,243 @@
+<div class="row">
+  <div class="col-lg-4 ">
+    <ul class="breadcrumb">
+      <li><i class="fa fa-home"></i><a href="#">Autor</a></li>
+      <li><a href="#">Gestión de Articulos Registrados</a></li>
+      <li class="active">Autor</li>
+    </ul>
+  </div>
+</div>
+<!-- main -->
+<div class="content">
+  <div class="main-header">
+    <h2>Autor</h2>
+    <em>Sistema Decanato de Publicaciones</em>
+  </div>
+  <div class="main-content">
+
+    <div style="width: 100%; position: absolute; margin-top: -60px;">
+      <h3 (click)="modalAddUsuario(modSolita)"><i class="fa fa-plus-circle" title="Agregar un Usuario"></i> Solicitar
+        Certificado</h3>
+    </div>
+
+    <div class="widget widget-table">
+      <div class="widget-header">
+        <h3><i class="fa fa-table"></i> Solicitar certificado</h3>
+      </div>
+      <div class="widget-content">
+        <p-table #tblSolicitudCertificados
+          [globalFilterFields]="['strTipoCertificado', 'strFechasolicitud', 'strFechaFirma', 'strEstado', 'strDescargar']"
+          [value]="vecSolicitudes" [rows]="5" [showCurrentPageReport]="true" [rowsPerPageOptions]="[5,10,25,50]"
+          styleClass="p-datatable-customers p-datatable-gridlines" [paginator]="true"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+
+          <ng-template pTemplate="caption">
+            <div class="p-d-flex" style="float: right;">
+              <span class="p-input-icon-left p-ml-auto">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" #txtBusMatr style="margin-right: 0.5em;  font-size: 14px"
+                  (input)="tblSolicitudCertificados.filterGlobal(txtBusMatr.value, 'contains')" placeholder="buscar" />
+              </span>
+            </div>
+          </ng-template>
+
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="font-size: 14px" pSortableColumn="strTipoCertificado"><span> Tipo de certificado </span>
+                <p-sortIcon field="strTipoCertificado"></p-sortIcon>
+              </th>
+              <th style="font-size: 14px" pSortableColumn="strFechasolicitud">Fecha de solicitud<p-sortIcon
+                  field="strFechasolicitud"></p-sortIcon></th>
+              <th style="font-size: 14px" pSortableColumn="strFechaFirma ">Fecha de Firma <p-sortIcon
+                  field="strFechaFirma"></p-sortIcon>
+              </th>
+              <th style="font-size: 14px" pSortableColumn="strEstado"> Estado<p-sortIcon field="strEstado"></p-sortIcon>
+              <th style="font-size: 14px" pSortableColumn="strDescargar"> Descargar<p-sortIcon
+                  field="strDescargar"></p-sortIcon>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-objRep>
+            <tr>
+              <td style="font-size: 14px">{{objRep.nombCertificado}}</td>
+              <td style="font-size: 14px">{{objRep.dtFechaSolicita.split('T')[0]}}</td>
+              <td style="font-size: 14px">{{objRep.dtFechaFirma.split('T')[0]}}</td>
+              <td style="font-size: 14px">{{objRep.intEstado==1?'Legalizado':'Pendiente'}}</td>
+              <td style="font-size: 14px">
+                <p-button *ngIf="objRep.intEstado == 1" style="font-size: 20px;" class="btn btn-link"
+                  title="Ver documento" (click)="verArticulos(objRep, modCertificado)"> <i
+                    class="fa fa-download"></i></p-button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+
+
+        <!-- <table id="datatable-data-export"
+          class="table table-sorting table-striped table-hover table-bordered datatable">
+          <thead>
+            <tr>
+              <th>Tipo de certificado legalizado</th>
+              <th>Fecha de solicitud </th>
+              <th>Fecha de Firma </th>
+              <th>Estado</th>
+              <th>Descargar </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let objRep of vecSolicitudes">
+              <td>{{objRep.nombCertificado}}</td>
+              <td>{{objRep.dtFechaSolicita.split('T')[0]}}</td>
+              <td>{{objRep.dtFechaFirma.split('T')[0]}}</td>
+              <td>{{objRep.intEstado==1?'Legalizado':'Pendiente'}}</td>
+              <td>
+                <button *ngIf="objRep.intEstado == 1" style="font-size: 20px;" class="btn btn-link"
+                  title="Ver documento" (click)="verArticulos(objRep, modCertificado)"> <i
+                    class="fa fa-download"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table> -->
+      </div>
+    </div>
+    <!-- <li><a>Descargar un sonsolidado de las publicaciones sin firma </a><button (click)="generarPDF()">Descargar
+        documento no legalizado </button></li> -->
+
+    <br>
+
+    <!-- DATA EXPORT -->
+    <div class="widget widget-table">
+      <div class="widget-header">
+        <h3><i class="fa fa-table"></i> Lista de Articulos Registrados</h3>
+      </div>
+      <div class="widget-content">
+        <p-table #tblArticulosRegistrados
+          [globalFilterFields]="['strTipo', 'strTitulo', 'strFechaPublicacion', 'strFilial', 'strEstado']"
+          [value]="vecArticulos" [rows]="5" [showCurrentPageReport]="true" [rowsPerPageOptions]="[5,10,25,50]"
+          styleClass="p-datatable-customers p-datatable-gridlines" [paginator]="true"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+
+          <ng-template pTemplate="caption">
+
+            <div class="p-d-flex" style="float: right;">
+              <span class="p-input-icon-left p-ml-auto">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" #txtBusMatr style="margin-right: 0.5em;  font-size: 14px"
+                  (input)="tblArticulosRegistrados.filterGlobal(txtBusMatr.value, 'contains')" placeholder="buscar" />
+              </span>
+            </div>
+          </ng-template>
+
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="font-size: 14px" pSortableColumn="strTipo "><span> Tipo </span>
+                <p-sortIcon field="strTipo"></p-sortIcon>
+              </th>
+              <th style="font-size: 14px" pSortableColumn="strTitulo">Titulo<p-sortIcon field="strTitulo"></p-sortIcon>
+              </th>
+              <th style="font-size: 14px" pSortableColumn="strFechaPublicacion">Fecha de Publicacion <p-sortIcon
+                  field="strFechaPublicacion"></p-sortIcon> </th>
+              <th style="font-size: 14px" pSortableColumn="strFilial"> Filial<p-sortIcon field="strFilial"></p-sortIcon>
+              <th style="font-size: 14px" pSortableColumn="strEstado"> Estado<p-sortIcon field="strEstado"></p-sortIcon>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-objUser>
+            <tr>
+              <td style="font-size: 14px"> {{objUser.tipoPublica == 1? 'ARTÍCULO CIENTÍFICO' : objUser.tipoPublica == 2?
+                'ARTÍCULO DE CONGRESO'
+                :
+                'LIBRO'}} </td>
+              <td style="font-size: 14px"> {{objUser.strNombreArticulo}} </td>
+              <td style="font-size: 14px"> {{objUser.dateFechaPublicacion.split('T')[0]}} </td>
+              <td style="font-size: 14px"> {{objUser.bitfilial ? 'SI' : 'NO'}} </td>
+              <td style="font-size: 14px"> {{objUser.estadoPublica == 1? ' PUBLICADO' : 'ACEPTADO'}} </td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <!-- <table id="datatable-data-export"
+          class="table table-sorting table-striped table-hover table-bordered datatable">
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Titulo</th>
+              <th>Fecha de Publicacion </th>
+              <th>Filial</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let objUser of vecArticulos">
+              <td> {{objUser.tipoPublica == 1? 'ARTÍCULO CIENTÍFICO' : objUser.tipoPublica == 2? 'ARTÍCULO DE CONGRESO'
+                :
+                'LIBRO'}} </td>
+              <td> {{objUser.strNombreArticulo}} </td>
+              <td> {{objUser.dateFechaPublicacion.split('T')[0]}} </td>
+              <td> {{objUser.bitfilial ? 'SI' : 'NO'}} </td>
+              <td> {{objUser.estadoPublica == 1? ' PUBLICADO' : 'ACEPTADO'}} </td>
+            </tr>
+          </tbody>
+        </table>-->
+      </div>
+    </div>
+    <!-- END DATA EXPORT -->
+  </div>
+
+</div>
+<!-- /main -->
+
+<ng-template #modSolita let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Solicitud de certificado</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <table id="tblSignos" style="width: 90%;">
+      <tr>
+        <td class="tdEnunciado">Titulo: </td>
+        <td class="tdTexto">
+          <select class="txtSigno" style="margin-top: 5px; width: 100%;" [(ngModel)]="selecTipo">
+            <ng-container *ngFor="let objTipo of vecTipo">
+              <ng-container *ngIf="intNomb == 1 && objTipo.intEstado== 1">
+                <option *ngIf="objTipo.intIdTipoCertificado == 1 || objTipo.intIdTipoCertificado == 3"
+                  value="{{objTipo.intIdTipoCertificado}}">
+                  {{objTipo.strNombres}} </option>
+              </ng-container>
+              <ng-container *ngIf="intNomb == 0 && objTipo.intEstado== 1">
+                <option *ngIf="objTipo.intIdTipoCertificado > 1" value="{{objTipo.intIdTipoCertificado}}">
+                  {{objTipo.strNombres}} </option>
+              </ng-container>
+
+            </ng-container>
+          </select>
+        </td>
+      </tr>
+    </table>
+
+  </div>
+  <div class="modal-footer">
+    <p-button (click)="agregarSolicitud()" type="button" styleClass="p-button-success">Guardar Solicitud</p-button>
+    <p-button type="button" (click)="cerrarModal()" styleClass="p-button-danger">Cancelar</p-button>
+  </div>
+</ng-template>
+
+<!-- //MODAL PARA VER EL PDF -->
+<ng-template #modCertificado let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Certificado</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <iframe [src]="rutaCarga" width="100%" height="450"></iframe>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" styleClass="p-button-danger" 
+      (click)="cerrarModal()">Cancelar</button>
+  </div>
+</ng-template>

@@ -1,0 +1,142 @@
+<div class="row">
+  <div class="col-lg-4 ">
+    <ul class="breadcrumb">
+      <li><i class="fa fa-home"></i><a href="#">Administrador</a></li>
+      <li><a href="#">Gestión de Roles</a></li>
+      <li class="active">Roles</li>
+    </ul>
+  </div>
+</div>
+<div class="content">
+  <div class="main-header">
+    <h2>Roles</h2>
+    <em>Sistema Decanato de Publicaciones</em>
+  </div>
+  <div class="main-content">
+    <h3 (click)="modalAddRol(modNuevoRol)"><i class="fa fa-plus-circle" title="Agregar Rol"></i> Agregar
+      un Rol</h3>
+    <!-- DATA EXPORT -->
+    <div class="widget widget-table">
+      <div class="widget-header">
+        <h3><i class="fa fa-table"></i> Lista de Roles</h3> <em> - Sistema Decanato de Publicaciones</em>
+      </div>
+      <div class="widget-content">
+
+        <p-table #tblRoles [globalFilterFields]="['strNombre', 'strDescripcion', 'strEstado', 'strEstado']"
+          [value]="vecRoles" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+          styleClass="p-datatable-customers p-datatable-gridlines" [paginator]="true"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+
+          <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix" style="text-align: left; display: inline-block;">
+              <button type="button" pButton icon="pi pi-file-excel" iconPos="left" label="EXCEL"
+                style="margin-right: 0.5em;" class="ui-button-success"></button>
+              <button type="button" pButton icon="pi pi-file-pdf" iconPos="left" label="PDF"
+                class="ui-button-warning"></button>
+            </div>
+            <div class="p-d-flex" style="float: right;">
+              <span class="p-input-icon-left p-ml-auto">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" #txtBus (input)="tblRoles.filterGlobal(txtBus.value, 'contains')"
+                  placeholder="buscar" />
+              </span>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="font-size: 14px" pSortableColumn="strNombre"> Rol<p-sortIcon field="strNombre"></p-sortIcon>
+              </th>
+              <th style="font-size: 14px" pSortableColumn="strDescripcion"> Descripción<p-sortIcon
+                  field="strDescripcion"></p-sortIcon></th>
+              <th style="font-size: 14px" pSortableColumn="intEstado"> Estado<p-sortIcon field="intEstado"></p-sortIcon>
+              </th>
+              <th style="font-size: 14px" pSortableColumn="strEstado"> Acciones<p-sortIcon
+                  field="strEstado"></p-sortIcon>
+              </th>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-objUser>
+            <tr>
+              <td style="font-size: 14px">{{objUser.strNombre}}</td>
+              <td style="font-size: 14px">{{objUser.strDescripcion}}</td>
+              <td style="font-size: 14px"class="{{objUser.claseActivo}}"> {{objUser.intEstado ? 'Activo' : 'No Activo'}} </td>
+              <td style="font-size: 14px">
+
+                <p-button title="Editar rol" (click)="verDataPersona(objUser, modNuevoRol)"> <i
+                    class="fa fa-pencil"></i>
+                </p-button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <!-- <table datatable class="row-border hover table">
+          <thead>
+            <tr>
+              <th>Usuario</th>
+              <th>Rol</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let objUser of vecRoles">
+              <td> {{objUser.strNombre}} </td>
+              <td> {{objUser.strDescripcion}} </td>
+
+              <td class="{{objUser.claseActivo}}"> {{objUser.intEstado ? 'Activo' : 'No Activo'}} </td>
+              <td>
+                <button style="margin-left: -10px;margin-right: -15px" class="btn btn-link" title="Editar rol de usuario"
+                  (click)="verDataPersona(objUser, modNuevoRol)"> <i class="fa fa-pencil"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table> -->
+      </div>
+    </div>
+    <!-- END DATA EXPORT -->
+  </div>
+
+</div>
+<ng-template #modNuevoRol let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Modificar Roles</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <table id="tblSignos" style="width: 90%;">
+      <tr>
+        <td style="padding-left: 5%; width: 25%;">Rol: </td>
+        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strNombre']"
+            placeholder="Rol" style="width: 100%; font-size: 14px;" /> </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 5%; width: 25%;">Descripción: </td>
+        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strDescripcion']"
+            placeholder="Rol Descripción" style="width: 100%; font-size: 14px; margin-top: 5px;" /> </td>
+      </tr>
+
+      <tr>
+        <td style="padding-left: 5%; width: 25%;">Estado: </td>
+        <td style="padding-left: 5%; width: 75%;">
+          <select class="txtSigno" style="margin-top: 5px; width: 75%;" [(ngModel)]="vecBuscar[0]['intEstado']">
+            <option value="1"> ACTIVO </option>
+            <option value="0"> NO-ACTIVO </option>
+          </select>
+        </td>
+      </tr>
+
+    </table>
+
+  </div>
+  <div class="modal-footer">
+    <p-button  type="button"  styleClass="p-button-success" 
+      (click)="ingresarUsuario()">Guardar  </p-button>
+    <p-button    type="button"  styleClass="p-button-danger"
+      (click)="cerrarModal()">Cancelar</p-button>
+  </div>
+</ng-template>

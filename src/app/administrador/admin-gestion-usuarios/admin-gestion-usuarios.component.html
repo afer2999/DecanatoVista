@@ -1,0 +1,171 @@
+<div class="row">
+  <div class="col-lg-4 ">
+    <ul class="breadcrumb">
+      <li><i class="fa fa-home"></i><a href="#">Administrador</a></li>
+      <li><a href="#">Gestión de Usuarios</a></li>
+      <li class="active">Usuarios</li>
+    </ul>
+  </div>
+</div>
+<!-- main -->
+<div class="content">
+  <div class="main-header">
+    <h2>Usuarios</h2>
+    <em>Sistema Decanato de Publicaciones</em>
+  </div>
+  <div class="main-content">
+    <h3 (click)="modalAddUsuario(modNuevoUsuario)"><i class="fa fa-plus-circle" title="Agregar un Usuario"></i>
+      Agregar
+      un Usuario</h3>
+    <!-- DATA EXPORT -->
+    <div class="widget widget-table">
+      <div class="widget-header">
+        <h3><i class="fa fa-table"></i> Lista de Usuarios</h3> <em> - Sistema Dirección de Publicaciones</em>
+      </div>
+      <div class="widget-content">
+
+        <p-table #tblUsuarios
+          [globalFilterFields]="['strCedula', 'strNombres', 'strApellidos', 'strCargo', 'bitNombramiento', 'strDependencia', 'detalleEstado']"
+          [value]="vecUsuarios" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+          styleClass="p-datatable-customers p-datatable-gridlines" [paginator]="true"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+
+          <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix" style="text-align: left; display: inline-block;">
+               
+            </div>
+            <div class="p-d-flex" style="float: right;">
+              <span class="p-input-icon-left p-ml-auto">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" #txtBus (input)="tblUsuarios.filterGlobal(txtBus.value, 'contains')"
+                  placeholder="buscar" />
+              </span>
+            </div>
+          </ng-template>
+
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="font-size: 14px" pSortableColumn="strCedula"> Cédula<p-sortIcon field="strCedula"></p-sortIcon>
+              </th>
+              <th style="font-size: 14px" pSortableColumn="strNombres"> Nombres<p-sortIcon
+                  field="strNombres"></p-sortIcon></th>
+              <th style="font-size: 14px" pSortableColumn="strApellidos"> Apellidos<p-sortIcon
+                  field="strApellidos"></p-sortIcon></th>
+              <th style="font-size: 14px" pSortableColumn="strCargo"> Cargo<p-sortIcon field="strCargo"></p-sortIcon>
+              <th style="font-size: 14px" pSortableColumn="bitNombramiento"> Nombramiento<p-sortIcon
+                  field="bitNombramiento"></p-sortIcon>
+              <th style="font-size: 14px" pSortableColumn="strDependencia"> Dependencia<p-sortIcon
+                  field="strDependencia"></p-sortIcon>
+              <th style="font-size: 14px" pSortableColumn="detalleEstado"> Estado<p-sortIcon
+                  field="detalleEstado"></p-sortIcon>
+              <th style="font-size: 14px" SortableColumn="detalleEstado"> Acciones<p-sortIcon
+                  field="detalleEstado"></p-sortIcon>
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-objUser>
+            <tr>
+              <td style="font-size: 14px">{{objUser.strCedula}}</td>
+              <td style="font-size: 14px">{{objUser.strNombres}}</td>
+              <td style="font-size: 14px">{{objUser.strApellidos}}</td>
+              <td style="font-size: 14px">{{objUser.strCargo}}</td>
+              <td style="font-size: 14px" class="{{objUser.claseNombra}}"> {{objUser.bitNombramiento ? 'SI' : 'NO' }}
+              </td>
+              <td style="font-size: 14px"> {{objUser.strDependencia}} </td>
+              <td style="font-size: 14px" class="{{objUser.claseActivo}}"> {{objUser.detalleEstado}} </td>
+              <td style="font-size: 14px">
+                <p-button class="btn btn-link" title="Editar usuario"
+                  (click)="verDataPersona(objUser, modNuevoUsuario)"> <i class="fa fa-pencil"></i>
+                </p-button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+
+      </div>
+    </div>
+    <!-- END DATA EXPORT -->
+  </div>
+
+</div>
+<!-- /main -->
+
+
+<ng-template #modNuevoUsuario let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Usuarios</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <table id="tblSignos" style="width: 90%;">
+      <tr>
+        <td style="padding-left: 5%; width: 25%;">Cédula: </td>
+        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strCedula']"
+            placeholder="Cedula del usuario" style="width: 100%; font-size: 14px;" (change)="verUsuario()" /> </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 5%; width: 25%;">Nombres: </td>
+        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strNombres']"
+            placeholder="Nombres del usuario" style="width: 100%; font-size: 14px; margin-top: 5px;"
+            [disabled]="true" /> </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 5%; width: 25%;">Apellidos: </td>
+        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strApellidos']"
+            placeholder="Apellidos del usuario" style="width: 100%; font-size: 14px; margin-top: 5px;"
+            [disabled]="true" /> </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 5%; width: 25%;">Correo: </td>
+        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strCorreo']"
+            placeholder="Correo" style="width: 100%; font-size: 14px; margin-top: 5px;" [disabled]="true" /> </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 5%; width: 25%;">Teléfono: </td>
+        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strTelefono']"
+            placeholder="Teléfono del usuario" style="width: 100%; font-size: 14px; margin-top: 5px;"
+            [disabled]="true" /> </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 5%; width: 25%;">Cargo: </td>
+        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strCargo']"
+            placeholder="Cargo del usuario" style="width: 100%; font-size: 14px; margin-top: 5px;" [disabled]="true" />
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 5%; width: 25%;">Dependencia: </td>
+        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strDependencia']"
+            placeholder="Dependencia o Escuela del usuario" style="width: 100%; font-size: 14px; margin-top: 5px;" />
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 5%; width: 25%;">Nombramiento: </td>
+        <td style="padding-left: 5%; width: 75%;">
+          <select class="txtSigno" style="margin-top: 5px; width: 75%;" [(ngModel)]="vecBuscar[0]['bitNombramiento']">
+            <option value="1"> SI </option>
+            <option value="0"> NO</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 5%; width: 25%;">Estado: </td>
+        <td style="padding-left: 5%; width: 75%;">
+          <select class="txtSigno" style="margin-top: 5px; width: 75%;" [(ngModel)]="vecBuscar[0]['intEstado']">
+            <option value="1"> ACTIVO </option>
+            <option value="0"> NO-ACTIVO </option>
+          </select>
+        </td>
+      </tr>
+
+    </table>
+
+  </div>
+
+  <div class="modal-footer ">
+    <p-button type="button" label="Guardar" (click)="ingresarUsuario()" styleClass="p-button-success  "> </p-button>
+    <p-button (click)="cerrarModal()" size="large" label="Cerrar" styleClass="p-button-danger"> </p-button>
+  </div>
+</ng-template>

@@ -1,0 +1,12 @@
+.tdEnunciado {
+    text-align: right;
+    margin-right: 5px;
+    padding-top: 5px;
+    width: 30%;
+}
+
+.tdTexto {
+    padding-left: 5px;
+    padding-top: 5px;
+    width: 70%;
+}

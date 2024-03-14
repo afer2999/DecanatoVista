@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="col-lg-4 ">
+    <ul class="breadcrumb">
+      <li><i class="fa fa-home"></i><a href="#">Analista</a></li>
+      <li><a href="#">Revision de  Articulos No Indexados </a></li>
+      <li class="active">Analista</li>
+    </ul>
+  </div>
+</div>
+<!-- main -->
+<div class="content">
+  <div class="main-header">
+    <h2>Analista</h2>
+    <em>Sistema Dirección de Publicaciones</em>
+  </div>
+  <div class="main-content">
+
+    <!-- DATA EXPORT -->
+    <div class="widget widget-table">
+      <div class="widget-header">
+        <h3><i class="fa fa-calendar"></i> Lista de Articulos No Indexados</h3> <em> - Sistema Dirección de Publicaciones</em>
+      </div>
+      <div class="widget-content">
+        <table datatable class="row-border hover table">
+          <thead>
+            <tr>
+
+              <th>Codigo</th>
+              <th>NombreArticulo</th>
+              <th>Fecha de Publicacion </th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let objUser of vecArticulos">
+              <td> {{objUser.strCodigoArticulo}} </td>
+              <td> {{objUser.strNombreArticulo}} </td>
+              <td> {{objUser.dateFechaPublicacion}} </td>
+              <td> {{objUser.intEstado }} </td>
+              <td>
+                <button style="margin-left: -10px;margin-right: -15px" class="btn btn-link" title="Editar usuario">
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- END DATA EXPORT -->
+  </div>
+
+</div>
+<!-- /main -->
+
+

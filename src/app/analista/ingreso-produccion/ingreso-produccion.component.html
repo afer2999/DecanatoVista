@@ -1,0 +1,482 @@
+<div class="row">
+    <div class="col-lg-4 ">
+        <ul class="breadcrumb">
+            <li><i class="fa fa-home"></i><a href="#">Analista</a></li>
+            <li><a href="#">Gestión producción científica</a></li>
+            <li class="active">Analista</li>
+        </ul>
+    </div>
+</div>
+<!-- main -->
+<div class="content">
+    <div class="main-header">
+        <h2>Analista</h2>
+        <em>Sistema Dirección de Publicaciones</em>
+    </div>
+    <div class="main-content">
+        <div style="width: 100%; position: absolute; margin-top: -60px;">
+            <h3 (click)="modalAddUsuario(modNuevoArticulo,11)" style="float: left;"><i class="fa fa-plus-circle"
+                    title="Agregar un Usuario"></i> Agregar
+                un Articulo</h3>
+            <h3 (click)="modalAddUsuario(modNuevoCongreso,11)" style="float: left;margin-left: 15px; "><i
+                    class="fa fa-plus-circle" title="Agregar un Usuario"></i> Agregar
+                un Congreso</h3>
+            <h3 (click)="modalAddUsuario(modNuevoLibro,11)" style="float: left;margin-left: 15px;"><i
+                    class="fa fa-plus-circle" title="Agregar un Usuario"></i> Agregar
+                un Libro</h3>
+        </div>
+        <!-- DATA EXPORT -->
+        <div class="widget widget-table">
+            <div class="widget-header">
+                <h3><i class="fa fa-calendar"></i> Lista de Articulos</h3> <em> - Sistema Dirección de
+                    Publicaciones</em>
+            </div>
+            <div class="widget-content">
+                <table datatable class="row-border hover table">
+                    <thead>
+                        <tr>
+                            <th>Titulo</th>
+                            <th>Fecha de Publicacion</th>
+                            <th>Filial</th>
+                            <th>Estado</th>
+                            <th>Descripcion</th>
+                            <th>Archivos</th>
+                            <th>Autores</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let objUser of vecUsuarios">
+                            <td> {{objUser.strNombreArticulo}} </td>
+                            <td> {{objUser.dateFechaPublicacion.split('T')[0]}} </td>
+                            <td> {{objUser.bitfilial ? 'SI' : 'NO'}} </td>
+                            <td> {{objUser.intEstado == 2 ? 'PENDIENTE' : 'POR ACEPTAR'}} </td>
+                            <td> {{objUser.strDescripcion}} </td>
+
+                            <td *ngIf="objUser.tipoPublica == 2"> <button style="font-size: 17px;" class="btn btn-link"
+                                    title="Ver distributivo" (click)="verArchivoCarga(modCertificadoFirma, objUser.distributivo)"> <i
+                                        class="fa fa-download"></i></button>
+                                <button style="font-size: 17px;" class="btn btn-link" title="Artículo"
+                                    (click)="verArchivoCarga(modCertificadoFirma, objUser.ruta1)"> <i class="fa fa-download"></i></button>
+                                <button style="font-size: 17px;" class="btn btn-link" title="Ver carta de aceptación"
+                                    (click)="verArchivoCarga(modCertificadoFirma, objUser.ruta2)"> <i class="fa fa-download"></i></button>
+                                <button style="font-size: 17px;" class="btn btn-link" title="Ver certificado de ponente"
+                                    (click)="verArchivoCarga(modCertificadoFirma, objUser.ruta3)"> <i class="fa fa-download"></i></button>
+                            </td>
+
+                            <td *ngIf="objUser.tipoPublica == 1"> <button style="font-size: 17px;" class="btn btn-link"
+                                    title="Ver distributivo" (click)="verArchivoCarga(modCertificadoFirma, objUser.distributivo)"> <i
+                                        class="fa fa-download"></i></button>
+                                <button style="font-size: 17px;" class="btn btn-link" title="Ver carta de aceptación"
+                                    (click)="verArchivoCarga(modCertificadoFirma, objUser.ruta1)"> <i class="fa fa-download"></i></button>
+                            </td>
+
+                            <td *ngIf="objUser.tipoPublica == 3"> <button style="font-size: 17px;" class="btn btn-link"
+                                    title="Ver distributivo" (click)="verArchivoCarga(modCertificadoFirma, objUser.distributivo)"> <i
+                                        class="fa fa-download"></i></button>
+                                <button style="font-size: 17px;" class="btn btn-link" title="Ver libro"
+                                    (click)="verArchivoCarga(modCertificadoFirma, objUser.ruta1)"> <i class="fa fa-download"></i></button>
+                            </td>
+
+                            <td>
+                                <button style="margin-left: -10px;margin-right: -15px" class="btn btn-link"
+                                    title="Ver autores" (click)="verModAutores(objUser, modNuevoAutor)"> <i
+                                        class="fa fa-group"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- END DATA EXPORT -->
+    </div>
+
+</div>
+<!-- /main -->
+
+
+<!-- MODAL DE INGRESO DE ARTICULOS INDEXADOS-->
+<ng-template #modNuevoArticulo let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Datos del Articulo</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <table id="tblSignos" style="width: 90%;">
+            <tr>
+                <td colspan="4" class="tdEncabezado">Buscar Autor</td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado" style="width: 30%;">Cédula </td>
+                <td class="tdEnunciado" style="width: 10%;">Buscar </td>
+                <td class="tdEnunciado" style="width: 40%;">Nombres </td>
+                <td class="tdEnunciado" style="width: 10%;">Agregar </td>
+            </tr>
+            <tr>
+                <td class="tdTexto"> <input type="text" (change)="buscarUsuario()" style="width: 90%; font-size: 14px;"
+                        [(ngModel)]="vecBuscaAutores[0]['cedula']" /> </td>
+                <td class="tdTexto"> <button (change)="buscarUsuario()" class="btn btn-link"> <i
+                            class="fa fa-search"></i>
+                    </button> </td>
+                <td class="tdTexto">{{vecBuscaAutores[0]['nombres']}} </td>
+                <td class="tdTexto"> <button class="btn btn-link" style="font-size: 18px;" (click)="agregarAutor()"> <i
+                            class="fa fa-save"></i>
+                    </button> </td>
+            </tr>
+        </table>
+
+        <table id="tblSignos" style="width: 90%; margin-top: 30px;">
+            <tr>
+                <td colspan="2" class="tdEncabezado">Datos del Artículo</td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado">Titulo: </td>
+                <td class="tdTexto">
+                    <input type="text" class="txtSigno" [(ngModel)]="vecArticulo[0]['strNombreArticulo']"
+                        placeholder="Titulo" style="width: 100%; font-size: 14px;" />
+                </td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado">Descripcion </td>
+                <td class="tdTexto"> <input type="text" [(ngModel)]="vecArticulo[0]['strDescripcion']"
+                        placeholder="Titulo" style="width: 100%; font-size: 14px;" /> </td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado">Procedencia: </td>
+                <td class="tdTexto">
+                    <select class="txtSigno" style="width: 100%; font-size: 14px;"
+                        [(ngModel)]="vecArticulo[0]['intProcedencia']">
+                        <ng-container *ngFor="let objProcede of vecProcedencia">
+                            <option *ngIf="objProcede.intEstado == 1" value="{{objProcede.intIdProcedencia}}">
+                                {{objProcede.strNombre}} </option>
+                        </ng-container>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado">Carta de Aceptacion:</td>
+                <td class="tdTexto">
+                    <input type="file" (change)="cargandoArchivos($event,1)" multiple>
+                </td>
+            </tr>
+            <!-- <tr>
+                <td class="tdEnunciado">Distributivo:</td>
+                <td class="tdTexto">
+                    <input type="file" (change)="cargandoArchivos($event,2)" multiple>
+                </td>
+            </tr> -->
+            <tr>
+                <td class="tdEnunciado">Link del artìculo: </td>
+                <td class="tdTexto"> <input type="text" [(ngModel)]="vecArticulo[0]['enlace']"
+                        placeholder="link del articulo" style="width: 100%; font-size: 14px; margin-top: 5px;"
+                        [disabled]="false" />
+                </td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado">Fecha de Publicacion: </td>
+                <td class="tdTexto"> <input type="date" [(ngModel)]="vecArticulo[0]['dateFechaPublicacion']"
+                        placeholder="Fecha de publicacion" style="width: 100%; font-size: 14px;" /> </td>
+            </tr>
+
+
+            <tr>
+                <td class="tdEnunciado">Estado: </td>
+                <td class="tdTexto">
+                    <select class="txtSigno" style="width: 100%; font-size: 14px;"
+                        [(ngModel)]="vecArticulo[0]['intEstado']">
+                        <option value="1"> Publicado </option>
+                        <option value="0"> Aceptado </option>
+                    </select>
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" style="background-color: #394A59;"
+            (click)="ingresoArticulo(1)">Guardar Articulo</button>
+        <button type="button" class="btn btn-outline-dark" style="background-color: #D9534F;"
+            (click)="cerrrarModal()">Cancelar</button>
+    </div>
+</ng-template>
+
+<!-- MODAL DE INGRESO DE CONGRESOS -->
+<ng-template #modNuevoCongreso let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Datos del Congreso</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <table id="tblSignos" style="width: 90%;">
+            <tr>
+                <td colspan="4" class="tdEncabezado">Buscar Autor</td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado" style="width: 30%;">Cédula </td>
+                <td class="tdEnunciado" style="width: 10%;">Buscar </td>
+                <td class="tdEnunciado" style="width: 40%;">Nombres </td>
+                <td class="tdEnunciado" style="width: 10%;">Agregar </td>
+            </tr>
+            <tr>
+                <td class="tdTexto"> <input type="text" (change)="buscarUsuario()" style="width: 90%; font-size: 14px;"
+                        [(ngModel)]="vecBuscaAutores[0]['cedula']" /> </td>
+                <td class="tdTexto"> <button (change)="buscarUsuario()" class="btn btn-link"> <i
+                            class="fa fa-search"></i>
+                    </button> </td>
+                <td class="tdTexto">{{vecBuscaAutores[0]['nombres']}} </td>
+                <td class="tdTexto"> <button class="btn btn-link" style="font-size: 18px;" (click)="agregarAutor()"> <i
+                            class="fa fa-save"></i>
+                    </button> </td>
+            </tr>
+        </table>
+
+        <table id="tblSignos" style="width: 90%; margin-top: 30px;">
+            <tr>
+                <td colspan="2" class="tdEncabezado">Datos del Congreso</td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado">Titulo: </td>
+                <td class="tdTexto"> <input type="text" [(ngModel)]="vecArticulo[0]['strNombreArticulo']"
+                        placeholder="Titulo Congreso " style="width: 100%; font-size: 14px;" /> </td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado">Procedencia: </td>
+                <td class="tdTexto">
+                    <select class="txtSigno" style="margin-top: 5px; width: 100%;"
+                        [(ngModel)]="vecArticulo[0]['intProcedencia']">
+                        <ng-container *ngFor="let objProcede of vecProcedencia">
+                            <option *ngIf="objProcede.intEstado == 1" value="{{objProcede.intIdProcedencia}}">
+                                {{objProcede.strNombre}} </option>
+                        </ng-container>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado">Fecha de Publicacion </td>
+                <td class="tdTexto"> <input type="date" [(ngModel)]="vecArticulo[0]['dateFechaPublicacion']"
+                        placeholder="Fecha de publicacion" style="width: 100%; font-size: 14px;" /> </td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado">Link libro de memorias : </td>
+                <td class="tdTexto"> <input type="text" [(ngModel)]="vecArtCongreso[0]['textLibrodeMemoria']"
+                        placeholder="Link libro de memorias" style="width: 100%; font-size: 14px; margin-top: 5px;"
+                        [disabled]="false" />
+                </td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado">Articulo:</td>
+                <td class="tdTexto">
+                    <input type="file" (change)="cargandoArchivos($event,3)" multiple>
+                </td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado">Carta de Aceptacion:</td>
+                <td class="tdTexto">
+                    <input type="file" (change)="cargandoArchivos($event,4)" multiple>
+                </td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado">Certificado de Ponente:</td>
+                <td class="tdTexto">
+                    <input type="file" (change)="cargandoArchivos($event,5)" multiple>
+                </td>
+            </tr>
+            <!-- <tr>
+                <td class="tdEnunciado">Distributivo:</td>
+                <td class="tdTexto">
+                    <input type="file" (change)="cargandoArchivos($event,2)" multiple>
+                </td>
+            </tr> -->
+        </table>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" style="background-color: #394A59;"
+            (click)="ingresoArticulo(2)">Guardar</button>
+        <button type="button" class="btn btn-outline-dark" style="background-color: #D9534F;"
+            (click)="cerrrarModal()">Cancelar</button>
+    </div>
+</ng-template>
+
+<!-- MODAL DE INGRESO DE LIBRO -->
+<ng-template #modNuevoLibro let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Datos del Libro</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <table id="tblSignos" style="width: 90%;">
+            <tr>
+                <td colspan="4" class="tdEncabezado">Buscar Autor</td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado" style="width: 30%;">Cédula </td>
+                <td class="tdEnunciado" style="width: 10%;">Buscar </td>
+                <td class="tdEnunciado" style="width: 40%;">Nombres </td>
+                <td class="tdEnunciado" style="width: 10%;">Agregar </td>
+            </tr>
+            <tr>
+                <td class="tdTexto"> <input type="text" (change)="buscarUsuario()" style="width: 90%; font-size: 14px;"
+                        [(ngModel)]="vecBuscaAutores[0]['cedula']" /> </td>
+                <td class="tdTexto"> <button (change)="buscarUsuario()" class="btn btn-link"> <i
+                            class="fa fa-search"></i>
+                    </button> </td>
+                <td class="tdTexto">{{vecBuscaAutores[0]['nombres']}} </td>
+                <td class="tdTexto"> <button class="btn btn-link" style="font-size: 18px;" (click)="agregarAutor()"> <i
+                            class="fa fa-save"></i>
+                    </button> </td>
+            </tr>
+        </table>
+
+        <table id="tblSignos" style="width: 90%; margin-top: 30px;">
+            <tr>
+                <td colspan="2" class="tdEncabezado">Datos del Libro</td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado">Titulo: </td>
+                <td class="tdTexto"> <input type="text" [(ngModel)]="vecArticulo[0]['strNombreArticulo']"
+                        placeholder="Titulo del libro" style="width: 100%; font-size: 14px;" /> </td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado">Procedencia: </td>
+                <td class="tdTexto">
+                    <select class="txtSigno" style="margin-top: 5px; width: 100%;"
+                        [(ngModel)]="vecArticulo[0]['intProcedencia']">
+                        <ng-container *ngFor="let objProcede of vecProcedencia">
+                            <option *ngIf="objProcede.intEstado == 1" value="{{objProcede.intIdProcedencia}}">
+                                {{objProcede.strNombre}} </option>
+                        </ng-container>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado">ISBN: </td>
+                <td class="tdTexto"> <input type="text" [(ngModel)]="vecLibro[0]['isbn']" placeholder="ISBN del libro"
+                        style="width: 100%; font-size: 14px; margin-top: 5px;" />
+                </td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado">Fecha de Publicacion </td>
+                <td class="tdTexto"> <input type="date" [(ngModel)]="vecArticulo[0]['dateFechaPublicacion']"
+                        placeholder="Fecha de publicacion" style="width: 100%; font-size: 14px;" /> </td>
+            </tr>
+
+            <tr>
+                <td class="tdEnunciado">Informe de Pares Revisores: </td>
+                <td class="tdTexto"> <input type="text" [(ngModel)]="vecLibro[0]['pares']"
+                        placeholder="Informe de pares" style="width: 100%; font-size: 14px; margin-top: 5px;" />
+                </td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado">Libro: </td>
+                <td class="tdTexto"> <input type="file" (change)="cargandoArchivos($event,2)" multiple>
+                </td>
+            </tr>
+            <!-- <tr>
+                <td class="tdEnunciado">Distributivo:</td>
+                <td class="tdTexto">
+                    <input type="file" (change)="cargandoArchivos($event,6)" multiple>
+                </td>
+            </tr> -->
+        </table>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" style="background-color: #394A59;"
+            (click)="ingresoArticulo(3)">Guardar </button>
+        <button type="button" class="btn btn-outline-dark" style="background-color: #D9534F;"
+            (click)="cerrrarModal()">Cancelar</button>
+    </div>
+</ng-template>
+
+<!-- MODAL PARA EL INGRESO DE AUTORES -->
+<ng-template #modNuevoAutor let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Registro de autores</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+
+        <table id="tblSignos" style="width: 90%;">
+            <tr>
+                <td colspan="4" class="tdEncabezado">Autores registrados</td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado">Cédula </td>
+                <td class="tdEnunciado" style="width: 35%;">Nombres </td>
+                <td class="tdEnunciado" style="width: 35%;">Cargo </td>
+                <td class="tdEnunciado" style="width: 10%;">Eliminar </td>
+            </tr>
+            <tr *ngFor="let objAutor of vecAutores">
+                <td class="tdTexto">{{objAutor.strCedula}} </td>
+                <td class="tdTexto">{{objAutor.strNombres}} {{objAutor.strApellidos}} </td>
+                <td class="tdTexto">{{objAutor.strCargo}} </td>
+                <td class="tdTexto"><button (click)="quitarAutor(objAutor)"
+                        style="margin-left: -10px;margin-right: -15px; color: #D9534F;" class="btn btn-link"
+                        title="Quitar autor"> <i class="fa fa-trash"></i>
+                    </button> </td>
+            </tr>
+        </table>
+
+        <table id="tblSignos" style="width: 90%; margin-top: 30px;">
+            <tr>
+                <td colspan="4" class="tdEncabezado">Buscar Autor</td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado" style="width: 30%;">Cédula </td>
+                <td class="tdEnunciado" style="width: 10%;">Buscar </td>
+                <td class="tdEnunciado" style="width: 40%;">Nombres </td>
+                <td class="tdEnunciado" style="width: 10%;">Agregar </td>
+            </tr>
+            <tr>
+                <td class="tdTexto"> <input type="text" (change)="buscarUsuario()" style="width: 90%; font-size: 14px;"
+                        [(ngModel)]="vecBuscaAutores[0]['cedula']" /> </td>
+                <td class="tdTexto"> <button (change)="buscarUsuario()" class="btn btn-link"> <i
+                            class="fa fa-search"></i>
+                    </button> </td>
+                <td class="tdTexto">{{vecBuscaAutores[0]['nombres']}} </td>
+                <td class="tdTexto"> <button class="btn btn-link" style="font-size: 18px;" (click)="agregarAutor()"> <i
+                            class="fa fa-save"></i>
+                    </button> </td>
+            </tr>
+        </table>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" style="background-color: #D9534F;"
+            (click)="cerrrarModal()">Cerrar</button>
+    </div>
+</ng-template>
+
+<!-- //MODAL PARA VER EL PDF -->
+<ng-template #modCertificadoFirma let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Certificado</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <iframe [src]="rutaCarga" width="100%" height="450"></iframe>
+
+    </div>
+    <div class="modal-footer">
+        <a href="{{enlaceCarga}}">Descargar Documento</a>
+        <button type="button" class="btn btn-outline-dark" style="background-color: #D9534F;"
+            (click)="cerrrarModal()">Cancelar</button>
+    </div>
+</ng-template>

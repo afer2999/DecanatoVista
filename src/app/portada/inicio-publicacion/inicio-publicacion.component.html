@@ -1,0 +1,59 @@
+<div style="overflow: hidden;">
+
+  <div *ngIf="isLoading">
+      <div class="linea"></div>
+      <div class="selloEspoch">
+          <img src="../../../assets/logoPub.png" alt="espoch" width="200" height="200">
+      </div>
+  </div>
+
+  <div *ngIf="!isLoading">
+      <div class="container">
+          <div class="fondo" alt="logo_espoch"></div>
+
+          <div class="container-real">
+
+              <div class="row">
+                  <img src="https://oficina.espoch.edu.ec/dtic/images/icons/logo_espoch.png" width="150"
+                      style="margin-left: 3%;" alt="logo_espoch">
+                  <button class="button" [routerLink]="['/ingreso']">Iniciar</button>
+              </div>
+
+              <div class="row">
+                  <div class="case-1">
+                      <p>Direcci&oacute;n de Publicaciones</p>
+                      <span>Sistema de Gesti&oacute;n de la Producci&oacute;n cient&iacute;fica</span>
+                  </div>
+              </div>
+
+              <div class="container-footer">
+
+                  <div class="footer">
+                      <p>
+                          Escuela Superior Politécnica de Chimborazo © 2022
+                      </p>
+                  </div>
+              </div>
+          </div>
+
+      </div>
+  </div>
+
+  <div id="modalInicio" class="modal">
+      <div class="selloModal">
+          <img src="https://www.espoch.edu.ec/images/direcci%C3%B3n_publicaciones/eventos/LogoPub.png" width="100%" height="100%">
+      </div>
+      <div class="modal-content">
+          <div class="modCabeza">BIENVENIDOS</div>
+          <div class="modCuerpo">
+              <br>
+              El Sistema de la Dirección de Publicaciones permitirá gestionar el registro de la producción científica de
+              Docentes e Investigadores de la Escuela Superior Politécnica de Chimborazo
+              <br><br>
+              <b>Nota: </b> el sistema  permite realizar el registro y certificación de la producción científica.
+              <br><br>
+          </div>
+          <div class="modPie" onclick="cierraModal()">CONTINUAR.</div>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,191 @@
+<div class="row">
+  <div class="col-lg-4 ">
+    <ul class="breadcrumb">
+      <li><i class="fa fa-home"></i><a href="#">Administrador</a></li>
+      <li><a href="#">Asignar permisos del sistema</a></li>
+      <li class="active">Asignar Permisos</li>
+    </ul>
+  </div>
+</div>
+<!-- main -->
+<div class="content">
+  <div class="main-header">
+    <h2>Asignar permisos del sistema</h2>
+    <em>Sistema Decanato de Publicaciones</em>
+  </div>
+  <div class="main-content">
+    <h3 (click)="modalAddActividades(modNuevoActividades)"><i class="fa fa-plus-circle" title="Agregar Rol"></i> Asignar
+      permiso</h3>
+    <!-- DATA EXPORT -->
+    <div class="widget widget-table">
+      <div class="widget-header">
+        <h3><i class="fa fa-calendar"></i> Asignar permisos del sistema</h3> <em> - Sistema Decanato de
+          Publicaciones</em>
+      </div>
+      <div class="widget-content">
+
+        <p-table #tblAsignarPermisos
+          [globalFilterFields]="['strCedula', 'strNombres', 'strApellidos', 'strCargo', 'detalleEstado', 'detalleEstado']"
+          [value]="vecAsignaciones" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+          styleClass="p-datatable-customers p-datatable-gridlines" [paginator]="true"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+
+          <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix" style="text-align: left; display: inline-block;">
+              
+            </div>
+            <div class="p-d-flex" style="float: right;">
+              <span class="p-input-icon-left p-ml-auto">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" #txtBusMatr style="margin-right: 0.5em;  font-size: 14px"
+                  (input)="tblAsignarPermisos.filterGlobal(txtBusMatr.value, 'contains')" placeholder="buscar" />
+              </span>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="font-size: 14px" pSortableColumn="strRol"><span> Rol </span> <p-sortIcon
+                  field="strRol"></p-sortIcon></th>
+              <th style="font-size: 14px" pSortableColumn="strPadreOpcion"> Padre Opcion<p-sortIcon
+                  field="strPadreOpcion"></p-sortIcon></th>
+              <th style="font-size: 14px" pSortableColumn="strOpcion"> Opcion<p-sortIcon field="strOpcion"></p-sortIcon>
+              </th>
+              <th style="font-size: 14px" pSortableColumn="strInsertar"> Insertar<p-sortIcon
+                  field="strInsertar"></p-sortIcon>
+                  <th style="font-size: 14px" pSortableColumn="strEditar"> Editar<p-sortIcon
+                    field="strEditar"></p-sortIcon>
+              <th style="font-size: 14px" pSortableColumn="strEliminar"> Eliminar<p-sortIcon
+                  field="strEliminar"></p-sortIcon>
+              <th style="font-size: 14px" pSortableColumn="detalleEstado"> Acciones<p-sortIcon
+                  field="detalleEstado"></p-sortIcon>
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-objUser>
+            <tr>
+              <td style="font-size: 14px"> {{objUser.nombRol}} </td>
+              <td style="font-size: 14px"> {{objUser.nombPadre}} </td>
+              <td style="font-size: 14px"> {{objUser.nombOpcion}} </td>
+              <td style="font-size: 14px"> {{objUser.datoInsertar}} </td>
+              <td style="font-size: 14px"> {{objUser.datoEditar}} </td>
+              <td style="font-size: 14px"> {{objUser.datoBorrar}} </td>
+              <td style="font-size: 14px">
+                <p-button  class="btn btn-link" title="Editar usuario"
+                  (click)="verDataActividades(objUser, modNuevoActividades)"> <i class="fa fa-pencil"></i>
+                </p-button>
+              </td>
+
+
+            </tr>
+          </ng-template>
+
+
+
+
+
+        </p-table>
+
+        <!-- <table datatable class="row-border hover table">
+          <thead>
+            <tr>
+              <th>Rol</th>
+              <th>Padre Opcion</th>
+              <th>Opcion</th>
+              <th>Insertar</th>
+              <th>Editar</th>
+              <th>Eliminar</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let objUser of vecAsignaciones">
+              <td> {{objUser.nombRol}} </td>
+              <td> {{objUser.nombPadre}} </td>
+              <td> {{objUser.nombOpcion}} </td>
+              <td> {{objUser.datoInsertar}} </td>
+              <td> {{objUser.datoEditar}} </td>
+              <td> {{objUser.datoBorrar}} </td>
+              <td>
+                <button style="margin-left: -10px;margin-right: -15px" class="btn btn-link" title="Editar usuario"
+                  (click)="verDataActividades(objUser, modNuevoActividades)"> <i class="fa fa-pencil"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table> -->
+      </div>
+    </div>
+    <!-- END DATA EXPORT -->
+  </div>
+
+</div>
+<!-- /main -->
+
+
+<ng-template #modNuevoActividades let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title"> Asignar permisos del sistema</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <table id="tblSignos" style="width: 90%;">
+      <tr>
+        <td class="tdEnunciado" style="width: 25%;">Rol: </td>
+        <td class="tdTexto" style="width: 75%;">
+          <select class="txtSigno" style="margin-top: 5px; width: 75%;" [(ngModel)]="vecBuscar[0]['intRol']">
+            <option *ngFor="let objRol of vecRoles" value="{{objRol.intIdRol}}"> {{objRol.strNombre}} </option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="tdEnunciado" style="width: 25%;">Actividad: </td>
+        <td class="tdTexto" style="width: 75%;">
+          <select class="txtSigno" style="margin-top: 5px; width: 75%;" [(ngModel)]="vecBuscar[0]['intPadreOpcion']">
+            <option *ngFor="let objAct of vecActividad" value="{{objAct.intIdPadreOpcion}}"> {{objAct.strNombre}}
+            </option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="tdEnunciado" style="width: 25%;">Opción: </td>
+        <td class="tdTexto" style="width: 75%;">
+          <select class="txtSigno" style="margin-top: 5px; width: 75%;" [(ngModel)]="vecBuscar[0]['intOpcion']">
+            <option *ngFor="let objOpc of vecOpcion" value="{{objOpc.intIdOpcion}}"> {{objOpc.strNombre}} </option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="tdEnunciado" style="width: 25%;">Estado: </td>
+        <td class="tdTexto" style="width: 75%;">
+          <select class="txtSigno" style="margin-top: 5px; width: 75%;" [(ngModel)]="vecBuscar[0]['intEstado']">
+            <option value="1"> ACTIVO </option>
+            <option value="0"> NO-ACTIVO </option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="tdEnunciado">Actividades del Rol:</td>
+        <td class="tdTexto"> &nbsp;&nbsp;Ingresar:
+          <input type="checkbox" class="form-check-input" [checked]="vecBuscar[0]['bitInsertar']"
+            [(ngModel)]="vecBuscar[0]['bitInsertar']">
+          &nbsp;&nbsp;Editar:
+          <input type="checkbox" class="form-check-input" [checked]="vecBuscar[0]['bitModificar']"
+            [(ngModel)]="vecBuscar[0]['bitModificar']">
+          &nbsp;&nbsp;Eliminar:
+          <input type="checkbox" class="form-check-input" [checked]="vecBuscar[0]['bitEliminar']"
+            [(ngModel)]="vecBuscar[0]['bitEliminar']">
+        </td>
+      </tr>
+
+    </table>
+
+  </div>
+  <div class="modal-footer">
+    <p-button type="button" styleClass="p-button-success"
+      (click)="ingresarUsuario()">Guardar Usuario</p-button>
+    <p-button type="button" (click)="cerrarModal()" styleClass="p-button-danger">Cancelar</p-button>
+  </div>
+</ng-template>

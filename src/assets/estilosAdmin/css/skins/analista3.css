@@ -1,0 +1,110 @@
+/*------------------------------------------------*/
+/*	Skin: Orange
+/*------------------------------------------------*/
+/* general */
+ul.main-menu > li a {
+    background-color: #ececec;
+    border-top: 1px solid #dfdfdf;
+    color:#555;
+  }
+  .content-wrapper {
+    min-height: 870px;
+  }
+  .sidebar-scroll{
+    background-color: #ececec;
+  }
+  ul.main-menu > li a:hover{
+    text-decoration: none;
+    background-color: #f1f1f1;
+  }
+  
+  ul.main-menu > li.active > a {
+    background-color: #dfdfdf;
+  }
+  ul.main-menu > li>a:active {
+    background-color: #dfdfdf;
+  }
+  
+  .modal-header{
+    background-color:  #999999;
+    color: white;
+  }
+  a {
+    color: #999999;
+  }
+  a:hover, a:focus {
+    color: #999999;
+  }
+  
+  .top-bar {
+    background-color: #999999 !important;
+  }
+  .top-bar .top-bar-right .btn-link {
+    color: #fde7c6;
+  }
+  .top-bar .top-bar-right .btn-link:hover {
+    color: #fff;
+  }
+  .top-bar .notifications .count {
+    border-color: #999999;
+  }
+  .top-bar .searchbox input[type="search"] {
+    background-color: #999999;
+    border-color: #999999;
+  }
+  .top-bar .searchbox .btn {
+    background-color: #999999;
+    border-color: #999999;
+  }
+  .top-bar .searchbox .btn i {
+    color: #999999;
+  }
+  .top-bar .searchbox .btn:hover {
+    border-color: #999999;
+  }
+  .top-bar .searchbox .btn:hover i {
+    color: #999999;
+  }
+  
+  /* widget */
+  .widget {
+    border-color: #999999;
+  }
+  .widget .widget-header {
+    background-color: #999999;
+    border-bottom-color: #999999;
+    color: #fff;
+  }
+  .widget .widget-header em {
+    color: #fff;
+  }
+  .widget .widget-header .btn-help {
+    color: #f9bd64;
+  }
+  .widget .widget-header .widget-header-toolbar {
+    border-left-color: #999999;
+  }
+  .widget .widget-header .widget-header-toolbar .control-title {
+    color: #fff;
+  }
+  .widget .widget-header .btn-group > a {
+    color: #fff;
+  }
+  .widget .widget-header .btn-group > a:hover, .widget .widget-header .btn-group > a:focus {
+    color: #ffe4c5;
+  }
+  
+  /* main content */
+  .main-header h2 {
+    color: #999999;
+    border-right-color: #999999;
+  }
+  .main-header em {
+    color: #999999;
+  }
+  
+  /* footer */
+  .footer {
+    background-color: #999999;
+  }
+  
