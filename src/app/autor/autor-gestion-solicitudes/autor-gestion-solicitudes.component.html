@@ -46,12 +46,13 @@
               </span>
             </div>
           </ng-template>
+
           <ng-template pTemplate="header">
             <tr>
               <th style="font-size: 14px" pSortableColumn="strTitulo"><span> Titulo </span>
                 <p-sortIcon field="strTitulo"></p-sortIcon>
               </th>
-              <th style="font-size: 14px" pSortableColumn="strFechaPublicacion">Fecha de Publicacion<p-sortIcon
+              <th style="font-size: 14px" pSortableColumn="strFechaPublicacion">Fecha de Publicación<p-sortIcon
                   field="strFechaPublicacion"></p-sortIcon>
               </th>
               <th style="font-size: 14px" pSortableColumn="strFilial">Filial<p-sortIcon field="strFilial"></p-sortIcon>
@@ -63,52 +64,57 @@
                   field="strArchivos"></p-sortIcon>
               <th style="font-size: 14px" pSortableColumn="strAgregarUsuarios"> Agregar Usuarios<p-sortIcon
                   field="strAgregarUsuarios"></p-sortIcon>
-                  <th style="font-size: 14px" pSortableColumn="strArchivos"> Acciones<p-sortIcon
-                    field="strArchivos"></p-sortIcon>
+              <th style="font-size: 14px" pSortableColumn="strArchivos"> Acciones<p-sortIcon
+                  field="strArchivos"></p-sortIcon>
             </tr>
           </ng-template>
+
+
+
           <ng-template pTemplate="body" let-objUser>
-            <td> {{objUser.strNombreArticulo}} </td>
-            <td> {{objUser.dateFechaPublicacion.split('T')[0]}} </td>
-            <td> {{objUser.bitfilial ? 'SI' : 'NO'}} </td>
-            <td> {{objUser.intEstado == 2 ? 'PENDIENTE' : 'MODIFICAR'}} </td>
-            <td> {{objUser.strDescripcion}} </td>
+            <tr>
+              <td style="font-size: 14px"> {{objUser.strNombreArticulo}} </td>
+              <td style="font-size: 14px"> {{objUser.dateFechaPublicacion.split('T')[0]}} </td>
+              <td style="font-size: 14px"> {{objUser.bitfilial ? 'SI' : 'NO'}} </td>
+              <td style="font-size: 14px"> {{objUser.intEstado == 2 ? 'PENDIENTE' : 'MODIFICAR'}} </td>
+              <td style="font-size: 14px"> {{objUser.strDescripcion}} </td>
 
-            <td *ngIf="objUser.tipoPublica == 2"> <button style="font-size: 17px;" class="btn btn-link"
-                title="Ver distributivo" (click)="verArchivoCarga(modCertificadoFirma, objUser.distributivo)"> <i
-                  class="fa fa-download"></i></button>
-              <button style="font-size: 17px;" class="btn btn-link" title="Artículo"
-                (click)="verArchivoCarga(modCertificadoFirma, objUser.ruta1)"> <i class="fa fa-download"></i></button>
-              <button style="font-size: 17px;" class="btn btn-link" title="Ver carta de aceptación"
-                (click)="verArchivoCarga(modCertificadoFirma, objUser.ruta2)"> <i class="fa fa-download"></i></button>
-              <button style="font-size: 17px;" class="btn btn-link" title="Ver certificado de ponente"
-                (click)="verArchivoCarga(modCertificadoFirma, objUser.ruta3)"> <i class="fa fa-download"></i></button>
-            </td>
+              <td *ngIf="objUser.tipoPublica == 2"> <button style="font-size: 17px;" class="btn btn-link"
+                  title="Ver distributivo" (click)="verArchivoCarga(modCertificadoFirma, objUser.distributivo)"> <i
+                    class="fa fa-download"></i></button>
+                <button style="font-size: 17px;" class="btn btn-link" title="Artículo"
+                  (click)="verArchivoCarga(modCertificadoFirma, objUser.ruta1)"> <i class="fa fa-download"></i></button>
+                <button style="font-size: 17px;" class="btn btn-link" title="Ver carta de aceptación"
+                  (click)="verArchivoCarga(modCertificadoFirma, objUser.ruta2)"> <i class="fa fa-download"></i></button>
+                <button style="font-size: 17px;" class="btn btn-link" title="Ver certificado de ponente"
+                  (click)="verArchivoCarga(modCertificadoFirma, objUser.ruta3)"> <i class="fa fa-download"></i></button>
+              </td>
 
-            <td *ngIf="objUser.tipoPublica == 1"> <button style="font-size: 17px;" class="btn btn-link"
-                title="Ver distributivo" (click)="verArchivoCarga(modCertificadoFirma, objUser.distributivo)"> <i
-                  class="fa fa-download"></i></button>
-              <button style="font-size: 17px;" class="btn btn-link" title="Ver carta de aceptación"
-                (click)="verArchivoCarga(modCertificadoFirma, objUser.ruta1)"> <i class="fa fa-download"></i></button>
-            </td>
+              <td *ngIf="objUser.tipoPublica == 1"> <button style="font-size: 17px;" class="btn btn-link"
+                  title="Ver distributivo" (click)="verArchivoCarga(modCertificadoFirma, objUser.distributivo)"> <i
+                    class="fa fa-download"></i></button>
+                <button style="font-size: 17px;" class="btn btn-link" title="Ver carta de aceptación"
+                  (click)="verArchivoCarga(modCertificadoFirma, objUser.ruta1)"> <i class="fa fa-download"></i></button>
+              </td>
 
-            <td *ngIf="objUser.tipoPublica == 3"> <button style="font-size: 17px;" class="btn btn-link"
-                title="Ver distributivo" (click)="verArchivoCarga(modCertificadoFirma, objUser.distributivo)"> <i
-                  class="fa fa-download"></i></button>
-              <button style="font-size: 17px;" class="btn btn-link" title="Ver libro"
-                (click)="verArchivoCarga(modCertificadoFirma, objUser.ruta1)"> <i class="fa fa-download"></i></button>
-            </td>
+              <td *ngIf="objUser.tipoPublica == 3"> <button style="font-size: 17px;" class="btn btn-link"
+                  title="Ver distributivo" (click)="verArchivoCarga(modCertificadoFirma, objUser.distributivo)"> <i
+                    class="fa fa-download"></i></button>
+                <button style="font-size: 17px;" class="btn btn-link" title="Ver libro"
+                  (click)="verArchivoCarga(modCertificadoFirma, objUser.ruta1)"> <i class="fa fa-download"></i></button>
+              </td>
 
-            <td>
-              <button style="margin-left: -10px;margin-right: -15px" class="btn btn-link" title="Ver autores"
-                (click)="verModAutores(objUser, modNuevoAutor)"> <i class="fa fa-group"></i>
-              </button>
-            </td>
-            <td>
-              <p-button *ngIf="objUser.intEstado == 3" class="btn btn-link" title="editar documentos"
-                (click)="verModDocumentos(objUser, modEditaPDF)"> <i class="fa fa-edit"></i>
-              </p-button>
-            </td>
+              <td>
+                <button style="margin-left: -10px;margin-right: -15px" class="btn btn-link" title="Ver autores"
+                  (click)="verModAutores(objUser, modNuevoAutor)"> <i class="fa fa-group"></i>
+                </button>
+              </td>
+              <td>
+                <p-button *ngIf="objUser.intEstado == 3" class="btn btn-link" title="editar documentos"
+                  (click)="verModDocumentos(objUser, modEditaPDF)"> <i class="fa fa-edit"></i>
+                </p-button>
+              </td>
+            </tr>
           </ng-template> </p-table>
 
 
@@ -281,12 +287,8 @@
             </div>
           </div>
         </td>
-
       </tr>
-
-
     </table>
-
 
   </div>
   <div class="modal-footer">
@@ -298,24 +300,35 @@
 
 <!-- MODAL DE INGRESO DE CONGRESOS -->
 <ng-template #modNuevoCongreso let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Datos del Congreso</h4>
+  <div class="widget" style="width: 100%; font-size: 14px;">
+    <h3><i class="fa fa-edit"></i> Datos del Congreso</h3>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
 
-    <table id="tblCongresos" style="width: 90%;">
+    <table id="tblCongresos" style="width: 80%;">
       <tr>
-        <td class="tdEnunciado">Titulo: </td>
-        <td class="tdTexto"> <input type="text" [(ngModel)]="vecArticulo[0]['strNombreArticulo']"
-            placeholder="Titulo Congreso " style="width: 100%; font-size: 14px;" /> </td>
+        <td class="col-sm-3 control-label">
+          <h4><label> Titulo: </label></h4>
+        </td>
+        <td class="col-sm-3 control-label">
+
+          <div class="col-sm-9">
+            <textarea class="form-control" [(ngModel)]="vecArticulo[0]['strNombreArticulo']"
+              placeholder="Titulo del Artículo " rows="5" cols="10"></textarea>
+          </div>
+
+        </td>
       </tr>
       <tr>
-        <td class="tdEnunciado">Procedencia: </td>
-        <td class="tdTexto">
-          <select class="txtSigno" style="margin-top: 5px; width: 100%;" [(ngModel)]="vecArticulo[0]['intProcedencia']">
+        <td class="col-sm-3 control-label">
+          <h4><label> Procedencia</label></h4>
+        </td>
+        <td class="col-sm-3 control-label">
+          <select class="col-sm-3 control-label" style="margin-top: 5px; width: 100%;"
+            [(ngModel)]="vecArticulo[0]['intProcedencia']">
             <ng-container *ngFor="let objProcede of vecProcedencia">
               <option *ngIf="objProcede.intEstado == 1" value="{{objProcede.intIdProcedencia}}">
                 {{objProcede.strNombre}} </option>
@@ -324,39 +337,70 @@
         </td>
       </tr>
       <tr>
-        <td class="tdEnunciado">Fecha de Publicacion </td>
-        <td class="tdTexto"> <input type="date" [(ngModel)]="vecArticulo[0]['dateFechaPublicacion']"
+        <td class="col-sm-3 control-label">
+          <h4><label>Fecha de Publicación</label></h4>
+        </td>
+        <td class="col-sm-3 control-label"> <input type="date" [(ngModel)]="vecArticulo[0]['dateFechaPublicacion']"
             placeholder="Fecha de publicacion" style="width: 100%; font-size: 14px;" /> </td>
       </tr>
       <tr>
-        <td class="tdEnunciado">Link libro de memorias : </td>
-        <td class="tdTexto"> <input type="text" [(ngModel)]="vecArtCongreso[0]['textLibrodeMemoria']"
-            placeholder="Link libro de memorias" style="width: 100%; font-size: 14px; margin-top: 5px;"
-            [disabled]="false" />
+        <td class="col-sm-3 control-label">
+          <h4><label>Libro de memorias</label></h4>
+        </td>
+        <td class="col-sm-3 control-label"> <input type="text" [(ngModel)]="vecArtCongreso[0]['textLibrodeMemoria']"
+            placeholder="Link" style="width: 100%; font-size: 14px; margin-top: 5px;" [disabled]="false" />
         </td>
       </tr>
       <tr>
-        <td class="tdEnunciado">Articulo:</td>
-        <td class="tdTexto">
-          <input type="file" (change)="cargandoArchivos($event,3)" multiple>
+        <td class="col-sm-3 control-label">
+          <h4><label>Artículo</label></h4>
+        </td>
+        <td lass="col-sm-3 control-label">
+          <div class="form-group">
+            <div class="col-md-9">
+              <input type="file" (change)="cargandoArchivos($event,3)" multiple>
+              <p class="help-block"><em>Tipo de Archivo: .pdf. Tamaño max: 10 MB</em></p>
+            </div>
+          </div>
         </td>
       </tr>
       <tr>
-        <td class="tdEnunciado">Carta de Aceptacion:</td>
-        <td class="tdTexto">
-          <input type="file" (change)="cargandoArchivos($event,4)" multiple>
+        <td class="col-sm-3 control-label">
+          <h4><label>Carta de Aceptación </label></h4>
+        </td>
+        <td lass="col-sm-3 control-label">
+          <div class="form-group">
+            <div class="col-md-9">
+              <input type="file" (change)="cargandoArchivos($event,4)" multiple>
+              <p class="help-block"><em>Tipo de Archivo: .pdf. Tamaño max: 10 MB</em></p>
+            </div>
+          </div>
         </td>
       </tr>
       <tr>
-        <td class="tdEnunciado">Certificado de Ponente:</td>
-        <td class="tdTexto">
-          <input type="file" (change)="cargandoArchivos($event,5)" multiple>
+        <td class="col-sm-3 control-label">
+          <h4><label>Certificado de Ponente</label></h4>
+        </td>
+        <td class="col-sm-3 control-label">
+          <div class="form-group">
+            <div class="col-md-9">
+              <input type="file" (change)="cargandoArchivos($event,5)" multiple>
+              <p class="help-block"><em>Tipo de Archivo: .pdf. Tamaño max: 10 MB</em></p>
+            </div>
+          </div>
         </td>
       </tr>
       <tr>
-        <td class="tdEnunciado">Distributivo:</td>
-        <td class="tdTexto">
-          <input type="file" (change)="cargandoArchivos($event,2)" multiple>
+        <td class="col-sm-3 control-label">
+          <h4><label>Distributivo</label></h4>
+        </td>
+        <td class="col-sm-3 control-label">
+          <div class="form-group">
+            <div class="col-md-9">
+              <input type="file" (change)="cargandoArchivos($event,2)" multiple>
+              <p class="help-block"><em>Tipo de Archivo: .pdf. Tamaño max: 10 MB</em></p>
+            </div>
+          </div>
         </td>
       </tr>
     </table>
@@ -378,16 +422,21 @@
   </div>
   <div class="modal-body">
 
-    <table id="tblLibro" style="width: 90%;">
+    <table id="tblLibro" style="width: 80%;">
       <tr>
-        <td class="tdEnunciado">Titulo: </td>
-        <td class="tdTexto"> <input type="text" [(ngModel)]="vecArticulo[0]['strNombreArticulo']"
-            placeholder="Titulo del libro" style="width: 100%; font-size: 14px;" /> </td>
+        <td class="col-sm-3 control-label">
+          <h4><label>Titulo</label></h4>
+        </td>
+        <td class="col-sm-3 control-label"> <input type="text" [(ngModel)]="vecArticulo[0]['strNombreArticulo']"
+            placeholder="Titulo del libro" style="margin-top: 5px; width: 100%;" /> </td>
       </tr>
       <tr>
-        <td class="tdEnunciado">Procedencia: </td>
-        <td class="tdTexto">
-          <select class="txtSigno" style="margin-top: 5px; width: 100%;" [(ngModel)]="vecArticulo[0]['intProcedencia']">
+        <td class="col-sm-3 control-label">
+          <h4><label>Procedencia</label></h4>
+        </td>
+        <td class="col-sm-3 control-label">
+          <select class="col-sm-3 control-label" style="margin-top: 5px; width: 100%;"
+            [(ngModel)]="vecArticulo[0]['intProcedencia']">
             <ng-container *ngFor="let objProcede of vecProcedencia">
               <option *ngIf="objProcede.intEstado == 1" value="{{objProcede.intIdProcedencia}}">
                 {{objProcede.strNombre}} </option>
@@ -396,38 +445,74 @@
         </td>
       </tr>
       <tr>
-        <td class="tdEnunciado">ISBN: </td>
-        <td class="tdTexto"> <input type="text" [(ngModel)]="vecLibro[0]['isbn']" placeholder="ISBN del libro"
-            style="width: 100%; font-size: 14px; margin-top: 5px;" />
+        <td class="col-sm-3 control-label">
+          <h4><label>ISBN </label></h4>
+        </td>
+        <td lass="col-sm-3 control-label"> <input type="text" [(ngModel)]="vecLibro[0]['isbn']"
+            placeholder="ISBN del libro" style="margin-top: 5px; width: 100%;" />
         </td>
       </tr>
       <tr>
-        <td class="tdEnunciado">Fecha de Publicacion </td>
-        <td class="tdTexto"> <input type="date" [(ngModel)]="vecArticulo[0]['dateFechaPublicacion']"
-            placeholder="Fecha de publicacion" style="width: 100%; font-size: 14px;" /> </td>
+        <td class="col-sm-3 control-label">
+          <h4><label>Fecha de Publicación</label></h4>
+        </td>
+        <td class="col-sm-3 control-label"> <input type="date" [(ngModel)]="vecArticulo[0]['dateFechaPublicacion']"
+            placeholder="Fecha de publicacion" style="margin-top: 5px; width: 100%;" /> </td>
       </tr>
 
       <tr>
-        <td class="tdEnunciado">Informe de Pares Revisores: </td>
-        <td class="tdTexto"> <input type="file" (change)="cargandoArchivos($event,7)" multiple>
+        <td class="col-sm-3 control-label">
+          <h4><label>Informes de Pares Revisores</label></h4>
+        </td>
+        <td class="col-sm-3 control-label">
+          <div class="form-group">
+            <div class="col-md-9">
+              <input type="file" (change)="cargandoArchivos($event,7)" multiple>
+              <p class="help-block"><em>Tipo de Archivo: .pdf. Tamaño max: 10 MB</em></p>
+            </div>
+          </div>
         </td>
       </tr>
       <tr>
-        <td class="tdEnunciado">Libro: </td>
-        <td class="tdTexto"> <input type="file" (change)="cargandoArchivos($event,2)" multiple>
+        <td class="col-sm-3 control-label">
+          <h4><label>Libro</label></h4>
+        </td>
+        <td class="col-sm-3 control-label">
+          <div class="form-group">
+            <div class="col-md-9">
+              <input type="file" (change)="cargandoArchivos($event,2)" multiple>
+              <p class="help-block"><em>Tipo de Archivo: .pdf. Tamaño max: 10 MB</em></p>
+            </div>
+          </div>
+
         </td>
       </tr>
       <tr>
-        <td class="tdEnunciado">Distributivo:</td>
-        <td class="tdTexto">
-          <input type="file" (change)="cargandoArchivos($event,6)" multiple>
+        <td class="col-sm-3 control-label">
+          <h4><label>Distributivo </label></h4>
+        </td>
+        <td class="col-sm-3 control-label">
+
+          <div class="form-group">
+            <div class="col-md-9">
+              <input type="file" (change)="cargandoArchivos($event,6)" multiple>
+
+              <p class="help-block"><em>Tipo de Archivo: .pdf. Tamaño max: 10 MB</em></p>
+            </div>
+          </div>
+
         </td>
       </tr>
 
     </table>
 
+
   </div>
   <div class="modal-footer">
+    <label ref="https://www.ilovepdf.com/es/comprimir_pdf">Bajar el peso de un PDF</label>
+
+
+
     <p-button type="button" styleClass="p-button-success" (click)="ingresoArticulo(3)">Guardar Libro </p-button>
     <p-button type="button" styleClass="p-button-danger" (click)="cerrarModal()">Cancelar</p-button>
   </div>

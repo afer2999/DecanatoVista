@@ -40,6 +40,10 @@ export class AnalistaReporteComponent implements OnInit {
   //CERTIFICADO DE CONTRATO
   generarPDFReporte() {
     var imgData = recursosPublicaciones.imagenBase64Poli;
+    var pageNumber = 1; // Definir el contador de páginas fuera de la función
+
+   
+
     let nomCertificado = this.buscar == 'L' ? 'LIBROS' : this.buscar == 'RR' ? 'ARTÍCULOS REGIONALES' : this.buscar == 'C' ? 'ARTÍCULOS DE CONGRESOS' :
       this.buscar == 'RC' ? 'REVISTAS DE IMPACTO' : this.buscar == '0' ? 'POR AUTOR' : '';
     let vecAdd: any[] = [];
@@ -50,23 +54,41 @@ export class AnalistaReporteComponent implements OnInit {
     }
 
     const doc = new jsPDF('p', 'mm', 'letter');
+    const totalPages = doc.getNumberOfPages();
+    const pageSize = doc.internal.pageSize;
+  const pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+  const pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth();
+
     doc.addImage(imgData, 13, 1, 85, 30)
     doc.setFont("bolditalic", "bold");
     doc.setFontSize(11);
     doc.text('Reporte de publicaciones: ' + nomCertificado + '; fecha de consulta desde: ' + this.fechaIni + ' hasta: ' + this.fechaFin, 13, 40);
     doc.setFontSize(11);
     doc.text('Total de publicaciones: ' + this.vecUsuarios.length, 13, 45);
-
-
+    
     autoTable(doc, {
-      margin: { top: 49 },
+      margin: { top: 60 },
+
       headStyles: { halign: 'center' },
       bodyStyles: { fontSize: 10 },
+      styles: {
+        lineColor: [0, 0, 0], // Color de línea
+        lineWidth: 0.05 // Grosor de la línea
+      },
       head: [['Código', 'Titulo', 'Fecha de Publicacion', 'Autor', 'Tipo de obra']],
       body: vecAdd,
+      theme: 'plain',
+      startY: 60,
+
     })
+
+   
+
+
     doc.save('Reporte.pdf');
   }
+
+
   cerrarModal() {
     this.mr.close();
   }

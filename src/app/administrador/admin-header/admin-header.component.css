@@ -1,0 +1,20 @@
+
+nav{
+    height: 100%;
+}
+
+.slide-nav-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.slide-nav-button:hover {
+    background-color: rgb(255,255,255,0.2);
+
+}
+
+
+

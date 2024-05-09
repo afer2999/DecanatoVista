@@ -302,6 +302,7 @@ export class AutorGestionSolicitudesComponent implements OnInit {
         this.vecBuscaAutores[0]['nombres'] = data.usuario[0]['strNombres'] + ' ' + data.usuario[0]['strApellidos'];
         this.vecBuscaAutores[0]['cargo'] = data.usuario[0]['strCargo'];
         this.vecBuscaAutores[0]['dependencia'] = data.usuario[0]['strDependencia'];
+        this.alerti.success("Autor Registrado");
       }
       else {
         this.vecBuscaAutores[0]['codigo'] = '';

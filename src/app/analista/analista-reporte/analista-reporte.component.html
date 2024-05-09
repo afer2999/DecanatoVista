@@ -52,7 +52,7 @@
 
 <ng-template #modNuevoRol let-c="close" let-d="dismiss">
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Criterio de reporte</h4>
+        <h4 class="modal-title" id="modal-basic-title">Reporte </h4>
         <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -98,9 +98,9 @@
         </table>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" style="background-color: #394A59;"
-            (click)="generarReporte()">Ver Reporte</button>
-        <button type="button" class="btn btn-outline-dark" style="background-color: #D9534F;"
-            (click)="cerrarModal()">Cancelar</button>
+        <p-button type="button"  styleClass="p-button-success  "  
+            (click)="generarReporte()">Ver Reporte</p-button>
+        <p-button type="button"  styleClass="p-button-danger  " 
+            (click)="cerrarModal()">Cancelar</p-button>
     </div>
 </ng-template>

@@ -6,9 +6,9 @@ export const rutasSWPublicaciones = {
   rutaTokenDrive: "https://apiarchivos.espoch.edu.ec/wsrepositorio/rutaRepositorio/getTokenAplicacion",
   rutaCargarArchivo : "https://apiarchivos.espoch.edu.ec/wsrepositorio/rutaRepositorio/uploadFile",
   rutaObtenerArchivo : "https://apiarchivos.espoch.edu.ec/wsrepositorio/rutaRepositorio/getFile",
-  rutaObtenerArchivo64 : "https://apiarchivos.espoch.edu.ec/wsfirmaec/rutaFirma/recuperarDocumentos",
+  rutaObtenerArchivo64 : "https://apifirma.espoch.edu.ec/wsfirmaec/rutaFirma/recuperarDocumentos",
 
-  claveArchivo: "Publ1cac10n3s2023",
+  claveArchivo: "Publ1cac10n3s",
   idAppArchivo: "6",
 
 }

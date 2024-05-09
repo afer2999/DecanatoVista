@@ -1,16 +1,16 @@
 <div class="row">
   <div class="col-lg-4 ">
     <ul class="breadcrumb">
-      <li><i class="fa fa-home"></i><a href="#">Director</a></li>
+      <li><i class="fa fa-home"></i><a href="#">Decano</a></li>
       <li><a href="#">Revision de Certificados </a></li>
-      <li class="active">Director</li>
+      <li class="active">Decano</li>
     </ul>
   </div>
 </div>
 <!-- main -->
 <div class="content">
   <div class="main-header">
-    <h2>Director</h2>
+    <h2>Decano</h2>
     <em>Sistema Decanato de Publicaciones</em>
   </div>
   <div class="main-content">
@@ -66,13 +66,13 @@
               <td style="font-size: 14px"> {{objSolicita.dateFecha.split('T')[0]}} </td>
               <td style="font-size: 14px">
                 <ng-container *ngIf="objSolicita.rutaCertificado == '-'">
-                  <button style="font-size: 20px; color: #D9534F;" class="btn btn-link" title="Firmar documento"
-                    (click)="mostrarCertificado(objSolicita, modCertificadoFirma)"> <i class="fa fa-key"></i></button>
+                  <p-button type="button" styleClass="p-button-danger" title="Firmar documento"
+                    (click)="mostrarCertificado(objSolicita, modCertificadoFirma)"> <i class="fa fa-key"></i></p-button>
                 </ng-container>
 
                 <ng-container *ngIf="objSolicita.rutaCertificado != '-'">
-                  <button style="font-size: 20px; color: #394A59;" class="btn btn-link" title="Ver documento"
-                    (click)="verArticulos(objSolicita, modCertificado)"> <i class="fa fa-download"></i></button>
+                  <p-button type="button" styleClass="p-button-success" title="Ver documento"
+                    (click)="verArticulos(objSolicita, modCertificado)"> <i class="fa fa-download"></i></p-button>
                 </ng-container>
               </td>
             </tr>
@@ -135,8 +135,8 @@
 
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" style="background-color: #D9534F;"
-      (click)="cerrrarModal()">Cancelar</button>
+    <p-button type="button" styleClass="p-button-danger"
+      (click)="cerrrarModal()">Cancelar</p-button>
   </div>
 </ng-template>
 
@@ -153,11 +153,11 @@
 
   </div>
   <div class="modal-footer">
-    <button type="button" (click)="firmarArchivo()" class="btn btn-outline-dark"
-      style="background-color: #394A59;">Firmar Documento</button>
-    <button type="button" (click)="subirFirma()" class="btn btn-outline-dark" style="background-color: #394A59;">Subir
-      Documento</button>
-    <button type="button" class="btn btn-outline-dark" style="background-color: #D9534F;"
-      (click)="cerrrarModal()">Cancelar</button>
+    <p-button type="button" styleClass="p-button-success" (click)="firmarArchivo()"  
+       >Firmar Documento</p-button>
+    <p-button type="button" styleClass="p-button-success" (click)="subirFirma()" >Subir
+      Documento</p-button>
+    <p-button type="button" styleClass="p-button-danger"
+      (click)="cerrrarModal()">Cancelar</p-button>
   </div>
 </ng-template>

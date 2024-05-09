@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { swPublicaciones } from '../../serviciosPublicaciones/serviciosPublicaciones.service';
 import { ToolsService } from '../../recursos/tools.service';
 import { Router } from '@angular/router';
 import { configuracion } from '../../recursos/config.service';
 import { AlertifyService } from 'src/app/recursos/alertify.service';
 import { CasClient } from "../../AutenticacionCas/CasClient";
+ 
 
 @Component({
   selector: 'app-admin-header',
@@ -16,6 +17,8 @@ export class AdminHeaderComponent implements OnInit {
 
   public nombUsuario: any; public intRol: number = 1;
   public vecRolPersona: Array<any>; public selectRol: number;
+  @Output() sideNavToggled = new EventEmitter<boolean>();
+  menuStatus:boolean= false;
 
 
   constructor(private tools: ToolsService, private swPublicacion: swPublicaciones, private rutaCambio: Router, private config: configuracion, private router: Router, private alerti: AlertifyService,
@@ -47,6 +50,15 @@ export class AdminHeaderComponent implements OnInit {
       }
     })
   }
+
+
+  SideNavToggle(){
+    this.menuStatus=!this.menuStatus;
+    this.sideNavToggled.emit(this.menuStatus);
+  }
+
+
+
   cambiarRol() {
     this.rutaCambio.navigate([this.config.cambiaRol(this.selectRol)]);
   }

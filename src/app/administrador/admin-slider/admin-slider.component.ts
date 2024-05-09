@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit,} from '@angular/core';
 import { ToolsService } from '../../recursos/tools.service';
+ 
 
 @Component({
   selector: 'app-admin-slider',
@@ -8,11 +9,14 @@ import { ToolsService } from '../../recursos/tools.service';
   '../../../assets/estilosAdmin/css/main.css',]
 })
 export class AdminSliderComponent implements OnInit {
+  @Input() sideNavStatus: boolean =false;
+
+  
 
   constructor( ) { }
 
   ngOnInit(): void {
     //this.objTool.ColorUsuario(1);
   }
-
+  
 }

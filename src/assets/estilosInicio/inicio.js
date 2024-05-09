@@ -5,4 +5,7 @@ window.onload = function () {
 }
 function cierraModal() {
     modInicio.style.display = "none";
+    
 }
+
+

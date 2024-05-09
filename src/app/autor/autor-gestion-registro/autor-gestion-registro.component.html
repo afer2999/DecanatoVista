@@ -63,7 +63,7 @@
               <td style="font-size: 14px">{{objRep.dtFechaFirma.split('T')[0]}}</td>
               <td style="font-size: 14px">{{objRep.intEstado==1?'Legalizado':'Pendiente'}}</td>
               <td style="font-size: 14px">
-                <p-button *ngIf="objRep.intEstado == 1" style="font-size: 20px;" class="btn btn-link"
+                <p-button *ngIf="objRep.intEstado == 1"  class="btn btn-link"
                   title="Ver documento" (click)="verArticulos(objRep, modCertificado)"> <i
                     class="fa fa-download"></i></p-button>
               </td>

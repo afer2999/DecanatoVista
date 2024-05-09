@@ -52,7 +52,6 @@ export class AdminGestionEstadosComponent implements OnInit {
     })
   }
   verUsuarioSelecion(usuario: any) {
-    console.log(usuario)
     this.vecRolLibre = [];
     this.swPublicacion.getUsuarios(8, usuario, 'na', 'na', 'na', 'na').subscribe((data: any) => {
       if (data.success) {

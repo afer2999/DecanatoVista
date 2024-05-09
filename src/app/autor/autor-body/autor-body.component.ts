@@ -17,6 +17,7 @@ export class AutorBodyComponent implements OnInit {
   public nombUsuario: any; public intRol: number = 3; private strRol: any;
   public nombreAutor: any;
   public nombresUsuarios: any;
+  public cedula: any;
   public vecRolPersona: Array<any>; public selectRol: number;
 
 
@@ -25,6 +26,7 @@ export class AutorBodyComponent implements OnInit {
     this.nombUsuario = localStorage.getItem('loginCorreo');
     this.nombreAutor = localStorage.getItem('loginNombre');
     this.nombresUsuarios= localStorage.getItem('loginNombreAutor');
+    this.cedula= localStorage.getItem('cedula');
     console.log('loginNombre');
     this.vecRolPersona = []; this.selectRol = 0; this.strRol = '';
   }

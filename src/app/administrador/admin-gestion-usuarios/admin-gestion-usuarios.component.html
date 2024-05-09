@@ -20,7 +20,7 @@
     <!-- DATA EXPORT -->
     <div class="widget widget-table">
       <div class="widget-header">
-        <h3><i class="fa fa-table"></i> Lista de Usuarios</h3> <em> - Sistema Dirección de Publicaciones</em>
+        <h3><i class="fa fa-table"></i> Lista de Usuarios</h3> <em> - Sistema d de Publicaciones</em>
       </div>
       <div class="widget-content">
 
@@ -51,7 +51,7 @@
                   field="strNombres"></p-sortIcon></th>
               <th style="font-size: 14px" pSortableColumn="strApellidos"> Apellidos<p-sortIcon
                   field="strApellidos"></p-sortIcon></th>
-              <th style="font-size: 14px" pSortableColumn="strCargo"> Cargo<p-sortIcon field="strCargo"></p-sortIcon>
+              
               <th style="font-size: 14px" pSortableColumn="bitNombramiento"> Nombramiento<p-sortIcon
                   field="bitNombramiento"></p-sortIcon>
               <th style="font-size: 14px" pSortableColumn="strDependencia"> Dependencia<p-sortIcon
@@ -63,12 +63,13 @@
               </th>
             </tr>
           </ng-template>
+          
           <ng-template pTemplate="body" let-objUser>
             <tr>
               <td style="font-size: 14px">{{objUser.strCedula}}</td>
               <td style="font-size: 14px">{{objUser.strNombres}}</td>
               <td style="font-size: 14px">{{objUser.strApellidos}}</td>
-              <td style="font-size: 14px">{{objUser.strCargo}}</td>
+               
               <td style="font-size: 14px" class="{{objUser.claseNombra}}"> {{objUser.bitNombramiento ? 'SI' : 'NO' }}
               </td>
               <td style="font-size: 14px"> {{objUser.strDependencia}} </td>
@@ -100,7 +101,7 @@
   </div>
   <div class="modal-body">
 
-    <table id="tblSignos" style="width: 90%;">
+    <table id="tblUsuraios" style="width: 90%;">
       <tr>
         <td style="padding-left: 5%; width: 25%;">Cédula: </td>
         <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strCedula']"

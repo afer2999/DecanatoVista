@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./admin-principal.component.css']
 })
 export class AdminPrincipalComponent implements OnInit {
+  sideNavStatus:boolean=false;
 
   constructor() { }
 

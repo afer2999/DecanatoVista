@@ -168,16 +168,108 @@ export class RevisionDeCetificadosComponent implements OnInit {
       if (data.success) {
         archivoFile = this.dataURItoBlob(data.listado[0]['archivoFirmado'], this.objRecupera64.strCedula + '_' + this.objRecupera64.intIdCertificado + '.pdf');//OBTENGO EL FILE
         this.cargaDrive(archivoFile, localStorage.getItem('archivoToken'), rutaFirma, this.objRecupera64.intIdCertificado);
+        this.alerti.success('PdF SUBIDO');
+
+      }
+      else {
+        this.alerti.error('No se puede generar');
       }
     })
   }
   //CERTIFICADO CONSOLIDADO
-  generarPDFConsolidado(objSolicita: any) {console.log(objSolicita)
+  // generarPDFConsolidado(objSolicita: any) {
+  //   console.log(objSolicita)
+  //   let numLineas: number = 95; let numColumnas: number = 20;
+  //   var imgData = '';
+  //   var imgData = recursosPublicaciones.imagenBase64Poli;
+  //   let vecAdd: any[] = [];
+  //   const startY = 79;
+
+
+  //   this.swPublicacion.getUsuarios(33, objSolicita.intIdPersona, '1', '1', 'na', 'na').subscribe((data: any) => {
+  //     if (data.success) {
+  //       for (let objSol of data.usuario) {
+  //         numLineas += 15;
+  //         vecAdd.push([objSol.nombTipo, objSol.strNombreArticulo, objSol.detallePublicacion, objSol.strPais + '\n ' + objSol.dateFechaPublicacion.split('T')[0],
+  //         objSol.bitPertinencia == true ? 'SI' : 'NO']);
+  //       }
+
+  //       const doc = new jsPDF('p', 'mm', 'letter');
+
+  //       doc.addImage(imgData, 13, 1, 85, 30)
+        
+      
+  //       doc.setFont("bolditalic", "italic", "bold");
+  //       doc.setFontSize(11);
+  //       doc.text(this.vecAjustes[0]['strNombre'] + '\n' + this.vecAjustes[0]['strDetalle'], 125, 33);
+
+
+  //       doc.setFontSize(17);
+  //       doc.setFont("helvetica", "bold");
+  //       doc.text('CERTIFICA', 90, 50);
+
+  //       doc.setFont("bolditalic", "courier");
+  //       doc.setFontSize(10);
+  //       doc.text('Que ' + objSolicita.strNombres + ' ' + objSolicita.strApellidos + ', Cédula de identidad No. ' +
+  //         objSolicita.strCedula + ', ' + objSolicita.strCargo + ' de la ' + objSolicita.strDependencia
+  //         + 'ha publicado los siguientes: artículos científicos en revistas indexadas u obras de relevancia.', 13, 57, { align: 'justify', lineHeightFactor: 1.5, maxWidth: 185 });
+
+  //       autoTable(doc, {
+  //         margin: { top: 75 },
+  //         headStyles: { halign: 'center' },
+  //         bodyStyles: { fontSize: 10 },
+  //         styles: {
+  //           lineColor: [0, 0, 0], // Color de línea
+  //           lineWidth: 0.05 // Grosor de la línea
+  //         },
+  //         startY: startY,
+  //         head: [['TIPO DE PUBLICACIÓN', 'TÍTULO DEL ARTÍCULO U OBRA DE RELEVANCIA', 'DESCRIPCIÓN DE LA PUBLICACIÓN',
+  //           'PAIS AÑO Y FECHA DE PUBLICACIÓN', 'PERTINENCIA']],
+  //         body: vecAdd,
+  //         theme: 'plain',
+  //       })
+
+
+  //       doc.setFont("helvetica", "italic", "bold");
+  //       doc.setFontSize(11);
+  //       doc.text('OBSERVACIONES: La presente certificación es emitida luego de la verificación de las publicaciones en las distintas bases de datos; debido a la evaluación '
+  //         + 'que están sujetas las diferentes revistas.', 13, numLineas + 30, { align: 'justify', lineHeightFactor: 1.2, maxWidth: 185 })
+
+  //       doc.setFont("helvetica", "italic");
+  //       doc.setFontSize(11);
+  //       doc.text('Es todo lo que puedo certificar, luego de la respectiva verificación en la base de datos de la Producción Científica de la  Decanato de Publicaciones.',
+  //         13, numLineas + 40, { align: 'justify', lineHeightFactor: 1.2, maxWidth: 185 })
+
+
+
+  //       doc.setFont("helvetica", "italic");
+  //       doc.setFontSize(11);
+  //       var fecha = new Date();
+  //       doc.text('Riobamba,' + fecha.getDate() + ' de ' + this.verMes(fecha.getMonth()) + ' de ' + fecha.getFullYear(),
+  //         135, numLineas + 53, { align: 'left', lineHeightFactor: 1.2, maxWidth: 185 })
+
+  //       this.Firmay = numLineas + 50;
+  //       this.Firmax = numColumnas + 170;
+  //       doc.text(this.vecAjustes[0]['strNombre'] + '\n' + this.vecAjustes[0]['strDetalle'], 85, numLineas + 70);
+
+  //       doc.setFont("bolditalic", "italic", "bold");
+  //       doc.setFontSize(9);
+  //       doc.text('Revisado por: ' + this.vecAjustes[1]['strNombre'] + '\n' + this.vecAjustes[2]['strNombre'], 13, numLineas + 80);
+  //       this.rutaCarga = this.bypassAndSanitize('data:application/pdf;base64,' + btoa(doc.output()));
+  //       this.rutaFirma = btoa(doc.output());
+  //     }
+  //     else
+  //       this.alerti.error('No se puede generar');
+  //   })
+  // }
+  generarPDFConsolidado(objSolicita: any) {
+    console.log(objSolicita)
     let numLineas: number = 95; let numColumnas: number = 20;
     var imgData = '';
     var imgData = recursosPublicaciones.imagenBase64Poli;
-
     let vecAdd: any[] = [];
+    const startY = 79;
+
 
     this.swPublicacion.getUsuarios(33, objSolicita.intIdPersona, '1', '1', 'na', 'na').subscribe((data: any) => {
       if (data.success) {
@@ -188,9 +280,14 @@ export class RevisionDeCetificadosComponent implements OnInit {
         }
 
         const doc = new jsPDF('p', 'mm', 'letter');
+
+        doc.addImage(imgData, 13, 1, 85, 30)
+        
+      
         doc.setFont("bolditalic", "italic", "bold");
         doc.setFontSize(11);
         doc.text(this.vecAjustes[0]['strNombre'] + '\n' + this.vecAjustes[0]['strDetalle'], 125, 33);
+
 
         doc.setFontSize(17);
         doc.setFont("helvetica", "bold");
@@ -206,35 +303,43 @@ export class RevisionDeCetificadosComponent implements OnInit {
           margin: { top: 75 },
           headStyles: { halign: 'center' },
           bodyStyles: { fontSize: 10 },
+          styles: {
+            lineColor: [0, 0, 0], // Color de línea
+            lineWidth: 0.05 // Grosor de la línea
+          },
+          startY: startY,
           head: [['TIPO DE PUBLICACIÓN', 'TÍTULO DEL ARTÍCULO U OBRA DE RELEVANCIA', 'DESCRIPCIÓN DE LA PUBLICACIÓN',
             'PAIS AÑO Y FECHA DE PUBLICACIÓN', 'PERTINENCIA']],
           body: vecAdd,
+          theme: 'plain',
         })
+
 
         doc.setFont("helvetica", "italic", "bold");
         doc.setFontSize(11);
         doc.text('OBSERVACIONES: La presente certificación es emitida luego de la verificación de las publicaciones en las distintas bases de datos; debido a la evaluación '
-          + 'que están sujetas las diferentes revistas.', 13, numLineas, { align: 'justify', lineHeightFactor: 1.2, maxWidth: 185 })
+          + 'que están sujetas las diferentes revistas.', 13, numLineas + 30, { align: 'justify', lineHeightFactor: 1.2, maxWidth: 185 })
 
         doc.setFont("helvetica", "italic");
         doc.setFontSize(11);
-        doc.text('Es todo lo que puedo certificar, luego de la respectiva verificación en la base de datos de la Producción Científica de la Dirección de Publicaciones.',
-          13, numLineas + 13, { align: 'justify', lineHeightFactor: 1.2, maxWidth: 185 })
+        doc.text('Es todo lo que puedo certificar, luego de la respectiva verificación en la base de datos de la Producción Científica de la  Decanato de Publicaciones.',
+          13, numLineas + 40, { align: 'justify', lineHeightFactor: 1.2, maxWidth: 185 })
+
 
 
         doc.setFont("helvetica", "italic");
         doc.setFontSize(11);
         var fecha = new Date();
         doc.text('Riobamba,' + fecha.getDate() + ' de ' + this.verMes(fecha.getMonth()) + ' de ' + fecha.getFullYear(),
-          125, numLineas + 26, { align: 'left', lineHeightFactor: 1.2, maxWidth: 185 })
+          135, numLineas + 53, { align: 'left', lineHeightFactor: 1.2, maxWidth: 185 })
 
         this.Firmay = numLineas + 50;
         this.Firmax = numColumnas + 170;
-        doc.text(this.vecAjustes[0]['strNombre'] + '\n' + this.vecAjustes[0]['strDetalle'], 85, numLineas + 50);
+        doc.text(this.vecAjustes[0]['strNombre'] + '\n' + this.vecAjustes[0]['strDetalle'], 85, numLineas + 70);
 
         doc.setFont("bolditalic", "italic", "bold");
         doc.setFontSize(9);
-        doc.text('Revisado por: ' + this.vecAjustes[1]['strNombre'] + '\n' + this.vecAjustes[2]['strNombre'], 13, numLineas + 63);
+        doc.text('Revisado por: ' + this.vecAjustes[1]['strNombre'] + '\n' + this.vecAjustes[2]['strNombre'], 13, numLineas + 80);
         this.rutaCarga = this.bypassAndSanitize('data:application/pdf;base64,' + btoa(doc.output()));
         this.rutaFirma = btoa(doc.output());
       }
@@ -262,6 +367,7 @@ export class RevisionDeCetificadosComponent implements OnInit {
         }
 
         const doc = new jsPDF('p', 'mm', 'letter');
+        doc.addImage(imgData, 13, 1, 85, 30);
         doc.setFont("bolditalic", "italic", "bold");
         doc.setFontSize(11);
         doc.text(this.vecAjustes[0]['strNombre'] + '\n' + this.vecAjustes[0]['strDetalle'], 125, 33);
@@ -280,39 +386,44 @@ export class RevisionDeCetificadosComponent implements OnInit {
           margin: { top: 75 },
           headStyles: { halign: 'center' },
           bodyStyles: { fontSize: 10 },
+          styles: {
+            lineColor: [0, 0, 0], // Color de línea
+            lineWidth: 0.05 // Grosor de la línea
+          },
           head: [['TIPO OBRA', 'TÍTULO', 'DESCRIPCIÓN', 'ESTADO', 'FILIAL ESPOCH', 'PAÍS FECHA DE PUBLICACIÓN', 'REVISTA INDEXADA REGIONAL/CIENTÍFICA', 'OBRA DE RELEVANCIA']],
           body: vecAdd,
+          theme: 'plain',
         })
 
         doc.setFont("helvetica", "italic", "bold");
         doc.setFontSize(11);
-        doc.text('APLICACIÓN DE LA RESOLUCIÓN:   ' + (data.usuario[0]['intContrato'] == 1 ? 'SI ' : 'NO ') + 'CUMPLE', 13, numLineas, { align: 'justify', lineHeightFactor: 1.2, maxWidth: 185 })
+        doc.text('APLICACIÓN DE LA RESOLUCIÓN:   ' + (data.usuario[0]['intContrato'] == 1 ? 'SI ' : 'NO ') + 'CUMPLE', 13, numLineas + 30, { align: 'justify', lineHeightFactor: 1.2, maxWidth: 185 })
 
         doc.setFont("helvetica", "italic", "bold");
         doc.setFontSize(11);
         doc.text('OBSERVACIONES: La presente certificación es emitida luego de la verificación de las publicaciones en las distintas bases de datos; debido a la '
-          + 'evaluación que están sujetas las diferentes revistas y congresos', 13, numLineas + 10, { align: 'justify', lineHeightFactor: 1.2, maxWidth: 185 })
+          + 'evaluación que están sujetas las diferentes revistas y congresos', 13, numLineas + 40, { align: 'justify', lineHeightFactor: 1.2, maxWidth: 185 })
 
         doc.setFont("helvetica", "italic");
         doc.setFontSize(11);
-        doc.text('Es todo lo que puedo certificar, luego de la respectiva verificación en la base de datos de la Producción Científica de la Dirección de Publicaciones.',
-          13, numLineas + 26, { align: 'justify', lineHeightFactor: 1.2, maxWidth: 185 })
+        doc.text('Es todo lo que puedo certificar, luego de la respectiva verificación en la base de datos de la Producción Científica de la  Decanato de Publicaciones.',
+          13, numLineas + 55, { align: 'justify', lineHeightFactor: 1.2, maxWidth: 185 })
 
 
         doc.setFont("helvetica", "italic");
         doc.setFontSize(11);
         var fecha = new Date();
         doc.text('Riobamba,' + fecha.getDate() + ' de ' + this.verMes(fecha.getMonth()) + ' de ' + fecha.getFullYear(),
-          125, numLineas + 40, { align: 'left', lineHeightFactor: 1.2, maxWidth: 185 })
+          150, numLineas + 71, { align: 'left', lineHeightFactor: 1.2, maxWidth: 185 })
 
         this.Firmay = numLineas + 63;
         this.Firmax = numColumnas + 170;
 
-        doc.text(this.vecAjustes[0]['strNombre'] + '\n' + this.vecAjustes[0]['strDetalle'], 85, numLineas + 63);
+        doc.text(this.vecAjustes[0]['strNombre'] + '\n' + this.vecAjustes[0]['strDetalle'], 85, numLineas + 88);
 
         doc.setFont("bolditalic", "italic", "bold");
         doc.setFontSize(9);
-        doc.text('Revisado por: ' + this.vecAjustes[1]['strNombre'] + '\n' + this.vecAjustes[2]['strNombre'], 13, numLineas + 71);
+        doc.text('Revisado por: ' + this.vecAjustes[1]['strNombre'] + '\n' + this.vecAjustes[2]['strNombre'], 13, numLineas + 98);
         this.rutaCarga = this.bypassAndSanitize('data:application/pdf;base64,' + btoa(doc.output()));
         this.rutaFirma = btoa(doc.output());
       }

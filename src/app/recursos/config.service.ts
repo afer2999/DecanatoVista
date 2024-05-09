@@ -12,6 +12,7 @@ export class configuracion {
   cargarScriptInicio() {
     this.loadScript("../../assets/estilosInicio/inicio.js");
   }
+ 
 
   public loadScript(scriptUrl: string) {
     return new Promise((resolve, reject) => {
@@ -61,5 +62,7 @@ export class configuracion {
     else
       return "";
   }
+
+
 
 }

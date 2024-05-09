@@ -1,59 +1,218 @@
 <div style="overflow: hidden;">
 
-  <div *ngIf="isLoading">
-      <div class="linea"></div>
-      <div class="selloEspoch">
-          <img src="../../../assets/logoPub.png" alt="espoch" width="200" height="200">
-      </div>
-  </div>
+    <div *ngIf="isLoading">
+        <div class="linea"></div>
+        <div class="selloEspoch">
+            <img src="../../../assets/logoPub.png" alt="espoch" width="200" height="200">
+        </div>
+    </div>
 
-  <div *ngIf="!isLoading">
-      <div class="container">
-          <div class="fondo" alt="logo_espoch"></div>
+    <div *ngIf="!isLoading">
+        <div class="container">
+            <div class="fondo" alt="logo_espoch"></div>
 
-          <div class="container-real">
+            <div class="container-real">
 
-              <div class="row">
-                  <img src="https://oficina.espoch.edu.ec/dtic/images/icons/logo_espoch.png" width="150"
-                      style="margin-left: 3%;" alt="logo_espoch">
-                  <button class="button" [routerLink]="['/ingreso']">Iniciar</button>
-              </div>
+                <div class="row">
+                    <img src="https://oficina.espoch.edu.ec/dtic/images/icons/logo_espoch.png" width="150"
+                        style="margin-left: 3%;" alt="logo_espoch">
+                    <button (click)="modalAddUsuario(modNuevoUsuario)" class="button">Iniciar</button>
+                </div>
 
-              <div class="row">
-                  <div class="case-1">
-                      <p>Direcci&oacute;n de Publicaciones</p>
-                      <span>Sistema de Gesti&oacute;n de la Producci&oacute;n cient&iacute;fica</span>
-                  </div>
-              </div>
 
-              <div class="container-footer">
 
-                  <div class="footer">
-                      <p>
-                          Escuela Superior Politécnica de Chimborazo © 2022
-                      </p>
-                  </div>
-              </div>
-          </div>
+                <div class="row">
+                    <div class="case-1">
+                        <p>Decanato de Publicaciones</p>
+                        <span>Sistema de Gesti&oacute;n de la Producci&oacute;n Cient&iacute;fica</span>
+                    </div>
+                </div>
 
-      </div>
-  </div>
+                <div class="container-footer">
 
-  <div id="modalInicio" class="modal">
-      <div class="selloModal">
-          <img src="https://www.espoch.edu.ec/images/direcci%C3%B3n_publicaciones/eventos/LogoPub.png" width="100%" height="100%">
-      </div>
-      <div class="modal-content">
-          <div class="modCabeza">BIENVENIDOS</div>
-          <div class="modCuerpo">
-              <br>
-              El Sistema de la Dirección de Publicaciones permitirá gestionar el registro de la producción científica de
-              Docentes e Investigadores de la Escuela Superior Politécnica de Chimborazo
-              <br><br>
-              <b>Nota: </b> el sistema  permite realizar el registro y certificación de la producción científica.
-              <br><br>
-          </div>
-          <div class="modPie" onclick="cierraModal()">CONTINUAR.</div>
-      </div>
-  </div>
+                    <div class="footer">
+                        <p>
+                            Escuela Superior Politécnica de Chimborazo © 2024
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="modalInicio" class="modal">
+        <div class="selloModal">
+            <img src="https://oficina.espoch.edu.ec/dtic/images/icons/espoch.png" width="100%" height="100%">
+        </div>
+        <div class="modal-content">
+            <div class="modCabeza">BIENVENIDOS</div>
+            <div class="modCuerpo">
+                <br>
+                El Sistema del Decanato de Publicaciones permitirá Gestionar el Registro de la Producción Científica de
+                Docentes e Investigadores de la Escuela Superior Politécnica de Chimborazo
+                <br><br>
+                <b>Nota: </b> El Sistema Permite realizar el registro y certificación de la Producción Científica.
+                <br><br>
+            </div>
+            <div class="modPie" onclick="cierraModal()">CONTINUAR.</div>
+        </div>
+    </div>
+    <ng-template pTemplate="body" let-objUser>
+        <button style="margin-left: -10px;margin-right: -15px" class="btn btn-link" title="Ver autores"
+            (click)="verModAutores(objUser, modNuevoAutor)"> <i class="fa fa-group"></i>
+        </button>
+    </ng-template>
+
+
+    <ng-template #modNuevoAutor let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Registro de autores</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+
+            <table id="tblAutores" style="width: 90%;">
+                <tr>
+                    <td colspan="4" class="tdEncabezado">Autores registrados</td>
+                </tr>
+                <tr>
+                    <td class="tdEnunciado">Cédula </td>
+                    <td class="tdEnunciado" style="width: 35%;">Nombres </td>
+                    <td class="tdEnunciado" style="width: 35%;">Cargo </td>
+                    <td class="tdEnunciado" style="width: 10%;">Eliminar </td>
+                </tr>
+                <tr *ngFor="let objAutor of vecAutores">
+                    <td class="tdTexto">{{objAutor.strCedula}} </td>
+                    <td class="tdTexto">{{objAutor.strNombres}} {{objAutor.strApellidos}} </td>
+                    <td class="tdTexto">{{objAutor.strCargo}} </td>
+                    <td class="tdTexto"><p-button (click)="quitarAutor(objAutor)" styleClass="p-button-danger"
+                            class="btn btn-link" title="Quitar autor">
+                            <i class="fa fa-trash"></i>
+                        </p-button> </td>
+                </tr>
+            </table>
+
+            <table id="tblAutores" style="width: 90%; margin-top: 30px;">
+                <tr>
+                    <td colspan="4" class="tdEncabezado">Buscar Autor</td>
+                </tr>
+                <tr>
+                    <td class="tdEnunciado" style="width: 30%;">Cédula </td>
+                    <td class="tdEnunciado" style="width: 10%;">Buscar </td>
+                    <td class="tdEnunciado" style="width: 40%;">Nombres </td>
+                    <td class="tdEnunciado" style="width: 10%;">Agregar </td>
+                </tr>
+                <tr>
+                    <td class="tdTexto"> <input type="text" (change)="buscarUsuario()"
+                            style="width: 90%; font-size: 14px;" [(ngModel)]="vecBuscaAutores[0]['cedula']" /> </td>
+                    <td class="tdTexto"> <button (change)="buscarUsuario()" class="btn btn-link"> <i
+                                class="fa fa-search"></i>
+                        </button> </td>
+                    <td class="tdTexto">{{vecBuscaAutores[0]['nombres']}} </td>
+                    <td class="tdTexto"> <p-button styleClass="p-button-success" class="btn btn-link"
+                            style="font-size: 18px;" (click)="agregarAutor()"> <i class="fa fa-save"></i>
+                        </p-button> </td>
+                </tr>
+            </table>
+
+        </div>
+        <div class="modal-footer">
+            <p-button type="button" styleClass="p-button-danger" (click)="cerrarModal()">Cerrar</p-button>
+        </div>
+    </ng-template>
+
+
+
+
+    <ng-template #modNuevoUsuario let-v c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title"> </h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modCuerpo">
+
+            <b>Es tú primera vez aquí </b>
+            <br>
+            <br>
+            Consulta tú Registro
+
+            <br>
+            <br>
+
+            <input class="txtCedula" [(ngModel)]="txtUsuarioInicio" type="text" />
+            <button (click)="verRolesRegistro()"> <i class="fa fa-search"></i></button>
+            <br><br>
+            <label> {{lblRoles}} </label>
+            <br>
+            <br>
+            
+            <button type="button" (click)="modalAddUsuario(modRegistro)" styleClass="p-button-success"label="Registrate"
+                style="align-items: center;">Registrate
+            </button>
+
+            <br><br>
+        </div>
+        <div class="modal-footer ">
+            <p-button [routerLink]="['/ingreso']" type="button" label="NO, CONTINUA" style="align-items: center;">
+            </p-button>
+            <p-button (click)=" cerrarModal()" styleClass="p-button-danger" size="large" label="">Cerrar </p-button>
+        </div>
+    </ng-template>
+
+
+    <ng-template #modRegistro let-v c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title"> </h4>
+            <button type="button" class="close" aria-label="Close" styleClass="p-button-success" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modCuerpo">
+
+            <table id="tblUsuraios" style="width: 90%;">
+                <tr>
+                    <td style="padding-left: 5%; width: 25%;">Cédula: </td>
+                    <td style="padding-left: 5%; width: 75%;"> <input type="text"
+                            [(ngModel)]="vecBuscar[0]['strCedula']" placeholder="Cedula del usuario"
+                            style="width: 100%; font-size: 14px;" (change)="verUsuario()" /> </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 5%; width: 25%;">Nombres: </td>
+                    <td style="padding-left: 5%; width: 75%;"> <input type="text"
+                            [(ngModel)]="vecBuscar[0]['strNombres']" placeholder="Nombres del usuario"
+                            style="width: 100%; font-size: 14px; margin-top: 5px;" [disabled]="true" /> </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 5%; width: 25%;">Apellidos: </td>
+                    <td style="padding-left: 5%; width: 75%;"> <input type="text"
+                            [(ngModel)]="vecBuscar[0]['strApellidos']" placeholder="Apellidos del usuario"
+                            style="width: 100%; font-size: 14px; margin-top: 5px;" [disabled]="true" /> </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 5%; width: 25%;">Correo: </td>
+                    <td style="padding-left: 5%; width: 75%;"> <input type="text"
+                            [(ngModel)]="vecBuscar[0]['strCorreo']" placeholder="Correo"
+                            style="width: 100%; font-size: 14px; margin-top: 5px;" [disabled]="true" /> </td>
+                </tr>
+                
+               
+                
+
+            </table>
+
+        </div>
+        <div class="modal-footer ">
+          
+            <p-button (click)="ingresarUsuario()" styleClass="p-button-success"  size="large" label="">Guardar </p-button>
+            <p-button (click)=" cerrarModal()" styleClass="p-button-danger" size="large" label="">Cerrar </p-button>
+        </div>
+    </ng-template>
+
+
 </div>
