@@ -1,6 +1,4 @@
-
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { utilitarioService } from '../../../app/recursos/utilitarios.service';
+import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { swCentralPublicaciones } from '../../serviciosPublicaciones/serviciosCentral.service';
 import { swPublicaciones } from '../../serviciosPublicaciones/serviciosPublicaciones.service';
@@ -10,23 +8,23 @@ import { AlertifyService } from 'src/app/recursos/alertify.service';
 import { rutasSWPublicaciones } from 'src/app/rutasService/rutasServicios';
 
 @Component({
-  selector: 'app-autor-gestion-solicitudes',
-  templateUrl: './autor-gestion-solicitudes.component.html',
-  styleUrls: ['./autor-gestion-solicitudes.component.css']
+  selector: 'app-analista-migrar',
+  templateUrl: './analista-migrar.component.html',
+  styleUrls: ['./analista-migrar.component.css']
 })
-export class AutorGestionSolicitudesComponent implements OnInit {
+export class AnalistaMigrarComponent  implements OnInit {
   private mr: any;
-  public vecUsuarios: Array<any>; public vecArticulo: Array<any>; public vecPersonaArticulo: Array<any>; private numRegistro: any; public vecProgPostgrado: Array<any>;
+  public vecUsuarios: Array<any>; public vecArticulo: Array<any>; public vecPersonaArticulo: Array<any>; private numRegistro: any;
   public vecArtCongreso: Array<any>; public vecLibro: Array<any>; public vecProcedencia: Array<any>; public vecAutores: Array<any>; public vecBuscaAutores: Array<any>;
   public vecModDocumento: Array<any>;
   private documento01: any; private documento02: any; private documento03: any; private documento04: any; private documento05: any; private documento06: any; private documento07: any;
   public rutaCarga: SafeResourceUrl | undefined; public enlaceCarga: string = '';
-  private opcion = 11;
+  private opcion = 11; public idAutorReg=0; public nombAutor=""
   constructor(public dtTriggerUsuario: Subject<any>, public swCentral: swCentralPublicaciones, private alerti: AlertifyService,
     private swPublicacion: swPublicaciones, private modalService: NgbModal, private sanitizer: DomSanitizer) {
     this.vecUsuarios = []; this.vecArticulo = [];
     this.vecPersonaArticulo = []; this.vecArtCongreso = []; this.vecLibro = []; this.vecProcedencia = []; this.vecAutores = [];
-    this.vecBuscaAutores = []; this.vecModDocumento = []; this.vecProgPostgrado = [];
+    this.vecBuscaAutores = []; this.vecModDocumento = [];
   }
 
   ngOnInit() {
@@ -44,7 +42,7 @@ export class AutorGestionSolicitudesComponent implements OnInit {
       else {
         this.swPublicacion.postTokenPDF().subscribe((data: any) => {
           if (data.success) {
-            this.swPublicacion.postAddUsuario(data.token, data.created, data.exp, localStorage.getItem('loginID'), 'na', 'na', 'na',
+            this.swPublicacion.postAddUsuario(data.token, data.created, data.exp, this.idAutorReg, 'na', 'na', 'na',
               'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 15).subscribe((data: any) => {
                 this.verDataToken();
               });
@@ -55,62 +53,23 @@ export class AutorGestionSolicitudesComponent implements OnInit {
   }
   //VER LOS ARCHIVOS CARGADOS
   async verCargasArticulos() {
-    this.swPublicacion.getUsuarios(18, localStorage.getItem('loginID'), 2, 3, 'na', 'na').subscribe((data: any) => {
+    this.swPublicacion.getUsuarios(46, this.idAutorReg, 2, 3, 'na', 'na').subscribe((data: any) => {
       if (data.success) {
         this.vecUsuarios = data.usuario;
       }
     })
     //CARGAMOS LAS PROCEDENCIAS
-    this.swPublicacion.getUsuarios(21, localStorage.getItem('loginID'), 'na', 'na', 'na', 'na').subscribe((data: any) => {
+    this.swPublicacion.getUsuarios(21, this.idAutorReg, 'na', 'na', 'na', 'na').subscribe((data: any) => {
       if (data.success) {
         this.vecProcedencia = data.usuario;
       }
     })
-    // //CARGAMOS LOS PROGRAMAS DE POSTGRADO
-    // this.swPublicacion.getProgramasPostgrado().subscribe((data: any) => {
-    //   if (data.success) {
-    //     this.vecProcedencia = data.listado;
-    //     console.log('=================================== ',this.vecProcedencia)
-    //     console.log('................................... ',this.vecProcedencia[169].strcodprograma.strnombre)
-    //     console.log('................................... ',this.vecProcedencia[169].strnombre)
-    //   }
-    // })  
-  }
-  //obtener token talento humano   localStorage.getItem('loginCedula')    '0603611013'
-  async verDependenciaDocente() {
-    const tknTalentoH = await new Promise<any>(resolve => this.swPublicacion.obtenerTokenTH().subscribe(translated => { resolve(translated) }));
-
-    const depDocente = await new Promise<any>(resolve => this.swPublicacion.obtenerDependenciaTH(localStorage.getItem('loginCedula'), tknTalentoH.token).subscribe(translated => { resolve(translated) }));
-
-    if (depDocente.success) {
-      console.log(depDocente);
-      if (depDocente.data.contrato != undefined) {
-        this.vecPersonaArticulo[0]['cargo'] = depDocente.data.contrato.conCargo;
-        this.vecPersonaArticulo[0]['carrera'] = depDocente.data.contrato.conDependenciaEspecifica;
-        this.vecPersonaArticulo[0]['facultad'] = depDocente.data.contrato.conDependenciaGeneral;
-        this.vecPersonaArticulo[0]['contrato'] = depDocente.data.contrato.conTipoDocumento;
-        this.vecPersonaArticulo[0]['tipoGrado'] = depDocente.data.contrato.conDependenciaEspecifica.indexOf('CARRERA') >= 0 ? 1 :
-          depDocente.data.contrato.conDependenciaEspecifica.indexOf('MAESTRÍA') >= 0 ? 2 : 3;
-      }
-      else {
-        this.vecPersonaArticulo[0]['cargo'] = depDocente.data.accionPersonal.apeCargo;
-        this.vecPersonaArticulo[0]['carrera'] = depDocente.data.accionPersonal.apeDepedenciaEspecifica;
-        this.vecPersonaArticulo[0]['facultad'] = depDocente.data.accionPersonal.apeDepedenciaGeneral;
-        this.vecPersonaArticulo[0]['contrato'] = depDocente.data.accionPersonal.apeTipoDocumento;
-        this.vecPersonaArticulo[0]['tipoGrado'] = depDocente.data.accionPersonal.apeDepedenciaEspecifica.indexOf('CARRERA') >= 0 ? 1 :
-          depDocente.data.accionPersonal.apeDepedenciaEspecifica.indexOf('MAESTRÍA') >= 0 ? 2 : 3;
-      }
-    }
-    else
-      this.alerti.error('No se encuentra registrado en Talento Humano')
-    console.log(this.vecPersonaArticulo)
   }
   //ABRIR UN MODAL
   modalAddUsuario(nombModal: any, numop: any) {
     this.opcion = numop;
     this.instanciaVariables();
     this.mr = this.modalService.open(nombModal);
-    this.verDependenciaDocente();
   }
   //MODAL PARA AGREGAR VER/AUTORES
   verModAutores(objUser: any, nombModal: any) {
@@ -125,11 +84,11 @@ export class AutorGestionSolicitudesComponent implements OnInit {
     this.documento01 = ''; this.documento02 = ''; this.documento03 = ''; this.documento04 = ''; this.documento05 = ''; this.documento06 = '';
     this.vecArticulo.push({
       intIdArticulo: '', strCodigoArticulo: '', strNombreArticulo: '', strDescripcion: '', enlace: '', intCampo: 1,
-      intLineasInvestigacion: 1, intProcedencia: 1, dateFechaPublicacion: '', bitComision: 1, intEstado: 1, registro: localStorage.getItem('loginID'), distributivo: ''
+      intLineasInvestigacion: 1, intProcedencia: 1, dateFechaPublicacion: '', bitComision: 1, intEstado: 1, registro: this.idAutorReg, distributivo: ''
     })
     this.vecPersonaArticulo.push({
-      intArticulo: 0, intPersona: localStorage.getItem('loginID'), bitFilial: 0, bitPertinencia: 0,
-      intEstado: 1, distributivo: '', carrera: '', facultad: '', sexoDocente: '', contrato: 0, cargo: '', tipoGrado: 0
+      intArticulo: 0, intPersona: this.idAutorReg, bitFilial: 0, bitPertinencia: 0,
+      intEstado: 1, distributivo: ''
     });
     this.vecArtCongreso.push({
       intArticulo: 0, strDescripcion: '', textLinkArticuloCongreso: '', textLibrodeMemoria: '', textCartadeAceptacion: '',
@@ -155,7 +114,7 @@ export class AutorGestionSolicitudesComponent implements OnInit {
             this.vecArticulo[0]['intCampo'], this.vecArticulo[0]['intLineasInvestigacion'], this.vecArticulo[0]['intProcedencia'],
             this.vecArticulo[0]['dateFechaPublicacion'], this.vecArticulo[0]['bitComision'], this.vecArticulo[0]['intEstado'],
             this.vecArticulo[0]['registro'], 'na', 'na', 'na', 'na', this.opcion).subscribe((data: any) => {
-              this.swPublicacion.getUsuarios(24, localStorage.getItem('loginID'), 'na', 'na', 'na', 'na').subscribe((data: any) => {
+              this.swPublicacion.getUsuarios(24, this.idAutorReg, 'na', 'na', 'na', 'na').subscribe((data: any) => {
                 if (data.success) {
                   this.numRegistro = data.usuario[0]['intIdArticulo'];
                   this.ingresoPersonaArticulo(this.generaRutas(op == 1 ? 2 : op == 2 ? 6 : 8, data.usuario[0]['intIdArticulo']), op);
@@ -166,9 +125,10 @@ export class AutorGestionSolicitudesComponent implements OnInit {
   }
   //REGISTRAMOS EL DISTRIBUTIVO PARA EL ARTICULO REGISTRADO
   ingresoPersonaArticulo(rutaArchivo: any, num: any) {
-    this.swPublicacion.postAddUsuario(this.numRegistro, this.vecPersonaArticulo[0]['intPersona'], this.vecPersonaArticulo[0]['bitFilial'], this.vecPersonaArticulo[0]['bitPertinencia'],
-      2, rutaArchivo, this.vecPersonaArticulo[0]['cargo'], this.vecPersonaArticulo[0]['contrato'], this.vecPersonaArticulo[0]['carrera'], this.vecPersonaArticulo[0]['facultad'],
-      this.vecPersonaArticulo[0]['tipoGrado'], 'na', 'na', 'na', 'na', 12).subscribe((data: any) => {
+    this.swPublicacion.postAddUsuario(this.numRegistro, this.vecPersonaArticulo[0]['intPersona'],
+      this.vecPersonaArticulo[0]['bitFilial'], this.vecPersonaArticulo[0]['bitPertinencia'],
+      2, rutaArchivo, 'na', 'na', 'na', 'na',
+      'na', 'na', 'na', 'na', 'na', 12).subscribe((data: any) => {
         this.tokenDrive(this.documento02, rutaArchivo);
         if (num == 1)
           this.ingresoArticuloCientifico();
@@ -192,7 +152,7 @@ export class AutorGestionSolicitudesComponent implements OnInit {
   // INGRESAMOS UN ARTICULO A UN CONGRESO
   ingresoArticuloCongreso() {
     this.swPublicacion.postAddUsuario(this.numRegistro, '', this.vecArtCongreso[0]['textLibrodeMemoria'], this.generaRutas(3, this.numRegistro),
-      this.generaRutas(4, this.numRegistro), this.generaRutas(5, this.numRegistro), 1, 3, 0, this.vecArticulo[0]['intProcedencia'], 'na', 'na', 'na', 'na', 'na', 16).subscribe((data: any) => {
+      this.generaRutas(4, this.numRegistro), this.generaRutas(5, this.numRegistro), 1, 1, 0, this.vecArticulo[0]['intProcedencia'], 'na', 'na', 'na', 'na', 'na', 16).subscribe((data: any) => {
 
         this.tokenDrive(this.documento03, this.generaRutas(3, this.numRegistro));
         this.tokenDrive(this.documento04, this.generaRutas(4, this.numRegistro));
@@ -336,8 +296,12 @@ export class AutorGestionSolicitudesComponent implements OnInit {
     this.swPublicacion.getUsuarios(43, this.vecBuscaAutores[0]['cedula'], 2, 3, 'na', 'na').subscribe((data: any) => {
       if (data.success) {
         this.vecBuscaAutores[0]['codigo'] = data.usuario[0]['intIdPersona'];
+        this.vecPersonaArticulo[0]['intPersona'] = data.usuario[0]['intIdPersona'];
+        this.vecArticulo[0]['registro'] = data.usuario[0]['intIdPersona'];
+        this.idAutorReg= data.usuario[0]['intIdPersona'];
         this.vecBuscaAutores[0]['cedula'] = data.usuario[0]['strCedula'];
         this.vecBuscaAutores[0]['nombres'] = data.usuario[0]['strNombres'] + ' ' + data.usuario[0]['strApellidos'];
+        this.nombAutor = data.usuario[0]['strNombres'] + ' ' + data.usuario[0]['strApellidos'];
         this.vecBuscaAutores[0]['cargo'] = data.usuario[0]['strCargo'];
         this.vecBuscaAutores[0]['dependencia'] = data.usuario[0]['strDependencia'];
         this.alerti.success("Autor Registrado");
@@ -357,7 +321,8 @@ export class AutorGestionSolicitudesComponent implements OnInit {
       this.alerti.error('Seleccione un autor');
     else {
       this.swPublicacion.postAddUsuario(this.vecBuscaAutores[0]['articulo'], this.vecBuscaAutores[0]['codigo'],
-        0, 0, 2, '-', this.vecPersonaArticulo[0]['cargo'], this.vecPersonaArticulo[0]['contrato'], 'na', 'na', 'na', 'na', 'na', 'na', 'na', 12).subscribe((data: any) => {
+        0, 0, 2, '-', 'na', 'na', 'na', 'na',
+        'na', 'na', 'na', 'na', 'na', 12).subscribe((data: any) => {
           if (data.consulta) {
             this.alerti.success('Autor Registrado correctamente');
             this.vecBuscaAutores[0]['codigo'] = '';
@@ -394,13 +359,10 @@ export class AutorGestionSolicitudesComponent implements OnInit {
   }
   //CARGAR AL DRIVE LOS DOCUMENTOS EDITADOS
   editarDocumentos(evento: any, ruta: string) {
-    console.log(this.vecModDocumento[0][ruta]);
-
     const file = evento.target.files[0];
     if (file) {
       this.tokenDrive(file, this.vecModDocumento[0][ruta]);
     }
-
   }
   cerrarModal() {
     this.mr.close();

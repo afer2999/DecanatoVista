@@ -5,8 +5,9 @@ import { swCentralPublicaciones } from '../../serviciosPublicaciones/serviciosCe
 import { swPublicaciones } from '../../serviciosPublicaciones/serviciosPublicaciones.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AlertifyService } from '../../recursos/alertify.service';
+import { configuracion } from 'src/app/recursos/config.service';
 @Component({
-  selector: 'app-revision-congresos-solicitados',
+  selector: 'app-revision-congresos-solicitados', 
   templateUrl: './revision-congresos-solicitados.component.html',
   styleUrls: ['./revision-congresos-solicitados.component.css']
 })
@@ -15,7 +16,7 @@ export class RevisionCongresosSolicitadosComponent implements OnInit {
   public vecArticulos: Array<any>; public vecBuscar: Array<any>;
   public vecProcedencia: Array<any> = []; public vecLinea: Array<any> = []; public vecCampoA: Array<any> = []; public vecObra: Array<any> = []; public vecCongreso: Array<any> = [];
   constructor(public dtTriggerUsuario: Subject<any>, public swCentral: swCentralPublicaciones, private alerti: AlertifyService,
-    private swPublicacion: swPublicaciones, private modalService: NgbModal) { this.vecArticulos = []; this.vecBuscar = [] }
+    private swPublicacion: swPublicaciones, private modalService: NgbModal, private confMensaje: configuracion) { this.vecArticulos = []; this.vecBuscar = [] }
 
   ngOnInit() {
     this.verTodosArticulos();
@@ -91,6 +92,8 @@ export class RevisionCongresosSolicitadosComponent implements OnInit {
     this.vecBuscar[0]['obraCongreso'] = objUser.intTipoObra
     this.vecBuscar[0]['numComgreso'] = objUser.intIdCongreso
     this.vecBuscar[0]['estadoCongreso'] = objUser.estadoArticuloCongreso
+    this.vecBuscar[0]['idAutor'] = objUser.intPersona;
+    this.vecBuscar[0]['correo'] = objUser.strCorreo;
     // await this.verArticulos(objUser.distributivo, 'distributivo');
     // await this.verArticulos(objUser.cartaAceptacion, 'carta');
     this.mr = this.modalService.open(nombModal);
@@ -101,30 +104,41 @@ export class RevisionCongresosSolicitadosComponent implements OnInit {
       this.vecBuscar[0]['detalleArticulo'], this.vecBuscar[0]['lineaArticulo'], this.vecBuscar[0]['procedeArticulo'], this.vecBuscar[0]['fechaArticulo'],
       this.vecBuscar[0]['comisionArticulo'], this.vecBuscar[0]['estadoArticulo'], 'na', 'na', 'na', 'na', 'na', 'na', 18).subscribe((data: any) => {
         if (data.consulta)
-          this.editarArticuloAutor();
+          this.editarArticuloAutor(this.vecBuscar[0].correo);
       });
   }
   //ACTUALIZAR LA INFORMACION DEL ARTICULO DE UN AUTOR
-  editarArticuloAutor() {
+  editarArticuloAutor(correoAutor:any) {
     this.swPublicacion.postAddUsuario(this.vecBuscar[0]['idArticulo'], this.vecBuscar[0]['filial'], this.vecBuscar[0]['pertinencia'],
-      this.vecBuscar[0]['estadoSolicita'], this.vecBuscar[0]['cumplimiento'], 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 19).subscribe((data: any) => {
+      this.vecBuscar[0]['estadoSolicita'], this.vecBuscar[0]['cumplimiento'], this.vecBuscar[0]['idAutor'], 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 19).subscribe((data: any) => {
         if (data.consulta)
-          this.editarArticuloCongreso();
+          this.editarArticuloCongreso(correoAutor);
       });
   }
   //ACTUALIZAR LA INFORMACION DE UN ARTICULO DE UN CONGRESO
-  editarArticuloCongreso() {
+  editarArticuloCongreso(correoAutor:any) {
     this.swPublicacion.postAddUsuario(this.vecBuscar[0]['idArticulo'], this.vecBuscar[0]['linkArticulo'], this.vecBuscar[0]['obraCongreso'],
       this.vecBuscar[0]['numComgreso'], 'true', this.vecBuscar[0]['estadoCongreso'], 'na', 'na',
       'na', 'na', 'na', 'na', 'na', 'na', 'na', 25).subscribe((data: any) => {
         if (data.consulta) {
           this.alerti.success('Información actualizada');
           this.cerrarModal();
-          window.location.reload();
+          if (this.vecBuscar[0].estadoAnalista == 3)
+            this.envioCorreo(correoAutor);
         }
       });
   }
 
+  envioCorreo(correoAutor: any) {
+    let contenido = this.confMensaje.bodyMensaje(1) + this.vecBuscar[0].autor + this.confMensaje.bodyMensaje(4) + this.confMensaje.bodyMensaje(5);
+    this.swPublicacion.envioCorreo("Notificación de proceso de certificación", correoAutor, btoa(contenido)).subscribe((res: any) => {
+      if (res.resEnvio) {
+        this.mr.close();
+        this.alerti.success('Notificación enviada');
+        window.location.reload();
+      }
+    });
+  }
   //CERRAR UN MODAL
   cerrarModal() {
     this.mr.close();

@@ -16,6 +16,10 @@
         <h3 (click)="modalAddRol(modNuevoRol)" style="display: inline;"><i class="fa fa-plus-circle"
                 title="Agregar Rol"></i> Criterio del
             reporte</h3>
+        <h3 (click)="modalAddRol(modLinea)" style="display: inline;"><i class="fa fa-plus-circle"
+                title="Agregar Rol"></i> Linea de Investigación</h3>
+        <h3 (click)="modalAddRol(modCarrera)" style="display: inline;"><i class="fa fa-plus-circle"
+                title="Agregar Rol"></i> Carrera</h3>
         <h3 (click)="generarPDFReporte()" style="display: inline; margin-left: 25px;"><i class="fa fa-download"
                 title="Agregar Rol"></i> Descargar reporte</h3>
         <!-- DATA EXPORT -->
@@ -73,7 +77,7 @@
             </tr>
             <tr *ngIf="buscar == '0'">
                 <td class="tdEnunciado">Autor: </td>
-                <td class="tdTexto"> <input type="text" [(ngModel)]="verbuscar" placeholder="Informe de pares"
+                <td class="tdTexto"> <input type="text" [(ngModel)]="verbuscar" placeholder="Cédula"
                         style="width: 90%; font-size: 14px; margin-top: 5px;" />
                 </td>
             </tr>
@@ -98,9 +102,105 @@
         </table>
     </div>
     <div class="modal-footer">
-        <p-button type="button"  styleClass="p-button-success  "  
-            (click)="generarReporte()">Ver Reporte</p-button>
-        <p-button type="button"  styleClass="p-button-danger  " 
-            (click)="cerrarModal()">Cancelar</p-button>
+        <p-button type="button" styleClass="p-button-success  " (click)="generarReporte()">Ver Reporte</p-button>
+        <p-button type="button" styleClass="p-button-danger  " (click)="cerrarModal()">Cancelar</p-button>
+    </div>
+</ng-template>
+
+<ng-template #modLinea let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Reporte por línea de Investigación</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table>
+            <tr>
+                <td class="tdEnunciado">Línea de Investigación: </td>
+                <td class="tdTexto">
+                    <select class="txtSigno" style="margin-top: 5px; width: 90%;" [(ngModel)]="intLinea">
+                        <option *ngFor="let objLinea of vecLineas" value="{{objLinea.intIdLineaVinvestigacion}}">
+                            {{objLinea.strDescripcion}} </option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado">F. Inicio: </td>
+                <td class="tdTexto">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input type="date" class="form-control" style="width: 90%;" [(ngModel)]="fechaIni" />
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado">F. Fin: </td>
+                <td class="tdTexto">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input type="date" class="form-control" style="width: 90%;" [(ngModel)]="fechaFin" />
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <p-button type="button" styleClass="p-button-success  " (click)="generarReporteLinea()">Ver Reporte</p-button>
+        <p-button type="button" styleClass="p-button-danger  " (click)="cerrarModal()">Cancelar</p-button>
+    </div>
+</ng-template>
+
+
+<ng-template #modCarrera let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Reporte por Carrera</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table>
+            <tr>
+                <td class="tdEnunciado">Facultad: </td>
+                <td class="tdTexto">
+                    <select class="txtSigno" style="margin-top: 5px; width: 90%;" [(ngModel)]="repFac" (change)="verCarrerasVista()">
+                        <option *ngFor="let objFac of vecFacultad" value="{{objFac.strCodigo}}">
+                            {{objFac.strNombre}} </option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado">Carrera: </td>
+                <td class="tdTexto">
+                    <select class="txtSigno" style="margin-top: 5px; width: 90%;" [(ngModel)]="repCar">
+                        <option *ngFor="let objCar of vecCarrera" value="{{objCar.codCarrera}}">
+                            {{objCar.nombCarrera}} </option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado">F. Inicio: </td>
+                <td class="tdTexto">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input type="date" class="form-control" style="width: 90%;" [(ngModel)]="fechaIni" />
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="tdEnunciado">F. Fin: </td>
+                <td class="tdTexto">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input type="date" class="form-control" style="width: 90%;" [(ngModel)]="fechaFin" />
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <p-button type="button" styleClass="p-button-success  " (click)="generarReporteCarrera()">Ver Reporte</p-button>
+        <p-button type="button" styleClass="p-button-danger  " (click)="cerrarModal()">Cancelar</p-button>
     </div>
 </ng-template>

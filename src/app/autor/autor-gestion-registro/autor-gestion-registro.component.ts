@@ -28,8 +28,15 @@ export class AutorGestionRegistroComponent implements OnInit {
     this.vecArticulos = []; this.intNomb = 0; this.vecSolicitudes = []; this.selecTipo = 0; this.vecTipo = [];
   }
 
-  ngOnInit() {
-    this.intNomb = localStorage.getItem('localNombramiento') == 'true' ? 1 : 0;
+  async ngOnInit() {
+    //localStorage.getItem('loginCedula')
+    const tknTalentoH = await new Promise<any>(resolve => this.swPublicacion.obtenerTokenTH().subscribe(translated => { resolve(translated) }));
+    const depDocente = await new Promise<any>(resolve => this.swPublicacion.obtenerDependenciaTH(localStorage.getItem('loginCedula'), tknTalentoH.token).subscribe(translated => { resolve(translated) }));
+    if (depDocente.data.contrato != undefined)
+      this.intNomb = depDocente.data.contrato.apeRegimen == 'LOSEP' ? 2 : 0;
+    else
+      this.intNomb = depDocente.data.accionPersonal.apeRegimen == 'LOSEP' ? 2 : 1;
+
     this.verTodosUsuarios();
     this.verDataToken();
   }
@@ -136,7 +143,7 @@ export class AutorGestionRegistroComponent implements OnInit {
   bypassAndSanitize(url: any): SafeResourceUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
-  cerrarModal(){
+  cerrarModal() {
     this.mr.close();
   }
 

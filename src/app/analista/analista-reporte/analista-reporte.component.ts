@@ -14,17 +14,64 @@ import { AlertifyService } from 'src/app/recursos/alertify.service';
   styleUrls: ['./analista-reporte.component.css']
 })
 export class AnalistaReporteComponent implements OnInit {
-  private mr: any;
-  public vecUsuarios: Array<any>; public buscar: string = 'L'; public verbuscar = ''; public fechaIni = ''; public fechaFin = '';
+  private mr: any; public vecLineas: Array<any> = []; public intLinea = 0; public vecCarrera: Array<any> = []; public vecFacultad: Array<any> = [];
+  public vecUsuarios: Array<any>; public buscar: string = 'L'; public verbuscar = ''; public fechaIni = ''; public fechaFin = ''; public repFac: any; public repCar: any;
   constructor(public dtTriggerUsuario: Subject<any>, public swCentral: swCentralPublicaciones, private alerti: AlertifyService,
     private swPublicacion: swPublicaciones, private modalService: NgbModal) { this.vecUsuarios = []; }
 
   ngOnInit() {
-    //this.verCargasArticulos();
+    this.verLineasInvestigacion()
+  }
+  async verLineasInvestigacion() {
+    this.vecLineas = []; this.vecCarrera = []; this.vecFacultad = [];
+
+    const resLinea = await new Promise<any>(resolve =>
+      this.swPublicacion.getUsuarios(22, 'na', 'na', 'na', 'na', 'na').subscribe(translated => {
+        resolve(translated)
+      }));
+    if (resLinea.success)
+      this.vecLineas = resLinea.usuario;
+
+    const resFacultad = await new Promise<any>(resolve => this.swPublicacion.getCarrerasMaster(1, 'na', 'na', 'na').subscribe(translated => { resolve(translated) }));
+    if (resFacultad.success) {
+      this.vecFacultad = resFacultad.carrera;
+      this.verCarreraFacultad(this.vecFacultad[0].strCodigo);
+      this.repFac = this.vecFacultad[0].strCodigo;
+    }
+  }
+  async verCarreraFacultad(facultad: any) {
+    const resCarrera = await new Promise<any>(resolve => this.swPublicacion.getCarrerasMaster(2, facultad, 'na', 'na').subscribe(translated => { resolve(translated) }));
+    if (resCarrera.success) {
+      this.vecCarrera = resCarrera.carrera;
+      this.repCar = this.vecCarrera[0].codCarrera;
+    }
+  }
+  verCarrerasVista() {
+    this.verCarreraFacultad(this.repFac);
   }
   //VER LOS ARCHIVOS CARGADOS
   async generarReporte() {
     this.swPublicacion.getUsuarios(36, this.buscar == '0' ? this.verbuscar : this.buscar, this.fechaIni, this.fechaFin, 'na', 'na').subscribe((data: any) => {
+      if (data.success) {
+        this.vecUsuarios = data.usuario;
+        this.cerrarModal();
+      }
+      else
+        this.alerti.error('No se encontraron resultados');
+    })
+  }
+  generarReporteLinea() {
+    this.swPublicacion.getUsuarios(361, this.intLinea, this.fechaIni, this.fechaFin, 'na', 'na').subscribe((data: any) => {
+      if (data.success) {
+        this.vecUsuarios = data.usuario;
+        this.cerrarModal();
+      }
+      else
+        this.alerti.error('No se encontraron resultados');
+    })
+  }
+  generarReporteCarrera(){
+    this.swPublicacion.getUsuarios(361, this.intLinea, this.fechaIni, this.fechaFin, 'na', 'na').subscribe((data: any) => {
       if (data.success) {
         this.vecUsuarios = data.usuario;
         this.cerrarModal();
@@ -42,7 +89,7 @@ export class AnalistaReporteComponent implements OnInit {
     var imgData = recursosPublicaciones.imagenBase64Poli;
     var pageNumber = 1; // Definir el contador de páginas fuera de la función
 
-   
+
 
     let nomCertificado = this.buscar == 'L' ? 'LIBROS' : this.buscar == 'RR' ? 'ARTÍCULOS REGIONALES' : this.buscar == 'C' ? 'ARTÍCULOS DE CONGRESOS' :
       this.buscar == 'RC' ? 'REVISTAS DE IMPACTO' : this.buscar == '0' ? 'POR AUTOR' : '';
@@ -56,8 +103,8 @@ export class AnalistaReporteComponent implements OnInit {
     const doc = new jsPDF('p', 'mm', 'letter');
     const totalPages = doc.getNumberOfPages();
     const pageSize = doc.internal.pageSize;
-  const pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
-  const pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth();
+    const pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+    const pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth();
 
     doc.addImage(imgData, 13, 1, 85, 30)
     doc.setFont("bolditalic", "bold");
@@ -65,7 +112,7 @@ export class AnalistaReporteComponent implements OnInit {
     doc.text('Reporte de publicaciones: ' + nomCertificado + '; fecha de consulta desde: ' + this.fechaIni + ' hasta: ' + this.fechaFin, 13, 40);
     doc.setFontSize(11);
     doc.text('Total de publicaciones: ' + this.vecUsuarios.length, 13, 45);
-    
+
     autoTable(doc, {
       margin: { top: 60 },
 
@@ -82,7 +129,7 @@ export class AnalistaReporteComponent implements OnInit {
 
     })
 
-   
+
 
 
     doc.save('Reporte.pdf');

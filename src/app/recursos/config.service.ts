@@ -12,7 +12,7 @@ export class configuracion {
   cargarScriptInicio() {
     this.loadScript("../../assets/estilosInicio/inicio.js");
   }
- 
+
 
   public loadScript(scriptUrl: string) {
     return new Promise((resolve, reject) => {
@@ -59,6 +59,12 @@ export class configuracion {
       return "</b> <br/><br/><br/> Su documentaci&oacute;n ";
     if (op == 3)
       return " ha sido recibida, un analista la validar&aacute; y ser&aacute; notidicado a su correo <br/><br/> <br/><br/><br/> Tambi&eacute;n puede ingresar al <a href='https://publicaciones.espoch.edu.ec/'> sistema de Publicaciones de la ESPOCH </a> haciendo uso de su cuenta y clave de correo institucional, para consultar susolicitud. <center> <br/><br/><br/><br/> <b>DECANATO DE PUBLICACIONES - ESPOCH</b> <br/> <b>Panamericana Sur Km. 1 1/2</b> <br/> <b>TELF: 593(03) 2998-200 ext. 1053</b> <br/><br/> </center> </td> </tr> <tr> <td style='background: #f5f3e5;' colspan='2'> <div style='font-weight: bold; text-align: center; font-size: 10px;'> <a href='http://dtic.espoch.edu.ec/' target='_blank'>DIRECCI&Oacute;N DE TECNOLOG&Iacute;AS DE INFORMACI&Oacute;N Y COMUNICACI&Oacute;N</a> <br>&copy; ESPOCH 2019 </br> <img src='cid:logo' width='65' alt='DIRECCI&Oacute;N DE TECNOLOG&Iacute;AS DE INFORMACI&Oacute;N Y  COMUNICACI&Oacute;N' /> </div> </td> </tr> </tbody> </table> </body> </html>";
+    if (op == 4)
+      return "</b> <br/><br/><br/> Revise su solicitud, debido que su tr&aacute;mite necesita cambios ";
+    if (op == 5)
+      return " <br/><br/> <br/><br/><br/> Tambi&eacute;n puede ingresar al <a href='https://publicaciones.espoch.edu.ec/'> sistema de Publicaciones de la ESPOCH </a> haciendo uso de su cuenta y clave de correo institucional, para consultar susolicitud. <center> <br/><br/><br/><br/> <b>DECANATO DE PUBLICACIONES - ESPOCH</b> <br/> <b>Panamericana Sur Km. 1 1/2</b> <br/> <b>TELF: 593(03) 2998-200 ext. 1053</b> <br/><br/> </center> </td> </tr> <tr> <td style='background: #f5f3e5;' colspan='2'> <div style='font-weight: bold; text-align: center; font-size: 10px;'> <a href='http://dtic.espoch.edu.ec/' target='_blank'>DIRECCI&Oacute;N DE TECNOLOG&Iacute;AS DE INFORMACI&Oacute;N Y COMUNICACI&Oacute;N</a> <br>&copy; ESPOCH 2019 </br> <img src='cid:logo' width='65' alt='DIRECCI&Oacute;N DE TECNOLOG&Iacute;AS DE INFORMACI&Oacute;N Y  COMUNICACI&Oacute;N' /> </div> </td> </tr> </tbody> </table> </body> </html>";
+    if (op == 6)
+      return "</b> <br/><br/><br/> Su certificado ha sido aprobado y legalizado, favor revisar su badeja en el sistema de publicaciones. ";
     else
       return "";
   }

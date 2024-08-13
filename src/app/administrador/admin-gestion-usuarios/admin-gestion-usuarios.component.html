@@ -54,7 +54,7 @@
               
               <th style="font-size: 14px" pSortableColumn="bitNombramiento"> Nombramiento<p-sortIcon
                   field="bitNombramiento"></p-sortIcon>
-              <th style="font-size: 14px" pSortableColumn="strDependencia"> Dependencia<p-sortIcon
+              <th style="font-size: 14px" pSortableColumn="strDependencia"> Cargo<p-sortIcon
                   field="strDependencia"></p-sortIcon>
               <th style="font-size: 14px" pSortableColumn="detalleEstado"> Estado<p-sortIcon
                   field="detalleEstado"></p-sortIcon>
@@ -72,8 +72,8 @@
                
               <td style="font-size: 14px" class="{{objUser.claseNombra}}"> {{objUser.bitNombramiento ? 'SI' : 'NO' }}
               </td>
-              <td style="font-size: 14px"> {{objUser.strDependencia}} </td>
-              <td style="font-size: 14px" class="{{objUser.claseActivo}}"> {{objUser.detalleEstado}} </td>
+              <td style="font-size: 14px"> {{objUser.strCargo}} </td>
+              <td style="font-size: 14px; text-transform:upercase" class="{{objUser.claseActivo}}"> {{objUser.detalleEstado}} </td>
               <td style="font-size: 14px">
                 <p-button class="btn btn-link" title="Editar usuario"
                   (click)="verDataPersona(objUser, modNuevoUsuario)"> <i class="fa fa-pencil"></i>

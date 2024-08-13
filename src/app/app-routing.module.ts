@@ -40,6 +40,10 @@ import { TipoCertificadoComponent } from './analista/tipo-certificado/tipo-certi
 import { DirectorComponent } from './analista/director/director.component';
 import { IngresoProduccionComponent } from './analista/ingreso-produccion/ingreso-produccion.component';
 import { AnalistaReporteComponent } from './analista/analista-reporte/analista-reporte.component';
+import { AnalistaMigrarComponent } from './analista/analista-migrar/analista-migrar.component';
+import { ListaArticulosAprobadoComponent } from './analista/lista-articulos-aprobado/lista-articulos-aprobado.component';
+import { ListaCongresoAprobadoComponent } from './analista/lista-congreso-aprobado/lista-congreso-aprobado.component';
+import { ListaLibrosAprobadosComponent } from './analista/lista-libros-aprobados/lista-libros-aprobados.component';
 
 
 const appRoutes: Routes = [
@@ -176,6 +180,22 @@ const appRoutes: Routes = [
       {
         path: 'analistaReporte',
         component: AnalistaReporteComponent
+      },
+      {
+        path: 'analistaMigrar',
+        component: AnalistaMigrarComponent
+      },
+      {
+        path: 'verArtAprobado',
+        component: ListaArticulosAprobadoComponent
+      },
+      {
+        path: 'verCongAprobado',
+        component: ListaCongresoAprobadoComponent
+      },
+      {
+        path: 'verLibroAprobado',
+        component: ListaLibrosAprobadosComponent
       }
     ]
   },

@@ -61,21 +61,21 @@
   </div>
   <div class="modal-body">
 
-    <table id="tblSignos" style="width: 90%;">
+    <table id="tblLineasInv" style="width: 90%;">
       <tr>
-        <td style="padding-left: 5%; width: 25%;">Nombre de la Lineas de Investigacion: </td>
+        <td style="padding-left: 5%; width: 25%;">Nombre de la Lineas de Investigacion </td>
         <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strCedula']"
             placeholder="Nombre Lineas de Investigacion " style="width: 100%; font-size: 14px;" /> </td>
       </tr>
 
       <tr>
-        <td style="padding-left: 5%; width: 25%;">Descripcion: </td>
+        <td style="padding-left: 5%; width: 25%;">Descripcion </td>
         <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strCargo']"
             placeholder="Descripcion" style="width: 100%; font-size: 14px; margin-top: 5px;" />
         </td>
       </tr>
       <tr>
-        <td style="padding-left: 5%; width: 25%;">Estado: </td>
+        <td style="padding-left: 5%; width: 25%;">Estado </td>
         <td style="padding-left: 5%; width: 75%;">
           <select class="txtSigno" style="margin-top: 5px; width: 75%;" [(ngModel)]="vecBuscar[0]['bitNombramiento']">
             <option value="0">NO ACTIVA </option>
@@ -88,8 +88,8 @@
 
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" style="background-color: #394A59;">Guardar </button>
-    <button type="button" class="btn btn-outline-dark" style="background-color: #D9534F;"
-    (click)="cerrarModal()">Cancelar</button>
+    <p-button type="button" styleClass="p-button-success">Guardar </p-button>
+    <p-button type="button" styleClass="p-button-danger"
+    (click)="cerrarModal()">Cancelar</p-button>
   </div>
 </ng-template>

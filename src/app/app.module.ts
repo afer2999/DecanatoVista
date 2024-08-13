@@ -75,6 +75,11 @@ import { DialogModule } from 'primeng/dialog';
 import { CardModule } from 'primeng/card';
 import { MenuItem, PrimeIcons } from 'primeng/api';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AutorMigrarComponent } from './autor-migrar/autor-migrar.component';
+import { AnalistaMigrarComponent } from './analista/analista-migrar/analista-migrar.component';
+import { ListaArticulosAprobadoComponent } from './analista/lista-articulos-aprobado/lista-articulos-aprobado.component';
+import { ListaCongresoAprobadoComponent } from './analista/lista-congreso-aprobado/lista-congreso-aprobado.component';
+import { ListaLibrosAprobadosComponent } from './analista/lista-libros-aprobados/lista-libros-aprobados.component';
 
 
 @NgModule({
@@ -128,7 +133,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     RevisionDeCetificadosComponent,
     TipoCertificadoComponent,
     IngresoProduccionComponent,
-    AnalistaReporteComponent
+    AnalistaReporteComponent,
+    AutorMigrarComponent,
+    AnalistaMigrarComponent,
+    ListaArticulosAprobadoComponent,
+    ListaCongresoAprobadoComponent,
+    ListaLibrosAprobadosComponent
   ],
   entryComponents: [NgbdModalContent],
   imports: [

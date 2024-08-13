@@ -9,48 +9,7 @@
         </div>
 
 
-        <div class="row">
-
-            <div class="col-lg-8 ">
-                <div class="top-content">
-                    <ul class="list-inline quick-access">
-                        <li>
-                            <a >
-                                <div class="quick-access-item bg-color-green">
-                                    <i class="fa fa-bar-chart-o"></i>
-                                    <h5></h5><em> Articulos Regionales</em>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a >
-                                <div class="quick-access-item bg-color-blue">
-                                    <i class="fa fa-bar-chart-o"></i>
-                                    <h5></h5><em>Articulos Científicos</em>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a >
-                                <div class="quick-access-item bg-color-orange">
-                                    <i class="fa fa-bar-chart-o"></i>
-                                    <h5> </h5><em>Congresos</em>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a>
-                                <div class="quick-access-item bg-color-green">
-                                    <i class="fa fa-bar-chart-o"></i>
-                                    <h5> </h5><em>Libros</em>
-                                </div>
-                            </a>
-                        </li>
-
-                    </ul>
-                </div>
-            </div>
-        </div>
+        
         <!-- main -->
         <div class="content">
 
@@ -65,34 +24,60 @@
                             <div class="col-md-3">
                                 <div class="user-info-left">
                                     <!-- <img src="" alt="Profile Picture" /> -->
-                                    <h2><span class="data-value"><span class="name"> {{nombresUsuarios}}</span></span> <i class="fa fa-circle green-font online-icon"></i><sup
-                                            class="sr-only">online</sup></h2>
-                                    <!-- <div class="contact">
-                                        <a href="#" class="btn btn-block btn-custom-primary"><i
-                                                class="fa fa-envelope-o"></i> Send Message</a>
-                                        <a href="#" class="btn btn-block btn-custom-secondary"><i
-                                                class="fa fa-book"></i> Add To Contact</a>
-
-                                    </div> -->
+                                    <h2><span class="data-value"><span class="name"> {{nombresUsuarios}}</span></span>
+                                        <i class="fa fa-circle green-font online-icon"></i><sup
+                                            class="sr-only">online</sup>
+                                    </h2>
+                                   
                                 </div>
                             </div>
                             <div class="col-md-9">
                                 <div class="user-info-right">
                                     <div class="basic-info">
                                         <h3><i class="fa fa-square"></i> Información Básica</h3>
+                                        <div class="row">
+                                            <div class="col-lg-8 ">
+                                                <div class="top-content">
+                                                    <ul class="list-inline quick-access">
+                                                        <li>
+                                                            <a>
+                                                                <div class="quick-access-item bg-color-green">
+                                                                    <i class="fa fa-bar-chart-o"></i>
+                                                                    <h5></h5><em> Articulos Regionales</em> {{totalRegional}}
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a>
+                                                                <div class="quick-access-item bg-color-blue">
+                                                                    <i class="fa fa-bar-chart-o"></i>
+                                                                    <h5></h5><em>Articulos Científicos</em> {{totalCientifico}}
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a>
+                                                                <div class="quick-access-item bg-color-orange">
+                                                                    <i class="fa fa-bar-chart-o"></i>
+                                                                    <h5> </h5><em>Congresos</em> {{totalCongreso}}
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a>
+                                                                <div class="quick-access-item bg-color-green">
+                                                                    <i class="fa fa-bar-chart-o"></i>
+                                                                    <h5> </h5><em>Libros</em> {{totalLibro}}
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         
-                                        <p class="data-row">
-                                            <span class="data-name"> </span>
-                                            <span class="data-value"> </span>
-                                        </p>
-                                        <p class="data-row">
-                                            <span class="data-name">Correo</span>
-                                            <span class="data-value"><span class="name"> {{nombUsuario}} </span></span>
-                                        </p>
-                                        <p class="data-row">
-                                            <span class="data-name">Cédula</span>
-                                            <span class="data-value"><span class="name"> {{cedula}} </span></span>
-                                        </p>
                                     </div>
                                 </div>
                             </div>

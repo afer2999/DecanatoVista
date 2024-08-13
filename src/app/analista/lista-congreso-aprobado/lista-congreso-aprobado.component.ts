@@ -5,24 +5,18 @@ import { swCentralPublicaciones } from '../../serviciosPublicaciones/serviciosCe
 import { swPublicaciones } from '../../serviciosPublicaciones/serviciosPublicaciones.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AlertifyService } from '../../recursos/alertify.service';
-import { configuracion } from 'src/app/recursos/config.service';
 
 @Component({
-  selector: 'app-revision-libros-solicitados',
-  templateUrl: './revision-libros-solicitados.component.html',
-  styleUrls: ['./revision-libros-solicitados.component.css']
+  selector: 'app-lista-congreso-aprobado',
+  templateUrl: './lista-congreso-aprobado.component.html',
+  styleUrls: ['./lista-congreso-aprobado.component.css']
 })
-export class RevisionLibrosSolicitadosComponent implements OnInit {
+export class ListaCongresoAprobadoComponent implements OnInit {
   private mr: any;
   public vecArticulos: Array<any>; public vecBuscar: Array<any>;
-
-  public vecProcedencia: Array<any>; public vecLinea: Array<any>; public vecCampoA: Array<any>; public vecObra: Array<any>;
-
+  public vecProcedencia: Array<any> = []; public vecLinea: Array<any> = []; public vecCampoA: Array<any> = []; public vecObra: Array<any> = []; public vecCongreso: Array<any> = [];
   constructor(public dtTriggerUsuario: Subject<any>, public swCentral: swCentralPublicaciones, private alerti: AlertifyService,
-    private swPublicacion: swPublicaciones, private modalService: NgbModal, private confMensaje: configuracion) {
-    this.vecArticulos = []; this.vecBuscar = []
-    this.vecProcedencia = []; this.vecCampoA = []; this.vecLinea = []; this.vecObra = [];
-  }
+    private swPublicacion: swPublicaciones, private modalService: NgbModal) { this.vecArticulos = []; this.vecBuscar = [] }
 
   ngOnInit() {
     this.verTodosArticulos();
@@ -30,7 +24,7 @@ export class RevisionLibrosSolicitadosComponent implements OnInit {
   }
 
   async verTodosArticulos() {
-    this.swPublicacion.getUsuarios(28, 2, 3, 'na', 'na', 'na').subscribe((data: any) => {
+    this.swPublicacion.getUsuarios(27, 1, 1, 'na', 'na', 'na').subscribe((data: any) => {
       if (data.success) {
         this.vecArticulos = data.usuario;
       }
@@ -59,16 +53,23 @@ export class RevisionLibrosSolicitadosComponent implements OnInit {
         this.vecObra = data.usuario;
       }
     })
+    //CARGAMOS LOS TIPO DE CONGRESO
+    this.swPublicacion.getUsuarios(35, localStorage.getItem('loginID'), 'na', 'na', 'na', 'na').subscribe((data: any) => {
+      if (data.success) {
+        this.vecCongreso = data.usuario;
+      }
+    })
   }
-
   //INSTANCIA VARIABLES
   instanciaVariables() {
     this.vecBuscar = [];
     this.vecBuscar.push({
       idArticulo: '', codigoArticulo: '', nombreArticulo: '', detalleArticulo: '', campoArticulo: '', lineaArticulo: '', procedeArticulo: '', fechaArticulo: '',
-      estadoArticulo: '', filial: '', pertinencia: '', estadoSolicita: '', cumplimiento: '', nombreLibro: '', isbnLibro: '', obraLibro: '', paresLibro: '', tomo: 0, paisLibro: '',
+      estadoArticulo: '', filial: '', pertinencia: '', estadoSolicita: '', cumplimiento: '', linkArticulo: '', obraCongreso: '', numComgreso: '', estadoCongreso: 0,
+      distibutivo: '', carta: '', certificado: '', libroMemoria: ''
     });
   }
+
   //VER INFORMACIÓN SELECCIONADA
   async verData(objUser: any, nombModal: any) {
     console.log(objUser)
@@ -87,16 +88,15 @@ export class RevisionLibrosSolicitadosComponent implements OnInit {
     this.vecBuscar[0]['pertinencia'] = objUser.bitPertinencia
     this.vecBuscar[0]['estadoSolicita'] = objUser.intEstado
     this.vecBuscar[0]['cumplimiento'] = objUser.intContrato
-    this.vecBuscar[0]['nombreLibro'] = objUser.strNombreCapitulo
-    this.vecBuscar[0]['isbnLibro'] = objUser.strIsbn
-    this.vecBuscar[0]['obraLibro'] = objUser.intTipoObra
-    this.vecBuscar[0]['paresLibro'] = objUser.revisaPares
-    this.vecBuscar[0]['intTomo'] = objUser.intTomo
-    this.vecBuscar[0]['paisLibro'] = objUser.strPais
+    this.vecBuscar[0]['linkArticulo'] = objUser.textLinkArticuloCongreso
+    this.vecBuscar[0]['obraCongreso'] = objUser.intTipoObra
+    this.vecBuscar[0]['numComgreso'] = objUser.intIdCongreso
+    this.vecBuscar[0]['estadoCongreso'] = objUser.estadoArticuloCongreso
     this.vecBuscar[0]['idAutor'] = objUser.intPersona
-    this.vecBuscar[0]['correo'] = objUser.strCorreo;
-    // await this.verArticulos(objUser.distributivo, 'distributivo');
-    // await this.verArticulos(objUser.cartaAceptacion, 'carta');
+    await this.verArticulos(objUser.distributivo, 'distibutivo');
+    await this.verArticulos(objUser.textCartadeAceptacion, 'carta');
+    await this.verArticulos(objUser.textCertificadoPonente, 'certificado');
+    await this.verArticulos(objUser.textLibrodeMemoria, 'libroMemoria');
     this.mr = this.modalService.open(nombModal);
   }
   //ACTUALIZAR LA INFORMACION DEL ARTICULO
@@ -105,40 +105,55 @@ export class RevisionLibrosSolicitadosComponent implements OnInit {
       this.vecBuscar[0]['detalleArticulo'], this.vecBuscar[0]['lineaArticulo'], this.vecBuscar[0]['procedeArticulo'], this.vecBuscar[0]['fechaArticulo'],
       this.vecBuscar[0]['comisionArticulo'], this.vecBuscar[0]['estadoArticulo'], 'na', 'na', 'na', 'na', 'na', 'na', 18).subscribe((data: any) => {
         if (data.consulta)
-          this.editarArticuloAutor(this.vecBuscar[0].correo);
+          this.editarArticuloAutor();
       });
   }
   //ACTUALIZAR LA INFORMACION DEL ARTICULO DE UN AUTOR
-  editarArticuloAutor(correoAutor: any) {
+  editarArticuloAutor() {
     this.swPublicacion.postAddUsuario(this.vecBuscar[0]['idArticulo'], this.vecBuscar[0]['filial'], this.vecBuscar[0]['pertinencia'],
       this.vecBuscar[0]['estadoSolicita'], this.vecBuscar[0]['cumplimiento'], this.vecBuscar[0]['idAutor'], 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 19).subscribe((data: any) => {
         if (data.consulta)
-          this.editarLibro(correoAutor);
+          this.editarArticuloCongreso();
       });
   }
-  //ACTUALIZAR LA INFORMACION DE UN LIBRO
-  editarLibro(correoAutor: any) {
-    this.swPublicacion.postAddUsuario(this.vecBuscar[0]['idArticulo'], this.vecBuscar[0]['nombreLibro'], this.vecBuscar[0]['isbnLibro'],
-      this.vecBuscar[0]['obraLibro'], this.vecBuscar[0]['paresLibro'], this.vecBuscar[0]['intTomo'], this.vecBuscar[0]['paisLibro'], 'na',
-      'na', 'na', 'na', 'na', 'na', 'na', 'na', 24).subscribe((data: any) => {
+  //ACTUALIZAR LA INFORMACION DE UN ARTICULO DE UN CONGRESO
+  editarArticuloCongreso() {
+    this.swPublicacion.postAddUsuario(this.vecBuscar[0]['idArticulo'], this.vecBuscar[0]['linkArticulo'], this.vecBuscar[0]['obraCongreso'],
+      this.vecBuscar[0]['numComgreso'], 'true', this.vecBuscar[0]['estadoCongreso'], 'na', 'na',
+      'na', 'na', 'na', 'na', 'na', 'na', 'na', 25).subscribe((data: any) => {
         if (data.consulta) {
           this.alerti.success('Información actualizada');
           this.cerrarModal();
-          if (this.vecBuscar[0].estadoAnalista == 3)
-            this.envioCorreo(correoAutor);
+          window.location.reload();
         }
       });
   }
-
-  envioCorreo(correoAutor: any) {
-    let contenido = this.confMensaje.bodyMensaje(1) + this.vecBuscar[0].autor + this.confMensaje.bodyMensaje(4) + this.confMensaje.bodyMensaje(5);
-    this.swPublicacion.envioCorreo("Notificación de proceso de certificación", correoAutor, btoa(contenido)).subscribe((res: any) => {
-      if (res.resEnvio) {
-        this.mr.close();
-        this.alerti.success('Notificación enviada');
-        window.location.reload();
+  //RECUPERAMOS EL DOCUMENTO DESDE EL DRIVE
+  async verArticulos(ruta: string, posicion: string) {
+    await this.verDataToken();
+    this.swPublicacion.mostrarArchivo(localStorage.getItem('archivoToken'), ruta).subscribe((data: any) => {
+      if (data.success) {
+        this.vecBuscar[0][posicion] = data.download;
       }
-    });
+    })
+  }
+  //VER EL TOKEN REGISTRADO EN LA BASE DE DATOS
+  async verDataToken() {
+    this.swPublicacion.getUsuarios(25, 'na', 'na', 'na', 'na', 'na').subscribe((data: any) => {
+      if (data.success) {
+        localStorage.setItem('archivoToken', data.usuario[0]['strToken']);
+      }
+      else {
+        this.swPublicacion.postTokenPDF().subscribe((data: any) => {
+          if (data.success) {
+            this.swPublicacion.postAddUsuario(data.token, data.created, data.exp, localStorage.getItem('loginID'), 'na', 'na', 'na',
+              'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 15).subscribe((data: any) => {
+                this.verDataToken();
+              });
+          }
+        });
+      }
+    })
   }
 
   //CERRAR UN MODAL

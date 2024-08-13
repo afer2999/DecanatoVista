@@ -26,7 +26,7 @@ export class RevisionDeCetificadosComponent implements OnInit {
   private objRecupera64: any;
 
   constructor(public dtTriggerUsuario: Subject<any>, public swCentral: swCentralPublicaciones, private confPublica: configuracion, private cargando: LoaderComponent,
-    private swPublicacion: swPublicaciones, private modalService: NgbModal, private alerti: AlertifyService, private sanitizer: DomSanitizer) {
+    private swPublicacion: swPublicaciones, private modalService: NgbModal, private alerti: AlertifyService, private sanitizer: DomSanitizer, private confMensaje: configuracion) {
     this.vecArticulos = []; this.vecCertificados = []; this.numPagina = 2; this.urlFrima = '';
     this.vecAjustes = []; this.vecSolicitudes = [];
   }
@@ -54,7 +54,6 @@ export class RevisionDeCetificadosComponent implements OnInit {
   }
   //TRANSFORMAR EL 64 EN BLOB
   dataURItoBlob(base64: any, fileName: string): File {
-    this.cargando.abrir();
     const binaryString = window.atob(base64);
     const len = binaryString.length;
     const bytes = new Uint8Array(len);
@@ -63,11 +62,9 @@ export class RevisionDeCetificadosComponent implements OnInit {
     }
     const blobData = new Blob([bytes], { type: 'application/pdf' });
     return new File([blobData], fileName, { type: 'application/pdf' });
-    this.cargando.cerrar();
   };
   //CARGAMOS LOS ARCHIVOS AL DRIVE
   async cargaDrive(archivo: any, token: any, raiz: string, numSolicita: any) {
-    this.cargando.abrir();
     let formArchivo = new FormData();
     formArchivo.append('idAplicacion', rutasSWPublicaciones.idAppArchivo);
     formArchivo.append('idCredencial', "1");
@@ -76,7 +73,7 @@ export class RevisionDeCetificadosComponent implements OnInit {
     formArchivo.append('file', archivo);
     this.swPublicacion.subirArchivos(formArchivo, token).subscribe(data => {
       if (data.success) {
-        this.swPublicacion.postAddUsuario(numSolicita, raiz, 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 21).subscribe((data: any) => {
+        this.swPublicacion.postAddUsuario(this.numSolicitud, raiz, 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 21).subscribe((data: any) => {
           this.swPublicacion.getUsuarios(24, localStorage.getItem('loginID'), 'na', 'na', 'na', 'na').subscribe((data: any) => {
             if (data.success) {
               this.verTodosArticulos();
@@ -89,7 +86,6 @@ export class RevisionDeCetificadosComponent implements OnInit {
         });
       }
     });
-    this.cargando.cerrar();
   }
   //VER EL TOKEN REGISTRADO EN LA BASE DE DATOS
   async verDataToken() {
@@ -124,8 +120,12 @@ export class RevisionDeCetificadosComponent implements OnInit {
       }
     })
   }
+  private nombNotifica: any; private correoNotifica: any; private numSolicitud:any;
   //CONTRUYE EL PDF PARA FIRMAR
   async mostrarCertificado(objFirma: any, nombModal: any) {
+    this.nombNotifica = objFirma.strNombres + ' ' + objFirma.strApellidos;
+    this.correoNotifica = objFirma.strCorreo;
+    this.numSolicitud=objFirma.intIdCertificado;
     this.rutaCarga = ''; this.rutaFirma = ''; this.objRecupera64 = objFirma;
 
     if (objFirma.intTipoCertificado == 4) {
@@ -134,6 +134,10 @@ export class RevisionDeCetificadosComponent implements OnInit {
     }
     if (objFirma.intTipoCertificado == 2) {
       await this.generarPDFContrato(objFirma);
+      this.mr = this.modalService.open(nombModal);
+    }
+    if (objFirma.intTipoCertificado == 1) {
+      await this.generarPDFEscalafon(objFirma);
       this.mr = this.modalService.open(nombModal);
     }
   }
@@ -162,6 +166,7 @@ export class RevisionDeCetificadosComponent implements OnInit {
   }
   //RECUPERAMOS EL ARCHIVO FIRMADO Y GUARDAMOS EN EL DRIVE
   subirFirma() {
+    this.cargando.abrir();
     let archivoFile: any;
     let rutaFirma = 'publicaciones/certificados/' + this.objRecupera64.nomCertificado + '/' + this.objRecupera64.strCedula + '_' + this.objRecupera64.intIdCertificado + '.pdf';
     this.swPublicacion.obtener64Firmado(localStorage.getItem('archivoToken')).subscribe((data: any) => {
@@ -169,101 +174,31 @@ export class RevisionDeCetificadosComponent implements OnInit {
         archivoFile = this.dataURItoBlob(data.listado[0]['archivoFirmado'], this.objRecupera64.strCedula + '_' + this.objRecupera64.intIdCertificado + '.pdf');//OBTENGO EL FILE
         this.cargaDrive(archivoFile, localStorage.getItem('archivoToken'), rutaFirma, this.objRecupera64.intIdCertificado);
         this.alerti.success('PdF SUBIDO');
-
+        this.verTodosArticulos();
+        this.cerrrarModal();
+        this.cargando.cerrar();
+        this.envioCorreo(this.correoNotifica, this.nombNotifica);
       }
       else {
         this.alerti.error('No se puede generar');
       }
     })
   }
+
+  
+
+  envioCorreo(correoAutor: any, nombreAutor: any) {
+    let contenido = this.confMensaje.bodyMensaje(1) + nombreAutor + this.confMensaje.bodyMensaje(6) + this.confMensaje.bodyMensaje(5);
+    this.swPublicacion.envioCorreo("Notificación de proceso de certificación", correoAutor, btoa(contenido)).subscribe((res: any) => {
+      if (res.resEnvio) {
+        this.mr.close();
+        this.alerti.success('Notificación enviada');
+      }
+    });
+  }
+
   //CERTIFICADO CONSOLIDADO
-  // generarPDFConsolidado(objSolicita: any) {
-  //   console.log(objSolicita)
-  //   let numLineas: number = 95; let numColumnas: number = 20;
-  //   var imgData = '';
-  //   var imgData = recursosPublicaciones.imagenBase64Poli;
-  //   let vecAdd: any[] = [];
-  //   const startY = 79;
-
-
-  //   this.swPublicacion.getUsuarios(33, objSolicita.intIdPersona, '1', '1', 'na', 'na').subscribe((data: any) => {
-  //     if (data.success) {
-  //       for (let objSol of data.usuario) {
-  //         numLineas += 15;
-  //         vecAdd.push([objSol.nombTipo, objSol.strNombreArticulo, objSol.detallePublicacion, objSol.strPais + '\n ' + objSol.dateFechaPublicacion.split('T')[0],
-  //         objSol.bitPertinencia == true ? 'SI' : 'NO']);
-  //       }
-
-  //       const doc = new jsPDF('p', 'mm', 'letter');
-
-  //       doc.addImage(imgData, 13, 1, 85, 30)
-        
-      
-  //       doc.setFont("bolditalic", "italic", "bold");
-  //       doc.setFontSize(11);
-  //       doc.text(this.vecAjustes[0]['strNombre'] + '\n' + this.vecAjustes[0]['strDetalle'], 125, 33);
-
-
-  //       doc.setFontSize(17);
-  //       doc.setFont("helvetica", "bold");
-  //       doc.text('CERTIFICA', 90, 50);
-
-  //       doc.setFont("bolditalic", "courier");
-  //       doc.setFontSize(10);
-  //       doc.text('Que ' + objSolicita.strNombres + ' ' + objSolicita.strApellidos + ', Cédula de identidad No. ' +
-  //         objSolicita.strCedula + ', ' + objSolicita.strCargo + ' de la ' + objSolicita.strDependencia
-  //         + 'ha publicado los siguientes: artículos científicos en revistas indexadas u obras de relevancia.', 13, 57, { align: 'justify', lineHeightFactor: 1.5, maxWidth: 185 });
-
-  //       autoTable(doc, {
-  //         margin: { top: 75 },
-  //         headStyles: { halign: 'center' },
-  //         bodyStyles: { fontSize: 10 },
-  //         styles: {
-  //           lineColor: [0, 0, 0], // Color de línea
-  //           lineWidth: 0.05 // Grosor de la línea
-  //         },
-  //         startY: startY,
-  //         head: [['TIPO DE PUBLICACIÓN', 'TÍTULO DEL ARTÍCULO U OBRA DE RELEVANCIA', 'DESCRIPCIÓN DE LA PUBLICACIÓN',
-  //           'PAIS AÑO Y FECHA DE PUBLICACIÓN', 'PERTINENCIA']],
-  //         body: vecAdd,
-  //         theme: 'plain',
-  //       })
-
-
-  //       doc.setFont("helvetica", "italic", "bold");
-  //       doc.setFontSize(11);
-  //       doc.text('OBSERVACIONES: La presente certificación es emitida luego de la verificación de las publicaciones en las distintas bases de datos; debido a la evaluación '
-  //         + 'que están sujetas las diferentes revistas.', 13, numLineas + 30, { align: 'justify', lineHeightFactor: 1.2, maxWidth: 185 })
-
-  //       doc.setFont("helvetica", "italic");
-  //       doc.setFontSize(11);
-  //       doc.text('Es todo lo que puedo certificar, luego de la respectiva verificación en la base de datos de la Producción Científica de la  Decanato de Publicaciones.',
-  //         13, numLineas + 40, { align: 'justify', lineHeightFactor: 1.2, maxWidth: 185 })
-
-
-
-  //       doc.setFont("helvetica", "italic");
-  //       doc.setFontSize(11);
-  //       var fecha = new Date();
-  //       doc.text('Riobamba,' + fecha.getDate() + ' de ' + this.verMes(fecha.getMonth()) + ' de ' + fecha.getFullYear(),
-  //         135, numLineas + 53, { align: 'left', lineHeightFactor: 1.2, maxWidth: 185 })
-
-  //       this.Firmay = numLineas + 50;
-  //       this.Firmax = numColumnas + 170;
-  //       doc.text(this.vecAjustes[0]['strNombre'] + '\n' + this.vecAjustes[0]['strDetalle'], 85, numLineas + 70);
-
-  //       doc.setFont("bolditalic", "italic", "bold");
-  //       doc.setFontSize(9);
-  //       doc.text('Revisado por: ' + this.vecAjustes[1]['strNombre'] + '\n' + this.vecAjustes[2]['strNombre'], 13, numLineas + 80);
-  //       this.rutaCarga = this.bypassAndSanitize('data:application/pdf;base64,' + btoa(doc.output()));
-  //       this.rutaFirma = btoa(doc.output());
-  //     }
-  //     else
-  //       this.alerti.error('No se puede generar');
-  //   })
-  // }
-  generarPDFConsolidado(objSolicita: any) {
-    console.log(objSolicita)
+  generarPDFEscalafon(objSolicita: any) {
     let numLineas: number = 95; let numColumnas: number = 20;
     var imgData = '';
     var imgData = recursosPublicaciones.imagenBase64Poli;
@@ -282,8 +217,8 @@ export class RevisionDeCetificadosComponent implements OnInit {
         const doc = new jsPDF('p', 'mm', 'letter');
 
         doc.addImage(imgData, 13, 1, 85, 30)
-        
-      
+
+
         doc.setFont("bolditalic", "italic", "bold");
         doc.setFontSize(11);
         doc.text(this.vecAjustes[0]['strNombre'] + '\n' + this.vecAjustes[0]['strDetalle'], 125, 33);
@@ -347,6 +282,106 @@ export class RevisionDeCetificadosComponent implements OnInit {
         this.alerti.error('No se puede generar');
     })
   }
+
+
+  //CERTIFICADO CONSOLIDADO
+  generarPDFConsolidado(objSolicita: any) {
+    let numLineas: number = 95; let numColumnas: number = 20;
+    var imgData = '';
+    var imgData = recursosPublicaciones.imagenBase64Poli;
+    let vecAdd: any[] = [];
+    const startY = 79;
+
+
+    this.swPublicacion.getUsuarios(33, objSolicita.intIdPersona, '1', '1', 'na', 'na').subscribe((data: any) => {
+      if (data.success) {
+        for (let objSol of data.usuario) {
+          numLineas += 15;
+          vecAdd.push([objSol.nombTipo, objSol.strNombreArticulo, objSol.detallePublicacion, objSol.strPais + '\n ' + objSol.dateFechaPublicacion.split('T')[0],
+          objSol.bitPertinencia == true ? 'SI' : 'NO']);
+        }
+
+        const doc = new jsPDF('p', 'mm', 'letter');
+
+        doc.addImage(imgData, 13, 1, 85, 30)
+
+
+        doc.setFont("bolditalic", "italic", "bold");
+        doc.setFontSize(11);
+        doc.text(this.vecAjustes[0]['strNombre'] + '\n' + this.vecAjustes[0]['strDetalle'], 125, 33);
+
+
+        doc.setFontSize(17);
+        doc.setFont("helvetica", "bold");
+        doc.text('CERTIFICA', 90, 50);
+
+        doc.setFont("bolditalic", "courier");
+        doc.setFontSize(10);
+        doc.text('Que ' + objSolicita.strNombres + ' ' + objSolicita.strApellidos + ', Cédula de identidad No. ' +
+          objSolicita.strCedula + ', ' + objSolicita.strCargo + ' de la ' + objSolicita.strDependencia
+          + 'ha publicado los siguientes: artículos científicos en revistas indexadas u obras de relevancia.', 13, 57, { align: 'justify', lineHeightFactor: 1.5, maxWidth: 185 });
+
+        autoTable(doc, {
+          margin: { top: 75 },
+          headStyles: { halign: 'center' },
+          bodyStyles: { fontSize: 10 },
+          styles: {
+            lineColor: [0, 0, 0], // Color de línea
+            lineWidth: 0.05 // Grosor de la línea
+          },
+          columnStyles: {
+            0: {
+              cellWidth: 15
+            }, 1: {
+              cellWidth: 45
+            }, 2: {
+              cellWidth: 45
+            }, 3: {
+              cellWidth: 45
+            }, 4: {
+              cellWidth: 45
+            },
+          },
+          startY: startY,
+          head: [['TIPO DE PUBLICACIÓN', 'TÍTULO DEL ARTÍCULO U OBRA DE RELEVANCIA', 'DESCRIPCIÓN DE LA PUBLICACIÓN',
+            'PAIS AÑO Y FECHA DE PUBLICACIÓN', 'PERTINENCIA']],
+          body: vecAdd,
+          theme: 'plain',
+        })
+
+
+        doc.setFont("helvetica", "italic", "bold");
+        doc.setFontSize(11);
+        doc.text('OBSERVACIONES: La presente certificación es emitida luego de la verificación de las publicaciones en las distintas bases de datos; debido a la evaluación '
+          + 'que están sujetas las diferentes revistas.', 13, numLineas + 50, { align: 'justify', lineHeightFactor: 1.2, maxWidth: 185 })
+
+        doc.setFont("helvetica", "italic");
+        doc.setFontSize(11);
+        doc.text('Es todo lo que puedo certificar, luego de la respectiva verificación en la base de datos de la Producción Científica de el  Decanato de Publicaciones.',
+          13, numLineas + 60, { align: 'justify', lineHeightFactor: 1.2, maxWidth: 185 })
+
+
+
+        doc.setFont("helvetica", "italic");
+        doc.setFontSize(11);
+        var fecha = new Date();
+        doc.text('Riobamba,' + fecha.getDate() + ' de ' + this.verMes(fecha.getMonth()) + ' de ' + fecha.getFullYear(),
+          135, numLineas + 73, { align: 'left', lineHeightFactor: 1.2, maxWidth: 185 })
+
+        this.Firmay = numLineas + 70;
+        this.Firmax = numColumnas + 170;
+        doc.text(this.vecAjustes[0]['strNombre'] + '\n' + this.vecAjustes[0]['strDetalle'], 85, numLineas + 70);
+
+        doc.setFont("bolditalic", "italic", "bold");
+        doc.setFontSize(9);
+        doc.text('Revisado por: ' + this.vecAjustes[1]['strNombre'] + '\n' + this.vecAjustes[2]['strNombre'], 13, numLineas + 80);
+        this.rutaCarga = this.bypassAndSanitize('data:application/pdf;base64,' + btoa(doc.output()));
+        this.rutaFirma = btoa(doc.output());
+      }
+      else
+        this.alerti.error('No se puede generar');
+    })
+  }
   //CERTIFICADO DE CONTRATO
   async generarPDFContrato(objSolicita: any) {
     let numLineas: number = 95; let numColumnas: number = 20;
@@ -355,10 +390,7 @@ export class RevisionDeCetificadosComponent implements OnInit {
 
     let vecAdd: any[] = [];
     this.swPublicacion.getUsuarios(34, objSolicita.intIdPersona, '1', '1', 'na', 'na').subscribe((data: any) => {
-      console.log(data)
       if (data.success) {
-        console.log(data)
-        console.log(data.usuario[0]['intContrato'])
         for (let objSol of data.usuario) {
           numLineas += 25;
           vecAdd.push([objSol.nombTipo, objSol.strNombreArticulo, objSol.detallePublicacion, objSol.intEstado == 1 ? 'PUBLICADO' : 'ACEPTADO', objSol.bitFilial == true ? 'SI' : 'NO',

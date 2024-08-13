@@ -23,7 +23,7 @@
       <div class="widget-content">
         <p-table #tblSolicitudesCertificados
           [globalFilterFields]="['strCedula', 'strNombres', 'strDependencia', 'strCertificado', 'strFSolicitud', 'strFirmar']"
-          [value]="vecArticulos" [rows]="5" [showCurrentPageReport]="true" [rowsPerPageOptions]="[5,10,25,50]"
+          [value]="vecArticulos" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[5,10,25,50]"
           styleClass="p-datatable-customers p-datatable-gridlines" [paginator]="true"
           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
 
@@ -58,14 +58,14 @@
           </ng-template>
           <ng-template pTemplate="body" let-objSolicita>
             <tr>
-            <tr *ngFor="let objUser of vecArticulos">
-              <td style="font-size: 14px"> {{objUser.nombreArticulo}} </td>
-              <td style="font-size: 14px"> {{objUser.strNombres}} {{objUser.strApellidos}} </td>
-              <td style="font-size: 14px"> {{objUser.fechaArticulo.split('T')[0]}} </td>
-              <td style="font-size: 14px"> {{objUser.intEstado == 2? 'EN REVISIÓN' : 'PENDIENTE'}} </td>
+            <tr>
+              <td style="font-size: 14px"> {{objSolicita.nombreArticulo}} </td>
+              <td style="font-size: 14px"> {{objSolicita.strNombres}} {{objSolicita.strApellidos}} </td>
+              <td style="font-size: 14px"> {{objSolicita.fechaArticulo.split('T')[0]}} </td>
+              <td style="font-size: 14px"> {{objSolicita.intEstado == 2? 'EN REVISIÓN' : 'PENDIENTE'}} </td>
               <td>
                 <button style="font-size: 17px;" class="btn btn-link" title="Ver datos del artículo"
-                  (click)="verData(objUser, modVerCarga)"> <i class="fa fa-edit"></i></button>
+                  (click)="verData(objSolicita, modVerCarga)"> <i class="fa fa-edit"></i></button>
               </td>
             </tr>
           </ng-template>
@@ -110,7 +110,12 @@
   <div class="modal-body">
 
     <div style="height: 320px; overflow-y: auto;">
-      <table id="tblSignos" style="width: 100%;">
+      <table id="tblSolicitud" style="width: 100%;">
+        <tr>
+          <td class="tdEnunciado">Autor: </td>
+          <td class="tdTexto"> {{vecBuscar[0]['autor']}} </td>
+        </tr>
+
         <tr>
           <td class="tdEnunciado">Código del artículo: </td>
           <td class="tdTexto"> <input type="text" [(ngModel)]="vecBuscar[0]['codigoArticulo']"

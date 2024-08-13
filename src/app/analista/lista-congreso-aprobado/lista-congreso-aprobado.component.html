@@ -2,7 +2,7 @@
   <div class="col-lg-4 ">
     <ul class="breadcrumb">
       <li><i class="fa fa-home"></i><a href="#">Analista</a></li>
-      <li><a href="#">Revision de Solicitudes de Libros</a></li>
+      <li><a href="#">Revision de Solicitudes de Congreso</a></li>
       <li class="active">Analista</li>
     </ul>
   </div>
@@ -11,14 +11,14 @@
 <div class="content">
   <div class="main-header">
     <h2>Analista</h2>
-    <em>Sistema  Decanato de Publicaciones</em>
+    <em>Sistema Decanato de Publicaciones</em>
   </div>
   <div class="main-content">
 
     <!-- DATA EXPORT -->
     <div class="widget widget-table">
       <div class="widget-header">
-        <h3><i class="fa fa-calendar"></i> Lista de Libros</h3> <em> - Sistema  Decanato de Publicaciones</em>
+        <h3><i class="fa fa-calendar"></i> Lista de Congreso</h3> <em> - Sistema Decanato de Publicaciones</em>
       </div>
       <div class="widget-content">
         <table datatable class="row-border hover table">
@@ -54,7 +54,7 @@
 
 <ng-template #modVerCarga let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Datos de Libros </h4>
+    <h4 class="modal-title" id="modal-basic-title">Datos del Artículo </h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -62,7 +62,7 @@
   <div class="modal-body">
 
     <div style="height: 320px; overflow-y: auto;">
-      <table id="tblDatosLibro" style="width: 100%;">
+      <table id="tblDatosArticulo" style="width: 100%;">
         <tr>
           <td class="tdEnunciado">Código del artículo: </td>
           <td class="tdTexto"> <input type="text" [(ngModel)]="vecBuscar[0]['codigoArticulo']"
@@ -175,21 +175,15 @@
           </td>
         </tr>
         <tr>
-          <td class="tdEnunciado">Nombre del capítulo: </td>
-          <td class="tdTexto"> <input type="text" [(ngModel)]="vecBuscar[0]['nombreLibro']" placeholder="Descripcion"
-              style="width: 100%; font-size: 14px; margin-top: 5px;" />
-          </td>
-        </tr>
-        <tr>
-          <td class="tdEnunciado">ISBN: </td>
-          <td class="tdTexto"> <input type="text" [(ngModel)]="vecBuscar[0]['isbnLibro']" placeholder="Descripcion"
+          <td class="tdEnunciado">Link del articulo: </td>
+          <td class="tdTexto"> <input type="text" [(ngModel)]="vecBuscar[0]['linkArticulo']" placeholder="Descripcion"
               style="width: 100%; font-size: 14px; margin-top: 5px;" />
           </td>
         </tr>
         <tr>
           <td class="tdEnunciado">Tipo de obra: </td>
           <td class="tdTexto">
-            <select class="txtSigno" style="width: 100%; font-size: 14px;" [(ngModel)]="vecBuscar[0]['obraLibro']">
+            <select class="txtSigno" style="width: 100%; font-size: 14px;" [(ngModel)]="vecBuscar[0]['obraCongreso']">
               <ng-container *ngFor="let objObra of vecObra">
                 <option *ngIf="objObra.intEstado == 1" value="{{objObra.intIdTipoObra}}">
                   {{objObra.strNombre}} </option>
@@ -198,33 +192,39 @@
           </td>
         </tr>
         <tr>
-          <td class="tdEnunciado">Revisión pares: </td>
+          <td class="tdEnunciado">Congreso: </td>
           <td class="tdTexto">
-            <select class="txtSigno" style="width: 100%; font-size: 14px;" [(ngModel)]="vecBuscar[0]['paresLibro']">
-              <option value="true"> SI </option>
-              <option value="false"> NO </option>
+            <select class="txtSigno" style="width: 100%; font-size: 14px;" [(ngModel)]="vecBuscar[0]['obraCongreso']">
+              <ng-container *ngFor="let objCongreso of vecCongreso">
+                <option *ngIf="objCongreso.intEstado == 1" value="{{objCongreso.intIdCongreso}}">
+                  {{objCongreso.strNombreCongreso}} </option>
+              </ng-container>
             </select>
           </td>
         </tr>
         <tr>
-          <td class="tdEnunciado">Tomo: </td>
-          <td class="tdTexto"> <input type="text" [(ngModel)]="vecBuscar[0]['intTomo']" placeholder=""
-              style="width: 100%; font-size: 14px; margin-top: 5px;" />
+          <td class="tdEnunciado">Estado del Congreso: </td>
+          <td class="tdTexto">
+            <select class="txtSigno" style="width: 100%; font-size: 14px;" [(ngModel)]="vecBuscar[0]['estadoCongreso']">
+              <option value="1"> PUBLICADO </option>
+              <option value="0"> ACEPTADO </option>
+            </select>
           </td>
         </tr>
         <tr>
-          <td class="tdEnunciado">País: </td>
-          <td class="tdTexto"> <input type="text" [(ngModel)]="vecBuscar[0]['paisLibro']" placeholder=""
-              style="width: 100%; font-size: 14px; margin-top: 5px;" />
+          <td class="tdEnunciado">Documento: </td>
+          <td class="tdTexto"> <a href="{{vecBuscar[0].distibutivo}}">Distributivo</a>
+            <a style="margin-left: 10px;" href="{{vecBuscar[0].carta}}">Carta de aceptación</a>
+            <a style="margin-left: 10px;" href="{{vecBuscar[0].certificado}}">Certificado</a>
+            <a style="margin-left: 10px;" href="{{vecBuscar[0].libroMemoria}}">Libro de memoria</a>
           </td>
         </tr>
-
       </table>
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" style="background-color: #394A59;"
-      (click)="editarArticulo()">Guardar </button>
+    <button type="button" (click)="editarArticulo()" class="btn btn-outline-dark"
+      style="background-color: #394A59;">Guardar </button>
     <button type="button" class="btn btn-outline-dark" style="background-color: #D9534F;"
       (click)="cerrarModal()">Cancelar</button>
   </div>

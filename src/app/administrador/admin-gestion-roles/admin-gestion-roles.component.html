@@ -65,29 +65,7 @@
             </tr>
           </ng-template>
         </p-table>
-        <!-- <table datatable class="row-border hover table">
-          <thead>
-            <tr>
-              <th>Usuario</th>
-              <th>Rol</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let objUser of vecRoles">
-              <td> {{objUser.strNombre}} </td>
-              <td> {{objUser.strDescripcion}} </td>
-
-              <td class="{{objUser.claseActivo}}"> {{objUser.intEstado ? 'Activo' : 'No Activo'}} </td>
-              <td>
-                <button style="margin-left: -10px;margin-right: -15px" class="btn btn-link" title="Editar rol de usuario"
-                  (click)="verDataPersona(objUser, modNuevoRol)"> <i class="fa fa-pencil"></i>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table> -->
+      
       </div>
     </div>
     <!-- END DATA EXPORT -->
@@ -103,7 +81,7 @@
   </div>
   <div class="modal-body">
 
-    <table id="tblSignos" style="width: 90%;">
+    <table id="tblModificarRoles" style="width: 90%;">
       <tr>
         <td style="padding-left: 5%; width: 25%;">Rol: </td>
         <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strNombre']"

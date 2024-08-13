@@ -11,7 +11,7 @@
 <div class="content">
   <div class="main-header">
     <h2>Analista</h2>
-    <em>Sistema  Decanato de Publicaciones</em>
+    <em>Sistema Decanato de Publicaciones</em>
   </div>
   <div class="main-content">
     <h3 (click)="modalAddRevista(modNuevaRevista)"><i class="fa fa-plus-circle" title="Agregar una Revista"></i> Agregar
@@ -21,45 +21,67 @@
     <div class="widget widget-table">
       <div class="widget-header">
 
-        <h3><i class="fa fa-calendar"></i> Lista de Revistas</h3> <em> - Sistema  Decanato de Publicaciones</em>
+        <h3><i class="fa fa-calendar"></i> Lista de Revistas</h3> <em>- Sistema Decanato de Publicaciones</em>
       </div>
       <div class="widget-content">
+        <p-table #tblRevistas
+          [globalFilterFields]="['strNombre', 'strIssn', 'strPais', 'intBasedeDatos', 'strCuartilJCR', 'intBasedeDatos']"
+          [value]="vecRevistas" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[5,10,25,50]"
+          styleClass="p-datatable-customers p-datatable-gridlines" [paginator]="true"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
 
-
-        <table datatable class="row-border hover table">
-          <thead>
+          <ng-template pTemplate="caption">
+            <div class="p-d-flex" style="float: right;">
+              <span class="p-input-icon-left p-ml-auto">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" #txtBusMatr style="margin-right: 0.5em;  font-size: 14px"
+                  (input)="tblRevistas.filterGlobal(txtBusMatr.value, 'contains')" placeholder="buscar" />
+              </span>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
             <tr>
-              <th>Nombre Revista</th>
-              <th>Issn </th>
-              <th>Pais </th>
-              <th>Estado</th>
-              <th>Base de datos</th>
-              <th>Acciones</th>
+              <th style="font-size: 14px" pSortableColumn="strNombre"> Nombre<p-sortIcon field="strNombre"></p-sortIcon>
+              </th>
+              <th style="font-size: 14px" pSortableColumn="strIssn"><span> Issn </span> <p-sortIcon
+                  field="strIssn"></p-sortIcon></th>
+              <th style="font-size: 14px" pSortableColumn="strPais"> Pais<p-sortIcon field="strPais"></p-sortIcon></th>
+              <th style="font-size: 14px" pSortableColumn="intBasedeDatos"> Base de Datos<p-sortIcon
+                  field="intBasedeDatos"></p-sortIcon></th>
+              <th style="font-size: 14px" pSortableColumn="intEstado"> Estado<p-sortIcon field="intEstado"></p-sortIcon>
+              </th>
+              <th style="font-size: 14px" pSortableColumn="Acciones"> Acciones<p-sortIcon field="Acciones"></p-sortIcon>
+              </th>
             </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let objUser of vecRevistas">
-              <td> {{objUser.strNombre}} </td>
-              <td> {{objUser.strIssn}} </td>
-              <td> {{objUser.strPais}} </td>
-              <td> {{objUser.detEstado}} </td>
-              <td> {{objUser.intBasedeDatos}} </td>
-              <td>
-                <button style="margin-left: -10px;margin-right: -15px" class="btn btn-link" title="Editar"
-                (click)=" verDataRevista (objUser, modNuevaRevista)"> <i
-                    class="fa fa-pencil"></i>
-                </button>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-objUser>
+            <tr>
+              <td style="font-size: 14px" style="font-size: 14px">{{objUser.strNombre}}</td>
+              <td style="font-size: 14px">{{objUser.strIssn}}</td>
+              <td style="font-size: 14px">{{objUser.strPais}}</td>
+              <td style="font-size: 14px">{{objUser.nombBD}}</td>
+              <td style="font-size: 14px">{{objUser.detEstado}}</td>
+              <td style="font-size: 14px">
+                <p-button class="btn btn-link" title="Editar Revistas"
+                  (click)="verDataRevista(objUser, modNuevaRevista)"> <i class="fa fa-pencil"></i>
+                </p-button>
               </td>
             </tr>
-          </tbody>
-        </table>
+          </ng-template>
+        </p-table>
+
       </div>
+
     </div>
     <!-- END DATA EXPORT -->
   </div>
 
 </div>
-<!-- /main -->
+<!-- MODAL NUEVA REVISTA  -->
+
+
+
 <ng-template #modNuevaRevista let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Datos de la Revista </h4>
@@ -67,79 +89,126 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body">
 
-    <table id="tblSignos" style="width: 90%;">
+  <div class="modal-body">
+    <table class="tblPublicacion" style="width: 90%;">
       <tr>
-        <td style="padding-left: 5%; width: 25%;">Nombre: </td>
-        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strCedula']"
-            placeholder="Nombre de la Revista" style="width: 100%; font-size: 14px;" /> </td>
-      </tr>
-      <tr>
-        <td style="padding-left: 5%; width: 25%;">ISSN: </td>
-        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strNombres']"
-            placeholder="ISSN de la Revista" style="width: 100%; font-size: 14px; margin-top: 5px;" /> </td>
-      </tr>
-      <tr>
-        <td style="padding-left: 5%; width: 25%;">Pais: </td>
-        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strApellidos']"
-            placeholder="Pais de la Revista" style="width: 100%; font-size: 14px; margin-top: 5px;" />
+        <td>
+          <label>Nombre </label>
+        </td>
+        <td>
+          <input type="text" class="form-control" [(ngModel)]="vecBuscar[0].strNombre" />
         </td>
       </tr>
       <tr>
-        <td style="padding-left: 5%; width: 25%;">Estado: </td>
-        <td style="padding-left: 5%; width: 75%;">
-          <select class="txtSigno" style="margin-top: 5px; width: 75%;" [(ngModel)]="vecBuscar[0]['bitNombramiento']">
-            <option value="0">No Indexada</option>
-            <option value="1">Indexada </option>
+        <td>
+          <label>Issn </label>
+        </td>
+        <td>
+          <input type="text" class="form-control" [(ngModel)]="vecBuscar[0].strISSN" maxLength="9" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Pais </label>
+        </td>
+        <td>
+          <input [(ngModel)]="vecBuscar[0].strPais" type="text" class="form-control" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Estado</label>
+        </td>
+        <td>
+          <select class="select-ticket-priority" [(ngModel)]="vecBuscar[0].intEstado">
+            <option value="1"> Indexada </option>
+            <option value="0"> No Indexada </option>
           </select>
         </td>
       </tr>
       <tr>
-        <td style="padding-left: 5%; width: 25%;">Descripcion: </td>
-        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strCargo']"
-            placeholder="Descripcion" style="width: 100%; font-size: 14px; margin-top: 5px;" />
+        <td>
+          <label>Base de Datos</label>
+        </td>
+        <td>
+          <select class="select-ticket-priority" [(ngModel)]="vecBuscar[0].intBasedeDatos">
+            <ng-container *ngFor="let objBD of vecBaseDatos">
+              <option *ngIf="objBD" value="{{objBD.intIdBasedeDatos}}">
+                {{objBD.strNombre}} </option>
+            </ng-container>
+          </select>
         </td>
       </tr>
       <tr>
-        <td style="padding-left: 5%; width: 25%;">Factor SJR: </td>
-        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strDependencia']"
-            placeholder="Factor SJR" style="width: 100%; font-size: 14px; margin-top: 5px;" />
+        <td>
+          <label>Descripción </label>
+        </td>
+        <td>
+          <input [(ngModel)]="vecBuscar[0].strDescripcion" type="text" class="form-control" />
         </td>
       </tr>
       <tr>
-        <td style="padding-left: 5%; width: 25%;">Cuartil SJR: </td>
-        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strDependencia']"
-            placeholder="Factor SJR" style="width: 100%; font-size: 14px; margin-top: 5px;" />
+        <td>
+          <label>Factor SJR </label>
+        </td>
+        <td>
+          <input [(ngModel)]="vecBuscar[0].strFactorSJR" type="number" class="form-control" />
         </td>
       </tr>
       <tr>
-        <td style="padding-left: 5%; width: 25%;">Factor JCR: </td>
-        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strDependencia']"
-            placeholder="Factor SJR" style="width: 100%; font-size: 14px; margin-top: 5px;" />
+        <td>
+          <label>Cuartil SJR</label>
+        </td>
+        <td>
+          <select class="select-ticket-priority" [(ngModel)]="vecBuscar[0].strCuartilSJR">
+            <option value="0"> Sin Quartil </option>
+            <option value="ACI"> Sin Cuartil Asignado </option>
+            <option value="Q1"> Q1 </option>
+            <option value="Q2"> Q2 </option>
+            <option value="Q3"> Q3 </option>
+            <option value="Q4"> Q4 </option>
+          </select>
         </td>
       </tr>
       <tr>
-        <td style="padding-left: 5%; width: 25%;">Cuartil JCR: </td>
-        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strDependencia']"
-            placeholder="Factor SJR" style="width: 100%; font-size: 14px; margin-top: 5px;" />
+        <td>
+          <label>Factor JCR</label>
+        </td>
+        <td>
+          <input [(ngModel)]="vecBuscar[0].strFactorJCR" type="number" class="form-control" maxlength="5" />
         </td>
       </tr>
-
       <tr>
-        <td style="padding-left: 5%; width: 25%;">Link: </td>
-        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strCargo']"
-            placeholder="Link revista" style="width: 100%; font-size: 14px; margin-top: 5px;" />
+        <td>
+          <label>Cuartil JCR</label>
+        </td>
+        <td>
+          <select class="font-size: 14px" [(ngModel)]="vecBuscar[0].strCuartilJCR">
+            <option value="0"> Sin Quartil </option>
+            <option value="ACI"> Sin Cuartil Asignado </option>
+            <option value="Q1"> Q1 </option>
+            <option value="Q2"> Q2 </option>
+            <option value="Q3"> Q3 </option>
+            <option value="Q4"> Q4 </option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Link</label>
+        </td>
+        <td>
+          <input [(ngModel)]="vecBuscar[0].strLink" type="text" class="form-control" />
         </td>
       </tr>
 
     </table>
-
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" style="background-color: #394A59;"
-    (click)="ingresarRevista()">Guardar </button>
-    <button type="button" class="btn btn-outline-dark" style="background-color: #D9534F;"
-    (click)="cerrarRevista()">Cancelar</button>
+    <p-button style="font-size: 14px" type="button" styleClass="p-button-success "
+      (click)="ingresarRevista()">Guardar</p-button>
+    <p-button style="font-size: 14px" type="button" styleClass="p-button-danger"
+      (click)="cerrarRevista()">Cancelar</p-button>
   </div>
 </ng-template>

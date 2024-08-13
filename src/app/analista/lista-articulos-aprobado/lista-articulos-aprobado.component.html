@@ -1,0 +1,296 @@
+<div class="row">
+    <div class="col-lg-4 ">
+        <ul class="breadcrumb">
+            <li><i class="fa fa-home"></i><a href="#">Analista</a></li>
+            <li><a href="#">Revision de Solicitudes de Articulos</a></li>
+            <li class="active">Analista</li>
+        </ul>
+    </div>
+</div>
+<!-- main -->
+<div class="content">
+    <div class="main-header">
+        <h2>Analista</h2>
+        <em>Sistema Decanato de Publicaciones</em>
+    </div>
+    <div class="main-content">
+        <p-button type="button" (click)="verTodosArticulos('RR')" styleClass="p-button-success">Artículos Regionales
+        </p-button>
+        <p-button type="button" (click)="verTodosArticulos('RC')" styleClass="p-button-success"
+            style="margin-left: 10px;">Artículos Científicos </p-button>
+        <!-- DATA EXPORT -->
+        <div class="widget widget-table">
+            <div class="widget-header">
+                <h3><i class="fa fa-calendar"></i> Lista de Articulos</h3> <em> - Sistema Decanato de Publicaciones</em>
+            </div>
+            <div class="widget-content">
+                <p-table #tblSolicitudesCertificados
+                    [globalFilterFields]="['strCedula', 'strNombres', 'strDependencia', 'strCertificado', 'strFSolicitud', 'strFirmar']"
+                    [value]="vecArticulos" [rows]="10" [showCurrentPageReport]="true"
+                    [rowsPerPageOptions]="[5,10,25,50]" styleClass="p-datatable-customers p-datatable-gridlines"
+                    [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+
+
+
+                    <ng-template pTemplate="caption">
+
+                        <div class="p-d-flex" style="float: right;">
+                            <span class="p-input-icon-left p-ml-auto">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" #txtBusMatr style="margin-right: 0.5em;  font-size: 14px"
+                                    (input)="tblSolicitudesCertificados.filterGlobal(txtBusMatr.value, 'contains')"
+                                    placeholder="buscar" />
+                            </span>
+                        </div>
+                    </ng-template>
+
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="font-size: 14px" pSortableColumn="strArticulo "><span> Código </span>
+                                <p-sortIcon field="strArticulo"></p-sortIcon>
+                            </th>
+                            <th style="font-size: 14px" pSortableColumn="strSolicitante">Artículo<p-sortIcon
+                                    field="strSolicitante"></p-sortIcon>
+                            </th>
+                            <th style="font-size: 14px" pSortableColumn="strFPublicacion">Revista<p-sortIcon
+                                    field="strDependencia"></p-sortIcon> </th>
+                            <th style="font-size: 14px" pSortableColumn="strEstado"> Base de Datos<p-sortIcon
+                                    field="strEstado"></p-sortIcon> </th>
+                            <th style="font-size: 14px" pSortableColumn="strEstado">F. Publicación<p-sortIcon
+                                    field="strEstado"></p-sortIcon> </th>
+                            <th style="font-size: 14px" pSortableColumn="strEstado">Acciones<p-sortIcon
+                                    field="strEstado"></p-sortIcon> </th>
+                            <th style="font-size: 14px" pSortableColumn="strEstado">Ver<p-sortIcon
+                                    field="strEstado"></p-sortIcon> </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-objAprobado>
+                        <tr>
+                        <tr>
+                            <td style="font-size: 14px"> {{objAprobado.datoArticulo.codigoArticulo}} </td>
+                            <td style="font-size: 14px"> {{objAprobado.datoArticulo.nombreArticulo}} </td>
+                            <td style="font-size: 14px"> {{objAprobado.datoArticulo.strNombre}} </td>
+                            <td style="font-size: 14px"> {{objAprobado.datoArticulo.nombBaseDatos}} </td>
+                            <td style="font-size: 14px"> {{objAprobado.datoArticulo.fechaArticulo.split('T')[0]}} </td>
+                            <td>
+                                <button style="font-size: 17px;" class="btn btn-link" title="Ver datos del artículo"
+                                    (click)="verData(objAprobado.datoArticulo, modVerCarga)"> <i class="fa fa-pencil"></i></button>
+                            </td>
+                            <td>
+                                <a target="_blank" href="{{objAprobado.linkRegCient}}"><i class="fa fa-file"></i></a>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+        <!-- END DATA EXPORT -->
+    </div>
+
+</div>
+<!-- /main -->
+<ng-template #modVerCarga let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Datos del artículo</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div style="height: 320px; overflow-y: auto;">
+            <table class="tblPublicacion">
+                <tr>
+                    <td class="tdEnunciado">Autores: </td>
+                    <td> {{vecBuscar[0]['autor']}} </td>
+                </tr>
+
+                <tr>
+                    <td class="tdEnunciado">Código del artículo: </td>
+                    <td> <input type="text" [(ngModel)]="vecBuscar[0]['codigoArticulo']"/> </td>
+                </tr>
+
+                <tr>
+                    <td class="tdEnunciado">Nombre del artículo: </td>
+                    <td> <textarea  [(ngModel)]="vecBuscar[0]['nombreArticulo']"rows="3"> </textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdEnunciado">Línea de Investigación: </td>
+                    <td> <input type="text" [(ngModel)]="vecBuscar[0]['lineaArticulo']"
+                        placeholder="Descripcion"/> </td>
+                </tr>
+
+                <tr>
+                    <td class="tdEnunciado">Campo del conocimiento: </td>
+                    <td>
+                        <select  [(ngModel)]="vecBuscar[0]['campoArticulo']">
+                            <ng-container *ngFor="let objCampo of vecCampoA">
+                                <option *ngIf="objCampo.intEstado == 1" value="{{objCampo.intIdCampoA}}">
+                                    {{objCampo.strCodigo}} {{objCampo.strNombre}} </option>
+                            </ng-container>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="tdEnunciado">Procedencia: </td>
+                    <td>
+                        <select 
+                            [(ngModel)]="vecBuscar[0]['procedeArticulo']">
+                            <ng-container *ngFor="let objProcede of vecProcedencia">
+                                <option *ngIf="objProcede.intEstado == 1" value="{{objProcede.intIdProcedencia}}">
+                                    {{objProcede.strNombre}} </option>
+                            </ng-container>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdEnunciado">Fecha de publicación: </td>
+                    <td> <input type="text" [(ngModel)]="vecBuscar[0]['fechaArticulo'].split('T')[0]"/> </td>
+                </tr>
+                <tr>
+                    <td class="tdEnunciado">Estado del artículo: </td>
+                    <td>
+                        <select 
+                            [(ngModel)]="vecBuscar[0]['estadoArticulo']">
+                            <option value="1"> Publicado </option>
+                            <option value="0"> Aceptado </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdEnunciado">Detalle del artículo: </td>
+                    <td> <input type="text" [(ngModel)]="vecBuscar[0]['detalleArticulo']"
+                            placeholder="Descripcion"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdEnunciado">DOI del artículo: </td>
+                    <td> <input type="text" [(ngModel)]="vecBuscar[0]['doiRegCient']" /> </td>
+                </tr>
+
+                <tr>
+                    <td class="tdEnunciado">link del artículo: </td>
+                    <td> <input type="text" [(ngModel)]="vecBuscar[0]['linkRegCient']"
+                            placeholder="Descripcion"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdEnunciado">Revista del artículo: </td>
+                    <td>
+                        <select 
+                            [(ngModel)]="vecBuscar[0]['revistaRegCient']">
+                            <ng-container *ngFor="let objRevista of vecRevista">
+                                <option *ngIf="objRevista.intEstado == 1" value="{{objRevista.intIdRevista}}">
+                                    {{objRevista.strNombre}} </option>
+                            </ng-container>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdEnunciado">Tipo de obra: </td>
+                    <td>
+                        <select 
+                            [(ngModel)]="vecBuscar[0]['obraRegCient']">
+                            <ng-container *ngFor="let objObra of vecObra">
+                                <option *ngIf="objObra.intEstado == 1" value="{{objObra.intIdTipoObra}}">
+                                    {{objObra.strNombre}} </option>
+                            </ng-container>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="tdEnunciado">Volumen del artículo: </td>
+                    <td> <input type="text" [(ngModel)]="vecBuscar[0]['volumenRegCient']"
+                            placeholder="Descripcion"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdEnunciado">Número del artículo: </td>
+                    <td> <input type="text" [(ngModel)]="vecBuscar[0]['numeroRegCient']" /> </td>
+                </tr>
+
+                <tr>
+                    <td class="tdEnunciado">Páginas: </td>
+                    <td> <input type="text" [(ngModel)]="vecBuscar[0]['paginaRegCient']"
+                            placeholder="Descripcion"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdEnunciado">Indexado: </td>
+                    <td>
+                        <select 
+                            [(ngModel)]="vecBuscar[0]['indexadoRegCient']">
+                            <option value="true"> SI </option>
+                            <option value="false"> NO </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdEnunciado">Comisión: </td>
+                    <td>
+                        <select 
+                            [(ngModel)]="vecBuscar[0]['comisionRegCient']">
+                            <option value="true"> SI </option>
+                            <option value="false"> NO </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdEnunciado">Disponibilidad: </td>
+                    <td>
+                        <select 
+                            [(ngModel)]="vecBuscar[0]['estadoRegCient']">
+                            <option value="1"> SI </option>
+                            <option value="0"> NO </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdEnunciado">filial: </td>
+                    <td>
+                        <select 
+                            [(ngModel)]="vecBuscar[0]['filial']">
+                            <option value="true"> SI </option>
+                            <option value="false"> NO </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdEnunciado"> Documentos: </td>
+                    <td> <a href="{{vecBuscar[0]['distributivo']}}"> DISTRIBUTIVO </a>
+                        <a href="{{vecBuscar[0]['carta']}}" style="margin-left: 10%;"> CARTA DE ACEPTACIÓN </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdEnunciado">Estado de solicitud: </td>
+                    <td>
+                        <select 
+                            [(ngModel)]="vecBuscar[0]['estadoAnalista']">
+                            <option value="1"> Aceptado </option>
+                            <option value="2"> Pendiente </option>
+                            <option value="3"> Editar </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdEnunciado">Cumplimiento: </td>
+                    <td>
+                        <select 
+                            [(ngModel)]="vecBuscar[0]['cumplimiento']">
+                            <option value="1"> Cumple </option>
+                            <option value="0"> No Cumple </option>
+                        </select>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <p-button type="button" styleClass="p-button-success" (click)="editarArticulo()">Guardar </p-button>
+        <p-button type="button" styleClass="p-button-danger" (click)="cerrarModal()">Cancelar</p-button>
+    </div>
+</ng-template>

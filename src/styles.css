@@ -1,2 +1,16 @@
 @import "primeng/resources/themes/lara-light-blue/theme.css";
 @import "primeng/resources/primeng.css";
+
+
+
+.tblPublicacion{
+    width: 90%; margin-left: 5%;
+}
+
+.tdEnunciado{ color: #000; text-align: right; padding-right: 10px;}
+
+.tblPublicacion td textarea {width: 90%; font-size: 14px; margin-left: 5px; margin-top: 5px;}
+.tblPublicacion td input {width: 90%; font-size: 14px; margin-left: 5px; margin-top: 5px;} 
+.tblPublicacion td select {width: 90%; font-size: 14px; margin-left: 5px; margin-top: 5px;}
+.tblPublicacion td a { font-size: 14px;margin-left: 5px; margin-top: 5px; }
+.tblPublicacion td label { font-size: 14px;margin-left: 5px; margin-top: 5px; text-align: right; margin-right: 10px;}

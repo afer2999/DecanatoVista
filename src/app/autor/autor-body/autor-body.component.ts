@@ -17,17 +17,16 @@ export class AutorBodyComponent implements OnInit {
   public nombUsuario: any; public intRol: number = 3; private strRol: any;
   public nombreAutor: any;
   public nombresUsuarios: any;
-  public cedula: any;
+  public cedula: any; public totalRegional: number = 0; public totalCientifico: number = 0; totalCongreso: number = 0; totalLibro: number = 0;
   public vecRolPersona: Array<any>; public selectRol: number;
 
 
   constructor(private tools: ToolsService, private swPublicacion: swPublicaciones, private rutaCambio: Router, private config: configuracion, private router: Router, private alerti: AlertifyService,
-    private casClose:CasClient) {
+    private casClose: CasClient) {
     this.nombUsuario = localStorage.getItem('loginCorreo');
     this.nombreAutor = localStorage.getItem('loginNombre');
-    this.nombresUsuarios= localStorage.getItem('loginNombreAutor');
-    this.cedula= localStorage.getItem('cedula');
-    console.log('loginNombre');
+    this.nombresUsuarios = localStorage.getItem('loginNombreAutor');
+    this.cedula = localStorage.getItem('cedula');
     this.vecRolPersona = []; this.selectRol = 0; this.strRol = '';
   }
 
@@ -37,7 +36,7 @@ export class AutorBodyComponent implements OnInit {
       localStorage.getItem('loginNombre') == null || localStorage.getItem('loginNombre') == '') {
       this.alerti.error('Acceso no autorizado');
       this.router.navigate(["/"]);
-    }else{
+    } else {
       if (localStorage.getItem('banCargar') == '0') {
         location.reload();
         localStorage.setItem('banCargar', '1')
@@ -46,6 +45,7 @@ export class AutorBodyComponent implements OnInit {
       this.selectRol = parseInt(this.strRol);
       this.consumirRoles();
       this.tools.ColorUsuario(2);
+      this.obtenerTotalRegistros();
     }
   }
   async consumirRoles() {
@@ -58,7 +58,26 @@ export class AutorBodyComponent implements OnInit {
   cambiarRol() {
     this.rutaCambio.navigate([this.config.cambiaRol(this.selectRol)]);
   }
-  
+  async obtenerTotalRegistros() {
+    const resTotal = await new Promise<any>(resolve =>
+      this.swPublicacion.getUsuarios(18, localStorage.getItem('loginID'), 1, 1, 'na', 'na').subscribe(translated => {
+        resolve(translated)
+      }));
+    console.log(resTotal)
+    if (resTotal.success) {
+      for (let objT of resTotal.usuario) {
+        if (objT.strCodigoArticulo.indexOf('RR') >= 0)
+          this.totalRegional++;
+        if (objT.strCodigoArticulo.indexOf('RC') >= 0)
+          this.totalCientifico++;
+        if (objT.strCodigoArticulo.indexOf('C') >= 0)
+          this.totalCongreso++;
+        if (objT.strCodigoArticulo.indexOf('L') >= 0)
+          this.totalLibro++;
+      }
+    }
+  }
+
   salirPublicaciones() {
     this.remove();
     //this.router.navigate(['/']);

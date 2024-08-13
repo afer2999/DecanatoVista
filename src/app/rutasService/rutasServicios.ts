@@ -2,6 +2,7 @@
 export const rutasSWPublicaciones = {
   rutaCentral : "http://localhost:3030/rutaPublicacionesCentral/",
   rutaPublicacion : "http://localhost:3030/rutaswPublicaciones/",
+  rutaMaster : "http://localhost:3030/rutaPublicacionesMaster/",
 
   rutaTokenDrive: "https://apiarchivos.espoch.edu.ec/wsrepositorio/rutaRepositorio/getTokenAplicacion",
   rutaCargarArchivo : "https://apiarchivos.espoch.edu.ec/wsrepositorio/rutaRepositorio/uploadFile",

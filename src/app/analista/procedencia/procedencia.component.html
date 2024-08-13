@@ -12,43 +12,62 @@
 
   <div class="main-header">
     <h2>Analista</h2>
-    <em>Sistema  Decanato de Publicaciones</em>
+    <em>Sistema Decanato de Publicaciones</em>
   </div>
   <div class="main-content">
-    <h3 (click)="modalAddProcedencia(modNuevaProcedencia)"><i class="fa fa-plus-circle" title="Agregar una Revista"></i> Agregar
+    <h3 (click)="modalAddProcedencia(modNuevaProcedencia)"><i class="fa fa-plus-circle" title="Agregar una Revista"></i>
+      Agregar
       Procedencia</h3>
     <!-- DATA EXPORT -->
     <div class="widget widget-table">
-      <div class="widget-header">
-        <h3><i class="fa fa-calendar"></i> Procedencia de los artìculos</h3> <em> - Sistema  Decanato de Publicaciones</em>
-      </div>
-      <div class="widget-content">
-        <table datatable class="row-border hover table">
-          <thead>
-            <tr>
+    <div class="widget-header">
 
-              <th>Nombre</th>
-              <th>Descripcion</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let objUser of vecProcedencia">
-              <td> {{objUser.strNombre}} </td>
-              <td> {{objUser.strDescripcion}} </td>
-              <td> {{objUser.detEstado }} </td>
-              <td>
-                <button style="margin-left: -10px;margin-right: -15px" class="btn btn-link" title="Editar "> <i
-                    class="fa fa-pencil"></i>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <h3><i class="fa fa-calendar"></i> Lista de Procedecias de la Producción Científica</h3> <em>- Sistema Decanato de
+        Publicaciones</em>
     </div>
+    <p-table #tblRoles [globalFilterFields]="['strNombre', 'strDescripcion', 'strEstado', 'strEstado']"
+      [value]="vecProcedencia" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+      styleClass="p-datatable-customers p-datatable-gridlines" [paginator]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+
+      <ng-template pTemplate="caption">
+
+        <div class="p-d-flex" style="float: right;">
+          <span class="p-input-icon-left p-ml-auto">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" #txtBus (input)="tblRoles.filterGlobal(txtBus.value, 'contains')"
+              placeholder="buscar" />
+          </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="font-size: 14px" pSortableColumn="strNombre"> Nombre<p-sortIcon field="strNombre"></p-sortIcon>
+          </th>
+          <th style="font-size: 14px" pSortableColumn="strDescripcion"> Descripción<p-sortIcon
+              field="strDescripcion"></p-sortIcon></th>
+          <th style="font-size: 14px" pSortableColumn="intEstado"> Estado<p-sortIcon field="intEstado"></p-sortIcon>
+          </th>
+          <th style="font-size: 14px" pSortableColumn="strEstado"> Acciones<p-sortIcon field="strEstado"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-objUser>
+        <tr>
+          <td style="font-size: 14px">{{objUser.strNombre}}</td>
+          <td style="font-size: 14px">{{objUser.strDescripcion}}</td>
+          <td style="font-size: 14px" class="{{objUser.claseActivo}}"> {{objUser.intEstado ? 'Activo' : 'No Activo'}}
+          </td>
+          <td style="font-size: 14px">
+
+            <p-button title="Editar rol"> <i class="fa fa-pencil"></i>
+            </p-button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
     <!-- END DATA EXPORT -->
+  </div>
   </div>
 
 </div>
@@ -56,30 +75,31 @@
 
 <ng-template #modNuevaProcedencia let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Procedencia de los Articulos  </h4>
+    <h4 class="modal-title" id="modal-basic-title">Procedencia de los Articulos </h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
+
   <div class="modal-body">
 
-    <table id="tblSignos" style="width: 90%;">
+    <table id="tblProcedencia" style="width: 90%;">
       <tr>
-        <td style="padding-left: 5%; width: 25%;">Nombre Procedencia: </td>
-        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strCedula']"
-            placeholder="Nombre Procedencia" style="width: 100%; font-size: 14px;" /> </td>
+        <td style="padding-left: 5%; width: 25%;"> Procedencia </td>
+        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strNombre']"
+            placeholder=" " style="width: 100%; font-size: 14px;" /> </td>
       </tr>
 
       <tr>
-        <td style="padding-left: 5%; width: 25%;">Descripcion: </td>
-        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strCargo']"
-            placeholder="Descripcion" style="width: 100%; font-size: 14px; margin-top: 5px;" />
+        <td style="padding-left: 5%; width: 25%;">Descripcion </td>
+        <td style="padding-left: 5%; width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strDescripcion']"
+            placeholder=" " style="width: 100%; font-size: 14px; margin-top: 5px;" />
         </td>
       </tr>
       <tr>
-        <td style="padding-left: 5%; width: 25%;">Estado: </td>
+        <td style="padding-left: 5%; width: 25%;">Estado </td>
         <td style="padding-left: 5%; width: 75%;">
-          <select class="txtSigno" style="margin-top: 5px; width: 75%;" [(ngModel)]="vecBuscar[0]['bitNombramiento']">
+          <select class="txtSigno" style="margin-top: 5px; width: 75%;" [(ngModel)]="vecBuscar[0]['intEstado']">
             <option value="0">NO ACTIVA </option>
             <option value="1">ACTIVO </option>
           </select>
@@ -90,9 +110,7 @@
 
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" style="background-color: #394A59;">Guardar </button>
-    <button type="button" class="btn btn-outline-dark" style="background-color: #D9534F;"
-    (click)="cerrarModal()">Cancelar</button>
+    <p-button type="button" styleClass="p-button-success" (click)="ingresarProcedencia()">Guardar </p-button>
+    <p-button type="button" styleClass="p-button-danger" (click)="cerrarProcedencia()">Cancelar</p-button>
   </div>
 </ng-template>
-

@@ -194,19 +194,26 @@
   </div>
   <div class="modal-body">
 
-    <table id="tblSignos" style="width: 90%;">
+    <table id="tblSolicitud" style="width: 90%;">
       <tr>
         <td class="tdEnunciado">Titulo: </td>
         <td class="tdTexto">
           <select class="txtSigno" style="margin-top: 5px; width: 100%;" [(ngModel)]="selecTipo">
             <ng-container *ngFor="let objTipo of vecTipo">
               <ng-container *ngIf="intNomb == 1 && objTipo.intEstado== 1">
-                <option *ngIf="objTipo.intIdTipoCertificado == 1 || objTipo.intIdTipoCertificado == 3"
+                <option *ngIf="objTipo.intIdTipoCertificado == 1"
                   value="{{objTipo.intIdTipoCertificado}}">
                   {{objTipo.strNombres}} </option>
               </ng-container>
+
+
               <ng-container *ngIf="intNomb == 0 && objTipo.intEstado== 1">
-                <option *ngIf="objTipo.intIdTipoCertificado > 1" value="{{objTipo.intIdTipoCertificado}}">
+                <option *ngIf="objTipo.intIdTipoCertificado == 2 || objTipo.intIdTipoCertificado == 4 " value="{{objTipo.intIdTipoCertificado}}">
+                  {{objTipo.strNombres}} </option>
+              </ng-container>
+
+              <ng-container *ngIf="intNomb == 2 && objTipo.intEstado== 1">
+                <option *ngIf="objTipo.intIdTipoCertificado ==  4 " value="{{objTipo.intIdTipoCertificado}}">
                   {{objTipo.strNombres}} </option>
               </ng-container>
 

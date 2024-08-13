@@ -34,16 +34,38 @@ export class ProcedenciaComponent implements OnInit {
   instanciaVariables() {
     this.vecBuscar = [];
     this.vecBuscar.push({
-      strNombre: '', strDescripcion: '', detEstado: ''
+      intIdProcedencia: "", strNombre: "", strDescripcion: "", intEstado: 1
     })
   }
+
   //MODAL AGREGAR PROCEDENCIA
   modalAddProcedencia(nombModal: any) {
-    this.opcion = 1;
+    this.opcion = 26;
     this.instanciaVariables();
     this.mr = this.modalService.open(nombModal);
   }
-  cerrarModal() {
+
+  ingresarProcedencia() {
+    this.swPublicacion.postAddUsuario(this.vecBuscar[0].intIdProcedencia, this.vecBuscar[0].strNombre, this.vecBuscar[0].strDescripcion, this.vecBuscar[0].intEstado,
+      'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', 'na', this.opcion).subscribe((data: any) => {
+        if (data.consulta) {
+          this.verProcedencia(); this.instanciaVariables(); this.cerrarProcedencia();
+        }
+      });
+  }
+
+  //verDataProcedencia(objPersona:any, mombModal:any)  {
+  //this.modalAddProcedencia(mombModal);
+  //this.vecBuscar[0].['intIdProcedencia'] = objPersona.intIdProcedencia;
+  //this.vecBuscar[0].['strNombre'] = objPersona.strNombre;
+  //this.vecBuscar[0].['strDescripcion'] = objPersona.strDescripcion;
+  //this.vecBuscar[0].['intEstado'] = objPersona.intEstado;
+  //this.opcion=27;
+  //}
+
+
+
+  cerrarProcedencia() {
     this.mr.close();
   }
 

@@ -13,6 +13,15 @@ export class swPublicaciones {
   public vecParametro: Array<any>;
   constructor(private http: HttpClient,) { this.vecParametro = [] }
 
+  getProgramasPostgrado = () => {
+    return this.http.get("https://pruebas.espoch.edu.ec:8181/sisipecSW/servicios/programaversion/");
+  };
+
+  getCarrerasMaster = (op: any, cond1: any, cond2: any, cond3: any) => {
+    return this.http.get(rutasSWPublicaciones.rutaMaster + "getInformacionCarreras/" + op + "/" + cond1 + "/" + cond2 + "/" + cond3 + "/"+Math.floor((Math.random() * 1000)));
+  };
+
+
   getUsuarios = (op: any, cond1: any, cond2: any, cond3: any, cond4: any, cond5: any) => {
     return this.http.get(rutasSWPublicaciones.rutaPublicacion + "getGestionUsuarios/" + op + "/" + cond1 + "/" + cond2 + "/" + cond3 + "/" + cond4 + "/" + cond5 + "/" + Math.floor((Math.random() * 1000)));
   };
@@ -44,7 +53,7 @@ export class swPublicaciones {
     );
   };
 
-  envioCorreo(asunto:any, recibe:any, contenido:any) {
+  envioCorreo(asunto: any, recibe: any, contenido: any) {
     let headers = new Headers();
     this.vecParametro = [];
     this.vecParametro.push({
@@ -110,5 +119,23 @@ export class swPublicaciones {
     })
   };
 
+  obtenerTokenTH = () => {
+    const clavePersona = {
+      usuSerId: 26,
+      usuPassword: '0604508390',
+    };
+    return this.http.post<any>('https://apitalentohumano2.espoch.edu.ec/api_v1/auth/login',
+      clavePersona
+    );
+  };
 
+  obtenerDependenciaTH(cedula:any, token:any){
+    const datoDocente={
+      perCedula:cedula
+    }
+    return this.http.post<any>('https://apitalentohumano2.espoch.edu.ec/api_v1/m_servidor/servidor/estado_vinculacion', datoDocente, {
+      headers: new HttpHeaders().set('Authorization', 'Bearer ' + token).set('idaplicacion', rutasSWPublicaciones.idAppArchivo).
+        set('jwtsecret', rutasSWPublicaciones.claveArchivo).set('activo', 'true')
+    })
+  }
 }

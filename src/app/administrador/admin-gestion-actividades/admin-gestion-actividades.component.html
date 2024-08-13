@@ -107,7 +107,7 @@
   </div>
   <div class="modal-body">
 
-    <table id="tblSignos" style="width: 90%;">
+    <table id="tblOpciones" style="width: 90%;">
       <tr>
         <td class="tdEnunciado" style="width: 25%;">Nombre: </td>
         <td class="tdTexto" style="width: 75%;"> <input type="text" [(ngModel)]="vecBuscar[0]['strNombre']"
@@ -128,9 +128,9 @@
 
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" style="background-color: #394A59;"
-      (click)="ingresarUsuario()">Guardar</button>
-    <button type="button" class="btn btn-outline-dark" style="background-color: #D9534F;"
-      (click)="cerrarModal()">Cancelar</button>
+    <p-button type="button"  styleClass="p-button-success"
+      (click)="ingresarUsuario()">Guardar</p-button>
+    <p-button type="button" styleClass="p-button-danger"
+      (click)="cerrarModal()">Cancelar</p-button>
   </div>
 </ng-template>
